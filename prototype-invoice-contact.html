@@ -663,7 +663,7 @@ body {
       <div class="business-box" id="billedToBox">
         <div class="business-box-label">
           Billed To
-          <button class="edit-btn" id="editClientBtn" style="display:none;">Edit</button>
+          <button class="edit-btn" id="editClientBtn" style="display:none;" onclick="openEditClientDrawer()">Edit</button>
         </div>
 
         <!-- State 1: No client selected -->
@@ -673,7 +673,7 @@ body {
             <div class="client-dropdown" id="clientDropdown">
               <div id="clientOptionsList"></div>
               <div class="dropdown-divider"></div>
-              <div class="dropdown-add-new">
+              <div class="dropdown-add-new" onclick="openCreateClientDrawer()">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
                 Add New Client
               </div>
@@ -990,6 +990,111 @@ body {
   </div>
 </div>
 
+<!-- ═══ Create / Edit Client Drawer ═══ -->
+<div class="overlay" id="clientDrawerOverlay" onclick="closeClientDrawer()"></div>
+<div class="drawer" id="clientDrawer" style="width:580px;">
+  <div class="drawer-header">
+    <span class="drawer-title" id="clientDrawerTitle">New Client</span>
+    <button class="drawer-close" onclick="closeClientDrawer()">&#10005;</button>
+  </div>
+  <div class="drawer-body">
+
+    <!-- Basic Details -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Basic Details
+      </div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">Client Name <span class="required">*</span></label>
+          <input class="field-input" id="cdClientName" type="text" placeholder="e.g. Shah Enterprises">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <input class="field-input" id="cdEmail" type="email" placeholder="client@example.com">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Phone</label>
+          <input class="field-input" id="cdPhone" type="tel" placeholder="+91 98765 43210">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Country <span class="required">*</span></label>
+          <select class="field-select" id="cdCountry"><option selected>India</option><option>United States</option><option>United Kingdom</option><option>UAE</option><option>Singapore</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tax Information -->
+    <div style="margin-bottom:24px; padding-top:16px; border-top:1px solid #EEF2F5;">
+      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Tax Information
+      </div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">GSTIN</label>
+          <input class="field-input" id="cdGstin" type="text" placeholder="22AAAAA0000A1Z5">
+        </div>
+        <div class="field-group">
+          <label class="field-label">PAN</label>
+          <input class="field-input" id="cdPan" type="text" placeholder="AAAAA0000A">
+        </div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div style="margin-bottom:24px; padding-top:16px; border-top:1px solid #EEF2F5;">
+      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Address Details
+      </div>
+      <div class="form-grid">
+        <div class="field-group" style="grid-column:1/-1;">
+          <label class="field-label">Street Address</label>
+          <input class="field-input" id="cdStreet" type="text" placeholder="Street / Area">
+        </div>
+        <div class="field-group">
+          <label class="field-label">City</label>
+          <input class="field-input" id="cdCity" type="text" placeholder="City">
+        </div>
+        <div class="field-group">
+          <label class="field-label">State</label>
+          <input class="field-input" id="cdState" type="text" placeholder="State">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Pincode</label>
+          <input class="field-input" id="cdPincode" type="text" placeholder="400001">
+        </div>
+      </div>
+    </div>
+
+    <!-- Linked Contacts (shows existing + link new) -->
+    <div style="padding-top:16px; border-top:1px solid #EEF2F5;">
+      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+        <span style="display:flex; align-items:center; gap:8px;">
+          <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+          Linked Contacts
+          <span id="cdContactCount" style="background:#F3F0FF; color:#7B3EFF; font-size:11px; font-weight:600; padding:1px 7px; border-radius:10px;">0</span>
+        </span>
+        <button class="btn btn-ghost btn-sm" onclick="openLinkContactDrawer()" style="gap:4px;">
+          <svg width="14" height="14" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Link
+        </button>
+      </div>
+      <div id="cdContactsList"></div>
+      <div id="cdContactsEmpty" style="text-align:center; padding:16px; color:#8B95A1; font-size:13px; border:1px dashed #D1D5DB; border-radius:8px;">
+        No contacts linked yet
+      </div>
+    </div>
+
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-secondary" onclick="closeClientDrawer()">Cancel</button>
+    <button class="btn btn-primary" id="cdSaveBtn" onclick="saveClientDrawer()">Save Client</button>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast">&#10003; <span id="toastMsg"></span></div>
 
@@ -1007,9 +1112,9 @@ const allOrgContacts = [
 ];
 
 const clients = [
-  { id:'cl1', name:'Gupta Industries Pvt Ltd', initials:'GI', gstin:'27AABCG1234F1ZL', location:'Mumbai, Maharashtra', address:'42, Industrial Area, Phase II<br>Mumbai, Maharashtra 400093' },
-  { id:'cl2', name:'Shah Enterprises', initials:'SE', gstin:'24AABCS5678D1ZK', location:'Ahmedabad, Gujarat', address:'12, CG Road<br>Ahmedabad, Gujarat 380006' },
-  { id:'cl3', name:'Desai & Co', initials:'DC', gstin:'29AABCD9012E1ZJ', location:'Bengaluru, Karnataka', address:'88, MG Road<br>Bengaluru, Karnataka 560001' },
+  { id:'cl1', name:'Gupta Industries Pvt Ltd', initials:'GI', gstin:'27AABCG1234F1ZL', pan:'AABCG1234F', location:'Mumbai, Maharashtra', street:'42, Industrial Area, Phase II', city:'Mumbai', state:'Maharashtra', pincode:'400093', email:'accounts@guptaindustries.in', phone:'+91 98765 43210', address:'42, Industrial Area, Phase II<br>Mumbai, Maharashtra 400093' },
+  { id:'cl2', name:'Shah Enterprises', initials:'SE', gstin:'24AABCS5678D1ZK', pan:'AABCS5678D', location:'Ahmedabad, Gujarat', street:'12, CG Road', city:'Ahmedabad', state:'Gujarat', pincode:'380006', email:'info@shahent.com', phone:'+91 79 2345 6789', address:'12, CG Road<br>Ahmedabad, Gujarat 380006' },
+  { id:'cl3', name:'Desai & Co', initials:'DC', gstin:'29AABCD9012E1ZJ', pan:'AABCD9012E', location:'Bengaluru, Karnataka', street:'88, MG Road', city:'Bengaluru', state:'Karnataka', pincode:'560001', email:'hello@desaico.in', phone:'+91 80 4567 8901', address:'88, MG Road<br>Bengaluru, Karnataka 560001' },
 ];
 
 let contactRelations = {
@@ -1326,6 +1431,134 @@ function submitCreateContact() {
   closeCreateContactDrawer();
   selectLinkContact(nc.id);
   showToast(`Contact "${fn} ${ln}" created`);
+}
+
+// ══════════════════════════════════════════════
+// CREATE / EDIT CLIENT DRAWER
+// ══════════════════════════════════════════════
+
+let clientDrawerMode = 'create'; // 'create' or 'edit'
+let editingClientId = null;
+
+function openCreateClientDrawer() {
+  clientDrawerMode = 'create';
+  editingClientId = null;
+  document.getElementById('clientDrawerTitle').textContent = 'New Client';
+  document.getElementById('cdSaveBtn').textContent = 'Save Client';
+  document.getElementById('clientDropdown').classList.remove('open');
+  // Clear all fields
+  ['cdClientName','cdEmail','cdPhone','cdGstin','cdPan','cdStreet','cdCity','cdState','cdPincode'].forEach(id => document.getElementById(id).value = '');
+  // Pre-fill search text as client name
+  const sv = document.getElementById('clientSearchInput').value.trim();
+  if (sv) document.getElementById('cdClientName').value = sv;
+  renderClientDrawerContacts(null);
+  document.getElementById('clientDrawerOverlay').classList.add('visible');
+  document.getElementById('clientDrawer').classList.add('open');
+}
+
+function openEditClientDrawer() {
+  if (!selectedClientId) return;
+  clientDrawerMode = 'edit';
+  editingClientId = selectedClientId;
+  const client = clients.find(c => c.id === selectedClientId);
+  if (!client) return;
+  document.getElementById('clientDrawerTitle').textContent = 'Edit Client';
+  document.getElementById('cdSaveBtn').textContent = 'Update Client';
+  // Parse address from HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = client.address;
+  const addrParts = tempDiv.textContent.split(',').map(s => s.trim());
+  document.getElementById('cdClientName').value = client.name;
+  document.getElementById('cdEmail').value = client.email || '';
+  document.getElementById('cdPhone').value = client.phone || '';
+  document.getElementById('cdGstin').value = client.gstin || '';
+  document.getElementById('cdPan').value = client.pan || '';
+  document.getElementById('cdStreet').value = client.street || addrParts[0] || '';
+  document.getElementById('cdCity').value = client.city || addrParts.slice(-2,-1)[0] || '';
+  document.getElementById('cdState').value = client.state || '';
+  document.getElementById('cdPincode').value = client.pincode || '';
+  renderClientDrawerContacts(selectedClientId);
+  document.getElementById('clientDrawerOverlay').classList.add('visible');
+  document.getElementById('clientDrawer').classList.add('open');
+}
+
+function closeClientDrawer() {
+  document.getElementById('clientDrawerOverlay').classList.remove('visible');
+  document.getElementById('clientDrawer').classList.remove('open');
+}
+
+function renderClientDrawerContacts(clientId) {
+  const relations = clientId ? (contactRelations[clientId] || []) : [];
+  const countEl = document.getElementById('cdContactCount');
+  const listEl = document.getElementById('cdContactsList');
+  const emptyEl = document.getElementById('cdContactsEmpty');
+  countEl.textContent = relations.length;
+  if (!relations.length) {
+    listEl.innerHTML = '';
+    emptyEl.style.display = '';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  listEl.innerHTML = relations.map(r => {
+    const c = allOrgContacts.find(x => x.id === r.contactId);
+    if (!c) return '';
+    let badges = '';
+    if (r.isPrimary) badges += '<span class="cl-badge primary" style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;background:#F7F3FD;color:#7B3EFF;">Primary</span>';
+    if (r.showInInvoice) badges += '<span class="cl-badge invoice-default" style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;background:#ECFDF5;color:#059669;">Invoice</span>';
+    return `<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border:1px solid #EEF2F5; border-radius:8px; margin-bottom:6px; background:#fff;">
+      <div class="cl-avatar" style="width:32px;height:32px;font-size:11px;">${c.initials}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:500;color:#2F3945;">${c.firstName} ${c.lastName}</div>
+        <div style="font-size:11px;color:#8B95A1;">${[r.role,r.department].filter(Boolean).join(' \u00B7 ')}</div>
+      </div>
+      <div style="display:flex;gap:4px;">${badges}</div>
+    </div>`;
+  }).join('');
+}
+
+function saveClientDrawer() {
+  const name = document.getElementById('cdClientName').value.trim();
+  if (!name) { alert('Client name is required'); return; }
+  const email = document.getElementById('cdEmail').value.trim();
+  const phone = document.getElementById('cdPhone').value.trim();
+  const gstin = document.getElementById('cdGstin').value.trim();
+  const pan = document.getElementById('cdPan').value.trim();
+  const street = document.getElementById('cdStreet').value.trim();
+  const city = document.getElementById('cdCity').value.trim();
+  const state = document.getElementById('cdState').value.trim();
+  const pincode = document.getElementById('cdPincode').value.trim();
+  const initials = name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+  const addrParts = [street, city, state, pincode].filter(Boolean);
+  const addressHtml = addrParts.length ? addrParts.slice(0,-1).join(', ') + (pincode ? ' ' + pincode : '') : '';
+  const location = [city, state].filter(Boolean).join(', ');
+
+  if (clientDrawerMode === 'edit' && editingClientId) {
+    // Update existing client
+    const client = clients.find(c => c.id === editingClientId);
+    if (client) {
+      client.name = name; client.initials = initials; client.gstin = gstin;
+      client.location = location; client.email = email; client.phone = phone;
+      client.pan = pan; client.street = street; client.city = city; client.state = state; client.pincode = pincode;
+      client.address = addressHtml.replace(/, /g, '<br>');
+      // Refresh Billed To display
+      if (selectedClientId === editingClientId) {
+        document.getElementById('selectedClientAvatar').textContent = initials;
+        document.getElementById('selectedClientName').textContent = name;
+        document.getElementById('selectedClientDetail').innerHTML = client.address + (gstin ? '<br><strong>GSTIN:</strong> ' + gstin : '');
+      }
+    }
+    closeClientDrawer();
+    showToast(`"${name}" updated`);
+  } else {
+    // Create new client
+    const newId = 'cl' + (nextId++);
+    const newClient = { id:newId, name, initials, gstin, location, email, phone, pan, street, city, state, pincode, address:addressHtml.replace(/, /g, '<br>') };
+    clients.push(newClient);
+    contactRelations[newId] = [];
+    closeClientDrawer();
+    selectClient(newId);
+    showToast(`"${name}" created & selected`);
+  }
 }
 
 // ══════════════════════════════════════════════
