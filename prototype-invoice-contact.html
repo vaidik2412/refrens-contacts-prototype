@@ -17,17 +17,14 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Top Nav ─── */
+/* ─── Top Nav (matches Refrens nav bar) ─── */
 .top-nav {
   height: 52px;
   background: #5B21B6;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px;
   color: white;
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: fixed; top: 0; left: 0; right: 0;
   z-index: 100;
 }
 .top-nav-left { display: flex; align-items: center; gap: 12px; }
@@ -36,144 +33,378 @@ body {
 .account-manager-pill {
   display: flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.15);
-  border-radius: 24px;
-  padding: 4px 12px 4px 4px;
-  cursor: pointer;
+  border-radius: 24px; padding: 4px 12px 4px 4px; cursor: pointer;
 }
 .am-avatar {
-  width: 28px; height: 28px;
-  border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   background: rgba(255,255,255,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
 }
 .am-info { display: flex; flex-direction: column; }
 .am-name { font-size: 12px; font-weight: 600; }
 .am-role { font-size: 10px; color: rgba(255,255,255,0.75); }
 
-/* ─── Layout ─── */
+/* ─── Page Shell ─── */
 .page-shell {
   margin-top: 52px;
-  padding: 24px 32px;
-  max-width: 960px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 24px 32px 48px;
+  max-width: 1024px;
+  margin-left: auto; margin-right: auto;
 }
 
-/* ─── Breadcrumb ─── */
-.breadcrumb {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: #8B95A1; margin-bottom: 8px;
+/* ─── Prototype nav tabs ─── */
+.proto-nav {
+  display: flex; gap: 8px; margin-bottom: 20px;
 }
-.breadcrumb a { color: #8B95A1; text-decoration: none; }
-.breadcrumb a:hover { color: #4F46E5; }
-.breadcrumb-sep { color: #C4C9D1; }
-
-/* ─── Page Header ─── */
-.page-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 24px;
+.proto-nav a {
+  font-size: 12px; font-weight: 500;
+  color: #4F46E5; text-decoration: none;
+  padding: 4px 10px; border-radius: 6px;
+  border: 1px solid #EDE4FB; background: #FDFCFF;
 }
-.page-title { font-size: 22px; font-weight: 600; color: #2F3945; }
+.proto-nav a:hover { background: #F7F3FD; }
+.proto-nav a.active { background: #4F46E5; color: #fff; border-color: #4F46E5; }
 
-/* ─── Stepper ─── */
+/* ─── Stepper (sits ABOVE the card, matches InvoiceStepper) ─── */
+.stepper-area {
+  margin-bottom: 16px;
+}
+.stepper-title {
+  font-size: 18px; font-weight: 600; color: #2F3945;
+  margin-bottom: 12px;
+}
 .stepper {
-  display: flex; align-items: center; gap: 0;
-  margin-bottom: 28px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-  padding: 12px 24px;
+  display: flex; align-items: center;
 }
 .step {
   display: flex; align-items: center; gap: 8px;
   font-size: 13px; font-weight: 500; color: #8B95A1;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: all 0.15s;
+  padding: 6px 0; white-space: nowrap;
 }
-.step:hover { color: #2F3945; }
-.step.active { color: #4F46E5; background: rgba(79,70,229,0.06); font-weight: 600; }
+.step.active { color: #4F46E5; font-weight: 600; }
 .step.completed { color: #059669; }
 .step-number {
-  width: 24px; height: 24px;
-  border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   border: 2px solid currentColor;
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 600;
 }
 .step.active .step-number { background: #4F46E5; color: #fff; border-color: #4F46E5; }
 .step.completed .step-number { background: #059669; color: #fff; border-color: #059669; }
-.step-connector {
-  flex: 1; height: 1px; background: #E8EAED;
-  margin: 0 8px;
-  min-width: 20px;
-}
+.step-connector { flex: 1; height: 1px; background: #E8EAED; margin: 0 12px; min-width: 20px; }
 
-/* ─── Card ─── */
-.form-card {
+/* ─── Invoice Card (main form wrapper, matches InvoiceCard) ─── */
+.invoice-card {
   background: #FFFFFF;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid #E8EAED;
   border-radius: 12px;
-  margin-bottom: 16px;
-  overflow: visible;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  padding: 32px;
 }
 
-/* ─── Section Header ─── */
-.section-header {
+/* ─── Headers Section (two-column: fields left, logo right) ─── */
+.headers-section {
+  display: flex; flex-direction: row; gap: 32px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #EEF2F5;
+}
+.headers-fields { flex: 1; }
+.headers-logo { flex: 1; display: flex; justify-content: flex-end; align-items: flex-start; }
+
+/* Invoice title (editable heading) */
+.invoice-title-input {
+  font-size: 24px; font-weight: 700; color: #2F3945;
+  border: none; outline: none; width: 100%;
+  padding: 0; margin-bottom: 16px;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+}
+.invoice-title-input::placeholder { color: #C7CDD6; }
+
+/* Field rows (label left 1/3, input right 2/3) */
+.field-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 12px;
+}
+.field-row-label {
+  width: 140px; flex-shrink: 0;
+  font-size: 13px; font-weight: 500; color: #686F78;
+}
+.field-row-value { flex: 1; }
+.field-input {
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px; padding: 8px 12px;
+  font-family: 'Inter', sans-serif; font-size: 14px; color: #313944;
+  width: 100%; outline: none; background: #fff;
+}
+.field-input:focus { border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+.field-input::placeholder { color: #8B95A1; }
+.field-input[readonly] { background: #FAFBFC; color: #686F78; }
+.field-hint { font-size: 11px; color: #8B95A1; margin-top: 2px; }
+
+/* Logo upload box */
+.logo-upload {
+  width: 180px; height: 120px;
+  border: 2px dashed #D1D5DB; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; cursor: pointer; color: #8B95A1;
+  font-size: 12px; font-weight: 500;
+  transition: border-color 0.15s;
+}
+.logo-upload:hover { border-color: #4F46E5; color: #4F46E5; }
+
+/* ─── Business Details Section (Billed By / Billed To side by side) ─── */
+.business-section {
+  display: flex; flex-direction: row; gap: 16px;
+  margin-bottom: 24px;
+}
+.business-box {
+  flex: 1;
+  background: #FAFBFC;
+  border: 1px solid #EEF2F5;
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+}
+.business-box-label {
+  font-size: 11px; font-weight: 600; color: #8B95A1;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 10px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 24px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s;
 }
-.section-header:hover { background: #F7F9FA; }
-.section-title {
-  font-size: 16px; font-weight: 600; color: #2F3945;
+.business-box-label .edit-btn {
+  font-size: 12px; font-weight: 500; color: #4F46E5;
+  background: none; border: none; cursor: pointer;
+  padding: 2px 6px; border-radius: 4px;
+}
+.business-box-label .edit-btn:hover { background: rgba(79,70,229,0.06); }
+
+/* Business/Client selector inside the box */
+.biz-selector {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.biz-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #EDE4FB; color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; flex-shrink: 0;
+}
+.biz-name { font-size: 14px; font-weight: 600; color: #2F3945; }
+
+/* Business detail lines */
+.biz-detail-line {
+  font-size: 13px; color: #686F78; line-height: 1.6;
+}
+.biz-detail-line strong { color: #2F3945; font-weight: 500; }
+
+/* Client search select */
+.client-select-wrap { position: relative; margin-bottom: 12px; }
+.client-select-input {
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px; padding: 8px 12px;
+  font-family: 'Inter', sans-serif; font-size: 14px; color: #313944;
+  width: 100%; outline: none; background: #fff; cursor: text;
+}
+.client-select-input:focus { border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+.client-select-input::placeholder { color: #8B95A1; }
+.client-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(20,28,39,0.12);
+  max-height: 240px; overflow-y: auto; z-index: 10; display: none;
+}
+.client-dropdown.open { display: block; }
+.client-dropdown-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; cursor: pointer; transition: background 0.1s;
+}
+.client-dropdown-option:hover { background: #F7F9FA; }
+.client-dropdown-option .opt-name { font-size: 14px; font-weight: 500; color: #2F3945; }
+.client-dropdown-option .opt-meta { font-size: 12px; color: #8B95A1; }
+.dropdown-divider { border-top: 1px solid #EEF2F5; margin: 4px 0; }
+.dropdown-add-new {
   display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; cursor: pointer;
+  color: #4F46E5; font-weight: 500; font-size: 13px;
 }
-.section-chevron {
-  width: 20px; height: 20px;
-  color: #8B95A1;
-  transition: transform 0.2s;
+.dropdown-add-new:hover { background: rgba(79,70,229,0.04); }
+.no-results { padding: 16px 12px; text-align: center; color: #8B95A1; font-size: 13px; }
+
+/* ─── Contact Person sub-section (inside Billed To box) ─── */
+.contact-person-section {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid #E8EAED;
+}
+.contact-person-label {
+  font-size: 12px; font-weight: 600; color: #8B95A1;
+  text-transform: uppercase; letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.contact-person-card {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px;
+  border: 1px solid #EDE4FB;
+  border-radius: 8px;
+  background: #FDFCFF;
+}
+.contact-person-card .cp-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #EDE4FB; color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+.contact-person-card .cp-info { flex: 1; min-width: 0; }
+.contact-person-card .cp-name { font-size: 13px; font-weight: 600; color: #2F3945; }
+.contact-person-card .cp-role { font-size: 11px; color: #686F78; margin-top: 1px; }
+.contact-person-card .cp-actions { display: flex; gap: 2px; flex-shrink: 0; }
+.cp-action-btn {
+  width: 26px; height: 26px; border: none; background: none;
+  cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  color: #8B95A1; font-size: 13px;
+}
+.cp-action-btn:hover { background: #F3F0FF; color: #7B3EFF; }
+.cp-action-btn.danger:hover { background: #FEF2F2; color: #EF4444; }
+
+/* Display field tags */
+.display-fields-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.field-tag {
+  display: inline-flex; align-items: center;
+  padding: 1px 6px; border-radius: 4px;
+  font-size: 10px; font-weight: 500;
+  background: #F3F0FF; color: #6D28D9; border: 1px solid #EDE4FB;
+}
+
+/* Contact empty state */
+.contact-empty-state {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border: 1px dashed #D1D5DB; border-radius: 8px;
+  background: #FAFBFC; cursor: pointer;
+}
+.contact-empty-state:hover { border-color: #4F46E5; }
+.contact-empty-text { font-size: 12px; color: #686F78; flex: 1; }
+.no-contacts-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px; border: 1px dashed #D1D5DB; border-radius: 8px;
+  background: #FAFBFC; text-align: center;
+}
+.no-contacts-state .nc-title { font-size: 13px; font-weight: 600; color: #313944; margin-bottom: 4px; }
+.no-contacts-state .nc-desc { font-size: 11px; color: #686F78; margin-bottom: 8px; }
+
+/* ─── Line Items Section ─── */
+.line-items-section { margin-bottom: 24px; }
+.line-items-header {
+  display: grid;
+  grid-template-columns: 40px 6fr 1fr 1fr 1fr 50px;
+  background: #4F46E5;
+  border-radius: 12px 12px 0 0;
+  padding: 10px 16px;
+  font-size: 12px; font-weight: 600; color: #fff;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.line-items-header > div { display: flex; align-items: center; }
+.line-item-row {
+  display: grid;
+  grid-template-columns: 40px 6fr 1fr 1fr 1fr 50px;
+  background: #FAFBFC;
+  padding: 12px 16px;
+  border-bottom: 1px solid #EEF2F5;
+  font-size: 13px; color: #2F3945;
+  align-items: center;
+}
+.line-item-row:last-child { border-bottom: none; }
+.line-item-num {
+  font-size: 12px; font-weight: 600; color: #8B95A1;
+}
+.line-item-name { font-weight: 500; }
+.line-item-desc { font-size: 12px; color: #8B95A1; margin-top: 2px; }
+.line-item-amount { font-weight: 600; text-align: right; }
+.line-item-action {
+  display: flex; justify-content: center;
+}
+.line-item-action button {
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; border-radius: 4px;
+  color: #8B95A1; font-size: 16px;
   display: flex; align-items: center; justify-content: center;
 }
-.section-header.open .section-chevron { transform: rotate(180deg); }
-.section-body {
-  display: none;
-  padding: 0 24px 24px;
-  border-top: 1px solid #EEF2F5;
-  overflow: visible;
+.line-item-action button:hover { background: #EEF2F5; color: #2F3945; }
+.add-line-item {
+  background: #FAFBFC;
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #EEF2F5;
+  border-top: none;
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer;
+  color: #4F46E5; font-weight: 500; font-size: 13px;
 }
-.section-body.open { display: block; }
+.add-line-item:hover { background: #F3F0FF; }
 
-/* ─── Form Fields ─── */
-.form-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+/* ─── Totals Section (right-aligned box) ─── */
+.totals-section {
+  display: flex; justify-content: flex-end;
+  margin-bottom: 24px;
 }
-.form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
-.field-group { display: flex; flex-direction: column; gap: 4px; }
-.field-group.full-width { grid-column: 1 / -1; }
-.field-label { font-size: 13px; font-weight: 500; color: #313944; }
-.field-label .required { color: #EF4444; }
-.field-input, .field-select {
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 8px;
-  padding: 8px 12px;
+.totals-box {
+  background: #FAFBFC;
+  border: 1px solid #EEF2F5;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 320px;
+}
+.total-row {
+  display: flex; justify-content: space-between; gap: 32px;
+  font-size: 13px; padding: 4px 0;
+}
+.total-row .label { color: #686F78; }
+.total-row .value { color: #2F3945; font-weight: 500; text-align: right; }
+.total-row.grand {
+  font-size: 16px; font-weight: 700;
+  padding-top: 10px; margin-top: 8px;
+  border-top: 2px solid #2F3945;
+}
+
+/* ─── Bottom Toggle Buttons (ButtonGroup for optional sections) ─── */
+.toggle-buttons {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #EEF2F5;
+}
+.toggle-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: #313944;
-  width: 100%;
-  outline: none;
-  background: #fff;
+  font-size: 13px; font-weight: 500; color: #686F78;
+  background: #FAFBFC; border: 1px solid #E8EAED;
+  cursor: pointer; transition: all 0.15s;
 }
-.field-input:focus, .field-select:focus {
-  border-color: #4F46E5;
-  box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+.toggle-btn:hover { border-color: #4F46E5; color: #4F46E5; }
+.toggle-btn.active { background: #F3F0FF; color: #4F46E5; border-color: #EDE4FB; }
+
+/* Optional section area */
+.optional-section {
+  display: none;
+  padding: 16px 0;
+  border-top: 1px solid #EEF2F5;
 }
-.field-input::placeholder { color: #8B95A1; }
-.field-hint { font-size: 12px; color: #8B95A1; }
+.optional-section.open { display: block; }
+.optional-section-label {
+  font-size: 13px; font-weight: 600; color: #313944;
+  margin-bottom: 8px;
+}
+
+/* ─── Form Buttons (bottom bar) ─── */
+.form-buttons {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 12px; padding-top: 24px;
+  border-top: 1px solid #EEF2F5;
+  margin-top: 24px;
+}
 
 /* ─── Buttons ─── */
 .btn {
@@ -187,116 +418,11 @@ body {
 .btn-primary:hover { background: #4338CA; }
 .btn-secondary { background: #FFFFFF; color: #313944; border: 1px solid rgba(0,0,0,0.15); }
 .btn-secondary:hover { background: #F7F9FA; }
-.btn-danger { background: #EF4444; color: #FFFFFF; }
-.btn-danger:hover { background: #DC2626; }
 .btn-ghost { background: transparent; color: #4F46E5; }
 .btn-ghost:hover { background: rgba(79,70,229,0.05); }
 .btn-sm { padding: 6px 12px; font-size: 13px; }
 
-/* ─── Client Selector Card ─── */
-.client-selector {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 10px;
-  background: #FAFBFC;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.client-selector:hover { border-color: #4F46E5; }
-.client-selector.selected { border-color: #4F46E5; background: #fff; }
-.client-avatar {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: #EDE4FB;
-  color: #7B3EFF;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 600;
-  flex-shrink: 0;
-}
-.client-info { flex: 1; min-width: 0; }
-.client-name { font-size: 14px; font-weight: 600; color: #2F3945; }
-.client-meta { font-size: 12px; color: #8B95A1; }
-.client-change-btn {
-  font-size: 13px; font-weight: 500; color: #4F46E5;
-  background: none; border: none; cursor: pointer;
-  padding: 4px 8px; border-radius: 4px;
-}
-.client-change-btn:hover { background: rgba(79,70,229,0.06); }
-
-/* ─── Contact Person Section (inside client card) ─── */
-.contact-person-section {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #EEF2F5;
-}
-.contact-person-label {
-  font-size: 13px; font-weight: 500; color: #686F78;
-  margin-bottom: 8px;
-  display: flex; align-items: center; gap: 6px;
-}
-.contact-person-card {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px;
-  border: 1px solid #EDE4FB;
-  border-radius: 8px;
-  background: #FDFCFF;
-}
-.contact-person-card .avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: #EDE4FB;
-  color: #7B3EFF;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600;
-  flex-shrink: 0;
-}
-.contact-person-info { flex: 1; min-width: 0; }
-.contact-person-name { font-size: 14px; font-weight: 600; color: #2F3945; }
-.contact-person-detail { font-size: 12px; color: #686F78; margin-top: 2px; }
-.contact-person-actions {
-  display: flex; align-items: center; gap: 4px; flex-shrink: 0;
-}
-
-/* ─── Display fields tag row ─── */
-.display-fields-row {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  margin-top: 8px;
-}
-.field-tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px; font-weight: 500;
-  background: #F3F0FF;
-  color: #6D28D9;
-  border: 1px solid #EDE4FB;
-}
-
-/* ─── Empty contact state ─── */
-.contact-empty-state {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 16px;
-  border: 1px dashed #D1D5DB;
-  border-radius: 8px;
-  background: #FAFBFC;
-}
-.contact-empty-icon { color: #C7CDD6; flex-shrink: 0; }
-.contact-empty-text { font-size: 13px; color: #686F78; flex: 1; }
-
-/* ─── No contacts linked state ─── */
-.no-contacts-state {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 20px 16px;
-  border: 1px dashed #D1D5DB;
-  border-radius: 8px;
-  background: #FAFBFC;
-  text-align: center;
-}
-.no-contacts-state .empty-title { font-size: 14px; font-weight: 600; color: #313944; margin-bottom: 4px; }
-.no-contacts-state .empty-desc { font-size: 12px; color: #686F78; margin-bottom: 12px; }
-
-/* ─── Overlay / Drawer / Modal (reused from client form prototype) ─── */
+/* ─── Overlay / Drawer ─── */
 .overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.4);
@@ -306,268 +432,103 @@ body {
 .overlay.visible { display: block; opacity: 1; }
 .drawer {
   position: fixed; top: 0; bottom: 0; right: 0;
-  width: 520px;
-  background: #FFFFFF;
+  width: 520px; background: #FFFFFF;
   box-shadow: -4px 0 24px rgba(20, 28, 39, 0.12);
-  z-index: 210;
-  display: flex; flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
+  z-index: 210; display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.3s ease;
 }
 .drawer.open { transform: translateX(0); }
-.drawer.narrow { width: 480px; z-index: 220; }
+.drawer.narrow { width: 460px; z-index: 220; }
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 24px; height: 56px;
-  border-bottom: 1px solid #EFF2F6;
-  flex-shrink: 0;
+  border-bottom: 1px solid #EFF2F6; flex-shrink: 0;
 }
 .drawer-title { font-size: 17px; font-weight: 600; color: #2F3945; }
 .drawer-close {
-  width: 32px; height: 32px;
-  border: none; background: none;
-  cursor: pointer; color: #686F78;
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  width: 32px; height: 32px; border: none; background: none;
+  cursor: pointer; color: #686F78; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
 .drawer-close:hover { background: #F7F9FA; color: #2F3945; }
 .drawer-body { flex: 1; overflow-y: auto; padding: 24px; }
 .drawer-footer {
-  padding: 12px 24px;
-  border-top: 1px solid #EFF2F6;
-  display: flex; align-items: center; gap: 8px;
-  flex-shrink: 0;
+  padding: 12px 24px; border-top: 1px solid #EFF2F6;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
 }
 
 /* ─── Contact list in drawer ─── */
 .contact-list-item {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.1s;
-  border: 2px solid transparent;
+  padding: 10px 12px; border-radius: 8px;
+  cursor: pointer; transition: background 0.1s;
+  border: 2px solid transparent; margin-bottom: 4px;
 }
 .contact-list-item:hover { background: #F7F9FA; }
 .contact-list-item.selected { background: #F7F3FD; border-color: #7B3EFF; }
-.contact-list-avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: #EDE4FB;
-  color: #7B3EFF;
+.cl-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #EDE4FB; color: #7B3EFF;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600;
-  flex-shrink: 0;
+  font-size: 13px; font-weight: 600; flex-shrink: 0;
 }
-.contact-list-info { flex: 1; min-width: 0; }
-.contact-list-name { font-size: 14px; font-weight: 500; color: #2F3945; }
-.contact-list-detail { font-size: 12px; color: #8B95A1; }
-.contact-list-badge {
-  font-size: 11px; font-weight: 500;
-  padding: 2px 8px; border-radius: 12px;
+.cl-info { flex: 1; min-width: 0; }
+.cl-name { font-size: 14px; font-weight: 500; color: #2F3945; }
+.cl-detail { font-size: 12px; color: #8B95A1; }
+.cl-badges { display: flex; gap: 4px; margin-top: 2px; }
+.cl-badge {
+  font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px;
 }
-.contact-list-badge.primary { background: #F7F3FD; color: #7B3EFF; }
-.contact-list-badge.show-invoice { background: #ECFDF5; color: #059669; }
-.contact-list-check {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  border: 2px solid #D1D5DB;
+.cl-badge.primary { background: #F7F3FD; color: #7B3EFF; }
+.cl-badge.invoice-default { background: #ECFDF5; color: #059669; }
+.cl-check {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #D1D5DB; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
   transition: all 0.15s;
 }
-.contact-list-item.selected .contact-list-check {
-  border-color: #7B3EFF;
-  background: #7B3EFF;
-}
+.contact-list-item.selected .cl-check { border-color: #7B3EFF; background: #7B3EFF; }
 
-/* ─── Field selection checkboxes in drawer ─── */
-.field-selection {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #EEF2F5;
-}
-.field-selection-title {
-  font-size: 13px; font-weight: 600; color: #313944;
-  margin-bottom: 10px;
-}
-.field-checkbox-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-}
+/* ─── Field selection checkboxes ─── */
+.field-selection { margin-top: 20px; padding-top: 16px; border-top: 1px solid #EEF2F5; }
+.field-selection-title { font-size: 13px; font-weight: 600; color: #313944; margin-bottom: 10px; }
+.field-checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .field-checkbox {
   display: flex; align-items: center; gap: 8px;
   cursor: pointer; font-size: 13px; color: #313944;
-  user-select: none;
-  padding: 6px 8px;
-  border-radius: 6px;
-  transition: background 0.1s;
+  user-select: none; padding: 6px 8px; border-radius: 6px;
 }
 .field-checkbox:hover { background: #F7F9FA; }
-.field-checkbox input[type="checkbox"] {
-  width: 16px; height: 16px;
-  accent-color: #4F46E5;
-  cursor: pointer;
-}
-.field-checkbox .field-value {
-  font-size: 11px; color: #8B95A1;
-  margin-left: auto;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.field-checkbox input[type="checkbox"] { width: 16px; height: 16px; accent-color: #4F46E5; cursor: pointer; }
+.field-checkbox .fv { font-size: 11px; color: #8B95A1; margin-left: auto; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ─── Invoice Preview Section ─── */
-.invoice-preview {
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-  padding: 32px;
-  margin-top: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+/* ─── Link contact drawer internals ─── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-group { display: flex; flex-direction: column; gap: 4px; }
+.field-label { font-size: 13px; font-weight: 500; color: #313944; }
+.field-label .required { color: #EF4444; }
+.field-select {
+  border: 1px solid rgba(0,0,0,0.12); border-radius: 8px;
+  padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 14px;
+  color: #313944; width: 100%; outline: none; background: #fff;
 }
-.preview-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 24px;
-}
-.preview-title { font-size: 24px; font-weight: 700; color: #2F3945; }
-.preview-invoice-no { font-size: 13px; color: #8B95A1; margin-top: 4px; }
-.preview-logo {
-  width: 48px; height: 48px;
-  background: #5B21B6;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 16px; font-weight: 700;
-}
-.preview-parties {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #EEF2F5;
-}
-.preview-party-label { font-size: 11px; font-weight: 600; color: #8B95A1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-.preview-party-name { font-size: 15px; font-weight: 600; color: #2F3945; margin-bottom: 2px; }
-.preview-party-detail { font-size: 13px; color: #686F78; line-height: 1.6; }
-.preview-contact-line {
-  display: flex; align-items: center; gap: 6px;
-  margin-top: 8px;
-  padding: 6px 10px;
-  background: #F7F3FD;
-  border-radius: 6px;
-  border: 1px solid #EDE4FB;
-}
-.preview-contact-label {
-  font-size: 11px; font-weight: 600; color: #7B3EFF;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-.preview-contact-value { font-size: 13px; color: #2F3945; font-weight: 500; }
-.preview-contact-separator { color: #C7CDD6; font-size: 11px; }
-
-/* ─── Items table (simplified) ─── */
-.preview-items-table {
-  width: 100%; border-collapse: collapse; margin-bottom: 24px;
-}
-.preview-items-table th {
-  font-size: 11px; font-weight: 600; color: #8B95A1;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  padding: 8px 12px; text-align: left;
-  border-bottom: 2px solid #EEF2F5;
-}
-.preview-items-table th:last-child { text-align: right; }
-.preview-items-table td {
-  font-size: 13px; color: #2F3945;
-  padding: 10px 12px; border-bottom: 1px solid #EEF2F5;
-}
-.preview-items-table td:last-child { text-align: right; font-weight: 500; }
-.preview-totals {
-  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
-}
-.preview-total-row {
-  display: flex; gap: 32px; font-size: 13px;
-}
-.preview-total-label { color: #686F78; min-width: 100px; text-align: right; }
-.preview-total-value { color: #2F3945; font-weight: 500; min-width: 80px; text-align: right; }
-.preview-total-row.grand { font-size: 16px; font-weight: 700; padding-top: 8px; border-top: 2px solid #2F3945; }
-
-/* ─── Select wrap / dropdown ─── */
-.select-wrap { position: relative; }
-.select-input {
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 8px; padding: 8px 12px;
-  font-family: 'Inter', sans-serif; font-size: 14px; color: #313944;
-  width: 100%; outline: none; background: #fff; cursor: text;
-}
-.select-input:focus { border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-.select-input::placeholder { color: #8B95A1; }
-.dropdown-menu {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(20,28,39,0.12);
-  max-height: 260px; overflow-y: auto; z-index: 10; display: none;
-}
-.dropdown-menu.open { display: block; }
-.dropdown-option {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; cursor: pointer; transition: background 0.1s;
-}
-.dropdown-option:hover { background: #F7F9FA; }
-.dropdown-option.selected { background: #F7F3FD; }
-.dropdown-opt-name { font-size: 14px; font-weight: 500; color: #2F3945; }
-.dropdown-opt-email { font-size: 12px; color: #8B95A1; }
-.dropdown-divider { border-top: 1px solid #EEF2F5; margin: 4px 0; }
-.dropdown-create {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 12px; cursor: pointer;
-  color: #4F46E5; font-weight: 500; font-size: 14px;
-}
-.dropdown-create:hover { background: rgba(79,70,229,0.04); }
-.no-results { padding: 16px 12px; text-align: center; color: #8B95A1; font-size: 13px; }
-
-/* ─── Checkbox ─── */
 .checkbox-wrap {
   display: flex; align-items: center; gap: 8px;
   cursor: pointer; font-size: 14px; color: #313944; user-select: none;
 }
-.checkbox-wrap input[type="checkbox"] {
-  width: 18px; height: 18px; accent-color: #4F46E5; cursor: pointer;
+.checkbox-wrap input[type="checkbox"] { width: 18px; height: 18px; accent-color: #4F46E5; cursor: pointer; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #F7F3FD; border: 1px solid #EDE4FB; border-radius: 6px;
+  padding: 4px 8px 4px 4px; font-size: 13px; font-weight: 500; color: #281347;
 }
-
-/* ─── Modal ─── */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none; align-items: center; justify-content: center;
-  z-index: 300;
-}
-.modal-overlay.visible { display: flex; }
-.modal {
-  background: #FFFFFF; border-radius: 16px;
-  width: 480px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-  animation: modalIn 0.2s ease;
-}
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-.modal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 24px 16px; border-bottom: 1px solid #EEF2F5;
-}
-.modal-title { font-size: 18px; font-weight: 600; color: #313944; }
-.modal-body { padding: 24px; }
-.modal-body p { font-size: 14px; color: #686F78; line-height: 1.6; }
-.modal-footer {
-  display: flex; justify-content: flex-end; gap: 8px;
-  padding: 16px 24px; border-top: 1px solid #EEF2F5;
-}
-
-/* ─── Form Save Bar ─── */
-.form-save-bar {
-  display: flex; align-items: center; justify-content: flex-end;
-  gap: 12px; padding: 16px 0; margin-top: 8px;
+.chip .chip-remove { cursor: pointer; color: #8B95A1; font-size: 14px; margin-left: 4px; }
+.chip .chip-remove:hover { color: #EF4444; }
+.chip .chip-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #EDE4FB; color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600;
 }
 
 /* ─── Toast ─── */
@@ -578,72 +539,14 @@ body {
   font-size: 14px; font-weight: 500;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   z-index: 400; display: none;
-  animation: toastIn 0.3s ease;
 }
 .toast.visible { display: flex; align-items: center; gap: 8px; }
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* ─── Spacing ─── */
 .mb-8 { margin-bottom: 8px; }
 .mb-12 { margin-bottom: 12px; }
 .mb-16 { margin-bottom: 16px; }
 .mb-24 { margin-bottom: 24px; }
-.mt-8 { margin-top: 8px; }
-.mt-16 { margin-top: 16px; }
-
-/* ─── Divider label ─── */
-.section-divider-label {
-  font-size: 11px; font-weight: 600; color: #8B95A1;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin: 20px 0 12px;
-  display: flex; align-items: center; gap: 8px;
-}
-.section-divider-label::after {
-  content: ''; flex: 1; height: 1px; background: #EEF2F5;
-}
-
-/* ─── Avatar ─── */
-.avatar {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: #EDE4FB; color: #7B3EFF;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600;
-  flex-shrink: 0;
-}
-.avatar.sm { width: 28px; height: 28px; font-size: 11px; }
-
-/* ─── Badge ─── */
-.badge-primary {
-  display: inline-flex; align-items: center;
-  padding: 2px 8px; border-radius: 20px;
-  font-size: 11px; font-weight: 600;
-  background: #F7F3FD; color: #7B3EFF; border: 1px solid #EDE4FB;
-}
-.badge-invoice {
-  display: inline-flex; align-items: center;
-  padding: 2px 8px; border-radius: 20px;
-  font-size: 11px; font-weight: 600;
-  background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5;
-}
-
-/* ─── Prototype nav ─── */
-.proto-nav {
-  display: flex; gap: 8px;
-  margin-bottom: 20px;
-}
-.proto-nav a {
-  font-size: 12px; font-weight: 500;
-  color: #4F46E5; text-decoration: none;
-  padding: 4px 10px; border-radius: 6px;
-  border: 1px solid #EDE4FB;
-  background: #FDFCFF;
-}
-.proto-nav a:hover { background: #F7F3FD; }
-.proto-nav a.active { background: #4F46E5; color: #fff; border-color: #4F46E5; }
 </style>
 </head>
 <body>
@@ -665,68 +568,114 @@ body {
   </div>
 </div>
 
-<!-- Page Content -->
+<!-- Page Shell -->
 <div class="page-shell">
 
-  <!-- Prototype navigation -->
   <div class="proto-nav">
     <a href="prototype-client-contacts.html">Client Form</a>
     <a href="prototype-invoice-contact.html" class="active">Invoice Contact</a>
   </div>
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">
-    <a href="#">Mehta Traders</a>
-    <span class="breadcrumb-sep">&#8250;</span>
-    <a href="#">Invoices</a>
-    <span class="breadcrumb-sep">&#8250;</span>
-    <span style="color:#2F3945;">New Invoice</span>
-  </div>
-
-  <!-- Page Header -->
-  <div class="page-header">
-    <h1 class="page-title">Create New Invoice</h1>
-  </div>
-
-  <!-- Stepper (mimics InvoiceForm stepper) -->
-  <div class="stepper">
-    <div class="step active">
-      <span class="step-number">1</span>
-      Details
-    </div>
-    <div class="step-connector"></div>
-    <div class="step">
-      <span class="step-number">2</span>
-      Items
-    </div>
-    <div class="step-connector"></div>
-    <div class="step">
-      <span class="step-number">3</span>
-      Review
+  <!-- Stepper (above the card, matches InvoiceStepper) -->
+  <div class="stepper-area">
+    <div class="stepper-title">Create New Invoice</div>
+    <div class="stepper">
+      <div class="step active">
+        <span class="step-number">1</span>
+        Invoice Details
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <span class="step-number">2</span>
+        Add Banking Details
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <span class="step-number">3</span>
+        Design &amp; Share
+      </div>
     </div>
   </div>
 
-  <!-- ═══ Client / Billing Details Section ═══ -->
-  <div class="form-card">
-    <div class="section-header open" onclick="toggleSection(this)">
-      <span class="section-title">
-        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Bill To
-      </span>
-      <span class="section-chevron">&#9662;</span>
-    </div>
-    <div class="section-body open" id="billToBody">
+  <!-- ═══ Invoice Card (main form) ═══ -->
+  <div class="invoice-card">
 
-      <!-- Client selector -->
-      <div id="clientSelectorArea">
+    <!-- ═══ HEADERS: Title + fields left, logo right ═══ -->
+    <div class="headers-section">
+      <div class="headers-fields">
+        <input class="invoice-title-input" type="text" value="Invoice" placeholder="Invoice Title">
+
+        <div class="field-row">
+          <span class="field-row-label">Invoice Number</span>
+          <div class="field-row-value">
+            <input class="field-input" type="text" value="INV-2026-0047" readonly>
+            <div class="field-hint">Last invoice: INV-2026-0046</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <span class="field-row-label">Invoice Date</span>
+          <div class="field-row-value">
+            <input class="field-input" type="date" value="2026-03-23">
+          </div>
+        </div>
+        <div class="field-row">
+          <span class="field-row-label">Due Date</span>
+          <div class="field-row-value">
+            <input class="field-input" type="date" value="2026-04-22">
+          </div>
+        </div>
+        <div class="field-row">
+          <span class="field-row-label">PO Number</span>
+          <div class="field-row-value">
+            <input class="field-input" type="text" placeholder="e.g. PO-12345">
+          </div>
+        </div>
+      </div>
+      <div class="headers-logo">
+        <div class="logo-upload">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Add Business Logo
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BUSINESS DETAILS: Billed By / Billed To ═══ -->
+    <div class="business-section">
+
+      <!-- Billed By (left) -->
+      <div class="business-box">
+        <div class="business-box-label">
+          Billed By
+          <button class="edit-btn">Edit</button>
+        </div>
+        <div class="biz-selector">
+          <div class="biz-avatar" style="background:#5B21B6; color:#fff;">MT</div>
+          <div class="biz-name">Mehta Traders</div>
+        </div>
+        <div class="biz-detail-line">
+          15, Kalbadevi Road<br>
+          Mumbai, Maharashtra 400002<br>
+          <strong>GSTIN:</strong> 27AAAFM1234C1ZP
+        </div>
+      </div>
+
+      <!-- Billed To (right) — client selector + contact person -->
+      <div class="business-box" id="billedToBox">
+        <div class="business-box-label">
+          Billed To
+          <button class="edit-btn" id="editClientBtn" style="display:none;">Edit</button>
+        </div>
+
         <!-- State 1: No client selected -->
         <div id="clientEmpty">
-          <div class="field-group">
-            <label class="field-label">Client <span class="required">*</span></label>
-            <div class="select-wrap">
-              <input class="select-input" id="clientSearchInput" type="text" placeholder="Search clients..." onfocus="showClientDropdown()" oninput="filterClients()">
-              <div class="dropdown-menu" id="clientDropdown">
-                <div id="clientOptionsList"></div>
+          <div class="client-select-wrap">
+            <input class="client-select-input" id="clientSearchInput" type="text" placeholder="Search or add client..." onfocus="showClientDropdown()" oninput="filterClients()">
+            <div class="client-dropdown" id="clientDropdown">
+              <div id="clientOptionsList"></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-add-new">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                Add New Client
               </div>
             </div>
           </div>
@@ -734,210 +683,198 @@ body {
 
         <!-- State 2: Client selected -->
         <div id="clientSelected" style="display:none;">
-          <div class="client-selector selected">
-            <div class="client-avatar" id="selectedClientAvatar">GI</div>
-            <div class="client-info">
-              <div class="client-name" id="selectedClientName">Gupta Industries Pvt Ltd</div>
-              <div class="client-meta" id="selectedClientMeta">GSTIN: 27AABCG1234F1ZL &middot; Mumbai, Maharashtra</div>
+          <div class="biz-selector">
+            <div class="biz-avatar" id="selectedClientAvatar">GI</div>
+            <div style="flex:1;">
+              <div class="biz-name" id="selectedClientName">Gupta Industries Pvt Ltd</div>
             </div>
-            <button class="client-change-btn" onclick="changeClient()">Change</button>
+            <button class="edit-btn" onclick="changeClient()" style="font-size:12px;">Change</button>
+          </div>
+          <div class="biz-detail-line" id="selectedClientDetail">
+            42, Industrial Area, Phase II<br>
+            Mumbai, Maharashtra 400093<br>
+            <strong>GSTIN:</strong> 27AABCG1234F1ZL
           </div>
 
-          <!-- Contact Person sub-section — appears after client is selected -->
+          <!-- ── Contact Person on Invoice (NEW — the feature) ── -->
           <div class="contact-person-section" id="contactPersonSection">
             <div class="contact-person-label">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Contact Person on Invoice
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Contact Person
             </div>
 
-            <!-- State A: No contacts linked to client -->
+            <!-- A: No contacts linked -->
             <div id="noContactsLinked" style="display:none;">
               <div class="no-contacts-state">
-                <div class="empty-title">No contacts linked</div>
-                <div class="empty-desc">This client has no linked contacts. Link a contact first to display on the invoice.</div>
-                <button class="btn btn-secondary btn-sm" onclick="openLinkContactDrawer()">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                  Link a Contact
-                </button>
+                <div class="nc-title">No contacts linked</div>
+                <div class="nc-desc">Link a contact to display on invoice</div>
+                <button class="btn btn-secondary btn-sm" onclick="openLinkContactDrawer()">Link Contact</button>
               </div>
             </div>
 
-            <!-- State B: Has contacts but none selected for invoice -->
+            <!-- B: Has contacts but none selected -->
             <div id="contactNotSelected">
-              <div class="contact-empty-state" onclick="openSelectContactDrawer()" style="cursor:pointer;">
-                <div class="contact-empty-icon">
-                  <svg width="24" height="24" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
-                </div>
-                <div class="contact-empty-text">Click to select a contact person to display on this invoice</div>
-                <button class="btn btn-ghost btn-sm" style="flex-shrink:0;">Select</button>
+              <div class="contact-empty-state" onclick="openSelectContactDrawer()">
+                <svg width="18" height="18" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+                <div class="contact-empty-text">Select contact for invoice</div>
+                <span style="font-size:12px; color:#4F46E5; font-weight:500;">Select</span>
               </div>
             </div>
 
-            <!-- State C: Contact selected for invoice -->
+            <!-- C: Contact selected -->
             <div id="contactSelectedCard" style="display:none;">
               <div class="contact-person-card">
-                <div class="avatar" id="invoiceContactAvatar">SG</div>
-                <div class="contact-person-info">
-                  <div class="contact-person-name" id="invoiceContactName">Sunita Gupta</div>
-                  <div class="contact-person-detail" id="invoiceContactRole">CFO &middot; Finance</div>
-                  <div class="display-fields-row" id="invoiceContactFields">
-                    <!-- Tags rendered by JS -->
-                  </div>
+                <div class="cp-avatar" id="invoiceContactAvatar">SG</div>
+                <div class="cp-info">
+                  <div class="cp-name" id="invoiceContactName">Sunita Gupta</div>
+                  <div class="cp-role" id="invoiceContactRole">CFO &middot; Finance</div>
+                  <div class="display-fields-row" id="invoiceContactFields"></div>
                 </div>
-                <div class="contact-person-actions">
-                  <button class="btn btn-ghost btn-sm" onclick="openSelectContactDrawer()" title="Change contact">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <div class="cp-actions">
+                  <button class="cp-action-btn" onclick="openSelectContactDrawer()" title="Change">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                   </button>
-                  <button class="btn btn-ghost btn-sm" onclick="removeInvoiceContact()" title="Remove contact" style="color:#EF4444;">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  <button class="cp-action-btn danger" onclick="removeInvoiceContact()" title="Remove">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
+
         </div>
       </div>
-
     </div>
-  </div>
 
-  <!-- ═══ Invoice Details (collapsed stub) ═══ -->
-  <div class="form-card">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="section-title">
-        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-        Invoice Details
-      </span>
-      <span class="section-chevron">&#9662;</span>
+    <!-- ═══ LINE ITEMS ═══ -->
+    <div class="line-items-section">
+      <div class="line-items-header">
+        <div>#</div>
+        <div>Item</div>
+        <div>Qty</div>
+        <div>Rate</div>
+        <div style="justify-content:flex-end;">Amount</div>
+        <div></div>
+      </div>
+      <div class="line-item-row">
+        <div class="line-item-num">1</div>
+        <div>
+          <div class="line-item-name">Web Development Services</div>
+          <div class="line-item-desc">March 2026 sprint cycle</div>
+        </div>
+        <div>1</div>
+        <div>&#8377;45,000</div>
+        <div class="line-item-amount">&#8377;45,000</div>
+        <div class="line-item-action"><button>&#8943;</button></div>
+      </div>
+      <div class="line-item-row">
+        <div class="line-item-num">2</div>
+        <div>
+          <div class="line-item-name">UI/UX Design — Landing Page</div>
+          <div class="line-item-desc">Responsive design with 3 revisions</div>
+        </div>
+        <div>1</div>
+        <div>&#8377;15,000</div>
+        <div class="line-item-amount">&#8377;15,000</div>
+        <div class="line-item-action"><button>&#8943;</button></div>
+      </div>
+      <div class="add-line-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Add Line Item
+      </div>
     </div>
-    <div class="section-body">
+
+    <!-- ═══ TOTALS (right-aligned) ═══ -->
+    <div class="totals-section">
+      <div class="totals-box">
+        <div class="total-row">
+          <span class="label">Subtotal</span>
+          <span class="value">&#8377;60,000</span>
+        </div>
+        <div class="total-row">
+          <span class="label">CGST (9%)</span>
+          <span class="value">&#8377;5,400</span>
+        </div>
+        <div class="total-row">
+          <span class="label">SGST (9%)</span>
+          <span class="value">&#8377;5,400</span>
+        </div>
+        <div class="total-row grand">
+          <span class="label">Total</span>
+          <span class="value">&#8377;70,800</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TOGGLE BUTTONS (optional sections, matches ButtonGroup) ═══ -->
+    <div class="toggle-buttons">
+      <button class="toggle-btn" onclick="toggleOptional('terms', this)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Terms
+      </button>
+      <button class="toggle-btn" onclick="toggleOptional('notes', this)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Notes
+      </button>
+      <button class="toggle-btn" onclick="toggleOptional('attachments', this)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+        Attachments
+      </button>
+      <button class="toggle-btn" onclick="toggleOptional('contact', this)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Contact Info
+      </button>
+      <button class="toggle-btn" onclick="toggleOptional('signature', this)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Signature
+      </button>
+    </div>
+
+    <!-- Optional sections -->
+    <div class="optional-section" id="opt-terms">
+      <div class="optional-section-label">Terms &amp; Conditions</div>
+      <textarea class="field-input" rows="3" placeholder="Enter payment terms...">Payment due within 30 days of invoice date.</textarea>
+    </div>
+    <div class="optional-section" id="opt-notes">
+      <div class="optional-section-label">Notes</div>
+      <textarea class="field-input" rows="3" placeholder="Add notes for the client..."></textarea>
+    </div>
+    <div class="optional-section" id="opt-attachments">
+      <div class="optional-section-label">Attachments</div>
+      <div style="border:2px dashed #D1D5DB; border-radius:8px; padding:24px; text-align:center; color:#8B95A1; font-size:13px; cursor:pointer;">
+        Drop files here or click to upload
+      </div>
+    </div>
+    <div class="optional-section" id="opt-contact">
+      <div class="optional-section-label">Contact Information</div>
       <div class="form-grid">
         <div class="field-group">
-          <label class="field-label">Invoice Number <span class="required">*</span></label>
-          <input class="field-input" type="text" value="INV-2026-0047" readonly style="background:#F7F9FA;">
+          <label class="field-label">Email</label>
+          <input class="field-input" type="email" value="accounts@mehtatraders.in">
         </div>
         <div class="field-group">
-          <label class="field-label">Invoice Date <span class="required">*</span></label>
-          <input class="field-input" type="date" value="2026-03-23">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Due Date</label>
-          <input class="field-input" type="date" value="2026-04-22">
-        </div>
-        <div class="field-group">
-          <label class="field-label">PO Number</label>
-          <input class="field-input" type="text" placeholder="Purchase order reference">
+          <label class="field-label">Phone</label>
+          <input class="field-input" type="tel" value="+91 22 2345 6789">
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- ═══ Items Section (collapsed stub) ═══ -->
-  <div class="form-card">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="section-title">
-        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-        Line Items
-      </span>
-      <span class="section-chevron">&#9662;</span>
-    </div>
-    <div class="section-body">
-      <p style="color:#8B95A1; font-size:13px; padding:12px 0;">Items section — not part of this prototype. See InvoiceForm in jupiter.</p>
-    </div>
-  </div>
-
-  <!-- ═══ Invoice Preview (shows how contact appears) ═══ -->
-  <div class="section-divider-label">Invoice Preview</div>
-  <div class="invoice-preview" id="invoicePreview">
-    <div class="preview-header">
-      <div>
-        <div class="preview-title">INVOICE</div>
-        <div class="preview-invoice-no">INV-2026-0047 &middot; Mar 23, 2026</div>
-      </div>
-      <div class="preview-logo">MT</div>
-    </div>
-
-    <div class="preview-parties">
-      <div>
-        <div class="preview-party-label">From</div>
-        <div class="preview-party-name">Mehta Traders</div>
-        <div class="preview-party-detail">
-          15, Kalbadevi Road<br>
-          Mumbai, Maharashtra 400002<br>
-          GSTIN: 27AAAFM1234C1ZP
-        </div>
-      </div>
-      <div>
-        <div class="preview-party-label">Bill To</div>
-        <div class="preview-party-name" id="previewClientName">Gupta Industries Pvt Ltd</div>
-        <div class="preview-party-detail" id="previewClientDetail">
-          42, Industrial Area, Phase II<br>
-          Mumbai, Maharashtra 400093<br>
-          GSTIN: 27AABCG1234F1ZL
-        </div>
-        <!-- Contact person line — hidden until contact is selected -->
-        <div class="preview-contact-line" id="previewContactLine" style="display:none;">
-          <span class="preview-contact-label">Contact</span>
-          <span class="preview-contact-value" id="previewContactValue">Sunita Gupta &middot; sunita@guptaindustries.in &middot; +91 65432 10987</span>
-        </div>
+    <div class="optional-section" id="opt-signature">
+      <div class="optional-section-label">Signature</div>
+      <div style="border:2px dashed #D1D5DB; border-radius:8px; padding:24px; text-align:center; color:#8B95A1; font-size:13px; cursor:pointer; width:200px;">
+        Upload signature
       </div>
     </div>
 
-    <table class="preview-items-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Description</th>
-          <th>Qty</th>
-          <th>Rate</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Web Development Services — March 2026</td>
-          <td>1</td>
-          <td>&#8377;45,000</td>
-          <td>&#8377;45,000</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>UI/UX Design — Landing Page</td>
-          <td>1</td>
-          <td>&#8377;15,000</td>
-          <td>&#8377;15,000</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="preview-totals">
-      <div class="preview-total-row">
-        <span class="preview-total-label">Subtotal</span>
-        <span class="preview-total-value">&#8377;60,000</span>
-      </div>
-      <div class="preview-total-row">
-        <span class="preview-total-label">GST (18%)</span>
-        <span class="preview-total-value">&#8377;10,800</span>
-      </div>
-      <div class="preview-total-row grand">
-        <span class="preview-total-label">Total</span>
-        <span class="preview-total-value">&#8377;70,800</span>
-      </div>
+    <!-- ═══ FORM BUTTONS ═══ -->
+    <div class="form-buttons">
+      <button class="btn btn-secondary" onclick="handleSaveInvoice()">Save as Draft</button>
+      <button class="btn btn-primary" onclick="handleSaveInvoice()">Save Invoice</button>
     </div>
-  </div>
 
-  <!-- Form Save Bar -->
-  <div class="form-save-bar">
-    <button class="btn btn-secondary">Save as Draft</button>
-    <button class="btn btn-primary" onclick="handleSaveInvoice()">Save Invoice</button>
-  </div>
-
-</div>
+  </div><!-- /invoice-card -->
+</div><!-- /page-shell -->
 
 <!-- ═══ Select Contact Drawer ═══ -->
-<!-- Lets user pick from linked contacts and choose display fields -->
 <div class="overlay" id="selectContactOverlay" onclick="closeSelectContactDrawer()"></div>
 <div class="drawer" id="selectContactDrawer">
   <div class="drawer-header">
@@ -945,33 +882,20 @@ body {
     <button class="drawer-close" onclick="closeSelectContactDrawer()">&#10005;</button>
   </div>
   <div class="drawer-body">
-
-    <!-- Search -->
     <div class="field-group mb-16">
       <input class="field-input" id="drawerContactSearch" type="text" placeholder="Search linked contacts..." oninput="filterDrawerContacts()">
     </div>
-
-    <!-- Contact list -->
-    <div id="drawerContactList">
-      <!-- Rendered by JS -->
-    </div>
-
-    <!-- Link new contact CTA -->
+    <div id="drawerContactList"></div>
     <div style="margin-top:12px; padding-top:12px; border-top:1px solid #EEF2F5;">
       <button class="btn btn-ghost btn-sm" onclick="openLinkContactDrawer()" style="width:100%; justify-content:center;">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
         Link a New Contact
       </button>
     </div>
-
-    <!-- Field selection (shown after picking a contact) -->
     <div class="field-selection" id="fieldSelectionArea" style="display:none;">
       <div class="field-selection-title">Fields to display on invoice</div>
-      <div class="field-checkbox-grid" id="fieldCheckboxes">
-        <!-- Rendered by JS -->
-      </div>
+      <div class="field-checkbox-grid" id="fieldCheckboxes"></div>
     </div>
-
   </div>
   <div class="drawer-footer">
     <button class="btn btn-secondary" onclick="closeSelectContactDrawer()">Cancel</button>
@@ -979,8 +903,7 @@ body {
   </div>
 </div>
 
-<!-- ═══ Link Contact Drawer (for linking a new contact to the client) ═══ -->
-<!-- Reuses the same pattern as the client form prototype -->
+<!-- ═══ Link Contact Drawer ═══ -->
 <div class="overlay" id="linkContactOverlay" style="z-index:215;" onclick="closeLinkContactDrawer()"></div>
 <div class="drawer narrow" id="linkContactDrawer" style="z-index:220;">
   <div class="drawer-header">
@@ -988,31 +911,27 @@ body {
     <button class="drawer-close" onclick="closeLinkContactDrawer()">&#10005;</button>
   </div>
   <div class="drawer-body">
-
-    <!-- Contact select (typeahead from all org contacts) -->
     <div class="field-group mb-24">
       <label class="field-label">Contact <span class="required">*</span></label>
-      <div class="select-wrap" id="linkContactSelectWrap">
+      <div class="client-select-wrap" id="linkContactSelectWrap">
         <div id="linkSelectedDisplay" style="display:none;">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:#F7F3FD; border:1px solid #EDE4FB; border-radius:6px; padding:4px 8px 4px 4px; font-size:13px; font-weight:500; color:#281347;">
-            <div class="avatar sm" id="linkChipAvatar">RM</div>
+          <div class="chip">
+            <div class="chip-avatar" id="linkChipAvatar">RM</div>
             <span id="linkChipName">Rahul Mehta</span>
-            <span style="cursor:pointer; color:#8B95A1; font-size:14px; margin-left:4px;" onclick="clearLinkSelected()">&#10005;</span>
+            <span class="chip-remove" onclick="clearLinkSelected()">&#10005;</span>
           </div>
         </div>
-        <input class="select-input" id="linkContactSearchInput" type="text" placeholder="Search contacts..." oninput="filterLinkContacts()" onfocus="showLinkDropdown()">
-        <div class="dropdown-menu" id="linkContactDropdown">
+        <input class="client-select-input" id="linkContactSearchInput" type="text" placeholder="Search contacts..." oninput="filterLinkContacts()" onfocus="showLinkDropdown()">
+        <div class="client-dropdown" id="linkContactDropdown">
           <div id="linkContactOptions"></div>
           <div class="dropdown-divider" id="linkDropdownDivider"></div>
-          <div class="dropdown-create" onclick="openCreateContactDrawer()">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          <div class="dropdown-add-new" onclick="openCreateContactDrawer()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             Create new contact
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Role & Department -->
     <div class="form-grid mb-24">
       <div class="field-group">
         <label class="field-label">Relation Type</label>
@@ -1033,63 +952,37 @@ body {
         <input class="field-input" id="linkDepartment" type="text" placeholder="e.g. Accounts">
       </div>
     </div>
-
-    <!-- Show in Invoice checkbox -->
     <label class="checkbox-wrap mb-16">
       <input type="checkbox" id="linkShowInInvoice" checked>
       Show on Invoice by default
     </label>
-
-    <!-- Primary checkbox -->
     <label class="checkbox-wrap mb-16">
       <input type="checkbox" id="linkIsPrimary">
       Mark as Primary Contact
     </label>
-
-    <!-- Error -->
     <div id="linkError" style="display:none; margin-top:16px; padding:8px 12px; background:#FEE2E2; border-radius:6px; color:#991B1B; font-size:13px;"></div>
-
   </div>
   <div class="drawer-footer">
     <button class="btn btn-primary" onclick="submitLinkContact()">Link Contact</button>
   </div>
 </div>
 
-<!-- ═══ Create Contact Drawer (nested, for creating a brand new contact) ═══ -->
+<!-- ═══ Create Contact Drawer ═══ -->
 <div class="overlay" id="createContactOverlay" style="z-index:225;" onclick="closeCreateContactDrawer()"></div>
-<div class="drawer narrow" id="createContactDrawer" style="z-index:230; width:460px;">
+<div class="drawer narrow" id="createContactDrawer" style="z-index:230; width:440px;">
   <div class="drawer-header">
     <span class="drawer-title">Create New Contact</span>
     <button class="drawer-close" onclick="closeCreateContactDrawer()">&#10005;</button>
   </div>
   <div class="drawer-body">
     <div class="form-grid mb-24">
-      <div class="field-group">
-        <label class="field-label">First Name <span class="required">*</span></label>
-        <input class="field-input" id="newFirstName" type="text" placeholder="First name">
-      </div>
-      <div class="field-group">
-        <label class="field-label">Last Name</label>
-        <input class="field-input" id="newLastName" type="text" placeholder="Last name">
-      </div>
+      <div class="field-group"><label class="field-label">First Name <span class="required">*</span></label><input class="field-input" id="newFirstName" type="text" placeholder="First name"></div>
+      <div class="field-group"><label class="field-label">Last Name</label><input class="field-input" id="newLastName" type="text" placeholder="Last name"></div>
     </div>
-    <div class="field-group mb-24">
-      <label class="field-label">Email</label>
-      <input class="field-input" id="newEmail" type="email" placeholder="email@example.com">
-    </div>
-    <div class="field-group mb-24">
-      <label class="field-label">Phone</label>
-      <input class="field-input" id="newPhone" type="tel" placeholder="+91 98765 43210">
-    </div>
-    <div class="field-group">
-      <label class="field-label">Country <span class="required">*</span></label>
-      <select class="field-select" id="newCountry">
-        <option selected>India</option>
-        <option>United States</option>
-        <option>United Kingdom</option>
-        <option>United Arab Emirates</option>
-        <option>Singapore</option>
-      </select>
+    <div class="field-group mb-24"><label class="field-label">Email</label><input class="field-input" id="newEmail" type="email" placeholder="email@example.com"></div>
+    <div class="field-group mb-24"><label class="field-label">Phone</label><input class="field-input" id="newPhone" type="tel" placeholder="+91 98765 43210"></div>
+    <div class="field-group"><label class="field-label">Country <span class="required">*</span></label>
+      <select class="field-select" id="newCountry"><option selected>India</option><option>United States</option><option>United Kingdom</option><option>UAE</option><option>Singapore</option></select>
     </div>
   </div>
   <div class="drawer-footer">
@@ -1097,7 +990,7 @@ body {
   </div>
 </div>
 
-<!-- ═══ Toast ═══ -->
+<!-- Toast -->
 <div class="toast" id="toast">&#10003; <span id="toastMsg"></span></div>
 
 <script>
@@ -1105,63 +998,37 @@ body {
 // DATA
 // ══════════════════════════════════════════════
 
-// All contacts in the org (not all linked to this client)
 const allOrgContacts = [
-  { id: 'c1', firstName: 'Rahul', lastName: 'Mehta', email: 'rahul@mehtaTraders.in', phone: '+91 98765 43210', initials: 'RM' },
-  { id: 'c2', firstName: 'Priya', lastName: 'Patel', email: 'priya.patel@outlook.com', phone: '+91 87654 32109', initials: 'PP' },
-  { id: 'c3', firstName: 'Amit', lastName: 'Shah', email: 'amit.shah@shahent.com', phone: '+91 76543 21098', initials: 'AS' },
-  { id: 'c4', firstName: 'Sunita', lastName: 'Gupta', email: 'sunita@guptaindustries.in', phone: '+91 65432 10987', initials: 'SG' },
-  { id: 'c5', firstName: 'Vikram', lastName: 'Desai', email: 'vikram.desai@gmail.com', phone: '+91 54321 09876', initials: 'VD' },
+  { id:'c1', firstName:'Rahul', lastName:'Mehta', email:'rahul@mehtaTraders.in', phone:'+91 98765 43210', initials:'RM' },
+  { id:'c2', firstName:'Priya', lastName:'Patel', email:'priya.patel@outlook.com', phone:'+91 87654 32109', initials:'PP' },
+  { id:'c3', firstName:'Amit', lastName:'Shah', email:'amit.shah@shahent.com', phone:'+91 76543 21098', initials:'AS' },
+  { id:'c4', firstName:'Sunita', lastName:'Gupta', email:'sunita@guptaindustries.in', phone:'+91 65432 10987', initials:'SG' },
+  { id:'c5', firstName:'Vikram', lastName:'Desai', email:'vikram.desai@gmail.com', phone:'+91 54321 09876', initials:'VD' },
 ];
 
-// Clients
 const clients = [
-  { id: 'cl1', name: 'Gupta Industries Pvt Ltd', initials: 'GI', gstin: '27AABCG1234F1ZL', location: 'Mumbai, Maharashtra' },
-  { id: 'cl2', name: 'Shah Enterprises', initials: 'SE', gstin: '24AABCS5678D1ZK', location: 'Ahmedabad, Gujarat' },
-  { id: 'cl3', name: 'Desai & Co', initials: 'DC', gstin: '29AABCD9012E1ZJ', location: 'Bengaluru, Karnataka' },
+  { id:'cl1', name:'Gupta Industries Pvt Ltd', initials:'GI', gstin:'27AABCG1234F1ZL', location:'Mumbai, Maharashtra', address:'42, Industrial Area, Phase II<br>Mumbai, Maharashtra 400093' },
+  { id:'cl2', name:'Shah Enterprises', initials:'SE', gstin:'24AABCS5678D1ZK', location:'Ahmedabad, Gujarat', address:'12, CG Road<br>Ahmedabad, Gujarat 380006' },
+  { id:'cl3', name:'Desai & Co', initials:'DC', gstin:'29AABCD9012E1ZJ', location:'Bengaluru, Karnataka', address:'88, MG Road<br>Bengaluru, Karnataka 560001' },
 ];
 
-// Contact relations for each client (contactRelations collection)
-// showInInvoice and displayFields are the NEW fields for this feature
 let contactRelations = {
   'cl1': [
-    {
-      id: 'cr1', contactId: 'c4', clientId: 'cl1',
-      role: 'CFO', department: 'Finance',
-      isPrimary: true,
-      showInInvoice: true,
-      displayFields: ['name', 'email', 'phone'],
-      linkedOn: 'Mar 15, 2026'
-    },
-    {
-      id: 'cr2', contactId: 'c1', clientId: 'cl1',
-      role: 'Procurement Head', department: 'Purchasing',
-      isPrimary: false,
-      showInInvoice: false,
-      displayFields: ['name', 'phone'],
-      linkedOn: 'Mar 18, 2026'
-    },
+    { id:'cr1', contactId:'c4', clientId:'cl1', role:'CFO', department:'Finance', isPrimary:true, showInInvoice:true, displayFields:['name','email','phone'], linkedOn:'Mar 15, 2026' },
+    { id:'cr2', contactId:'c1', clientId:'cl1', role:'Procurement Head', department:'Purchasing', isPrimary:false, showInInvoice:false, displayFields:['name','phone'], linkedOn:'Mar 18, 2026' },
   ],
   'cl2': [
-    {
-      id: 'cr3', contactId: 'c3', clientId: 'cl2',
-      role: 'Director', department: 'Management',
-      isPrimary: true,
-      showInInvoice: true,
-      displayFields: ['name', 'email'],
-      linkedOn: 'Mar 10, 2026'
-    },
+    { id:'cr3', contactId:'c3', clientId:'cl2', role:'Director', department:'Management', isPrimary:true, showInInvoice:true, displayFields:['name','email'], linkedOn:'Mar 10, 2026' },
   ],
-  'cl3': [], // No contacts linked
+  'cl3': [],
 };
 
-// Available display fields
 const DISPLAY_FIELD_OPTIONS = [
-  { key: 'name', label: 'Name', alwaysOn: true },
-  { key: 'email', label: 'Email' },
-  { key: 'phone', label: 'Phone' },
-  { key: 'designation', label: 'Designation' },
-  { key: 'department', label: 'Department' },
+  { key:'name', label:'Name', alwaysOn:true },
+  { key:'email', label:'Email' },
+  { key:'phone', label:'Phone' },
+  { key:'designation', label:'Designation' },
+  { key:'department', label:'Department' },
 ];
 
 // ══════════════════════════════════════════════
@@ -1169,7 +1036,7 @@ const DISPLAY_FIELD_OPTIONS = [
 // ══════════════════════════════════════════════
 
 let selectedClientId = null;
-let selectedInvoiceContact = null; // { contactId, contactRelationId, snapshot, displayFields }
+let selectedInvoiceContact = null;
 let drawerSelectedRelationId = null;
 let drawerDisplayFields = [];
 let linkSelectedContact = null;
@@ -1179,25 +1046,16 @@ let nextId = 200;
 // CLIENT SELECTION
 // ══════════════════════════════════════════════
 
-function showClientDropdown() {
-  filterClients();
-  document.getElementById('clientDropdown').classList.add('open');
-}
+function showClientDropdown() { filterClients(); document.getElementById('clientDropdown').classList.add('open'); }
 
 function filterClients() {
   const q = document.getElementById('clientSearchInput').value.toLowerCase().trim();
   const list = document.getElementById('clientOptionsList');
-  const filtered = clients.filter(c => {
-    if (!q) return true;
-    return (c.name + ' ' + c.gstin).toLowerCase().includes(q);
-  });
+  const filtered = clients.filter(c => !q || (c.name+' '+c.gstin).toLowerCase().includes(q));
   list.innerHTML = filtered.map(c => `
-    <div class="dropdown-option" onclick="selectClient('${c.id}')">
-      <div class="avatar">${c.initials}</div>
-      <div>
-        <div class="dropdown-opt-name">${c.name}</div>
-        <div class="dropdown-opt-email">${c.gstin} &middot; ${c.location}</div>
-      </div>
+    <div class="client-dropdown-option" onclick="selectClient('${c.id}')">
+      <div class="biz-avatar">${c.initials}</div>
+      <div><div class="opt-name">${c.name}</div><div class="opt-meta">${c.gstin} &middot; ${c.location}</div></div>
     </div>
   `).join('') || '<div class="no-results">No clients found</div>';
   document.getElementById('clientDropdown').classList.add('open');
@@ -1206,22 +1064,16 @@ function filterClients() {
 function selectClient(clientId) {
   const client = clients.find(c => c.id === clientId);
   if (!client) return;
-
   selectedClientId = clientId;
   selectedInvoiceContact = null;
-
-  // Update UI
   document.getElementById('clientEmpty').style.display = 'none';
   document.getElementById('clientSelected').style.display = '';
+  document.getElementById('editClientBtn').style.display = '';
   document.getElementById('selectedClientAvatar').textContent = client.initials;
   document.getElementById('selectedClientName').textContent = client.name;
-  document.getElementById('selectedClientMeta').innerHTML = `GSTIN: ${client.gstin} &middot; ${client.location}`;
+  document.getElementById('selectedClientDetail').innerHTML = client.address + '<br><strong>GSTIN:</strong> ' + client.gstin;
   document.getElementById('clientDropdown').classList.remove('open');
 
-  // Update preview
-  document.getElementById('previewClientName').textContent = client.name;
-
-  // Check linked contacts
   const relations = contactRelations[clientId] || [];
   if (relations.length === 0) {
     document.getElementById('noContactsLinked').style.display = '';
@@ -1229,18 +1081,10 @@ function selectClient(clientId) {
     document.getElementById('contactSelectedCard').style.display = 'none';
   } else {
     document.getElementById('noContactsLinked').style.display = 'none';
-
-    // Auto-select contact with showInInvoice: true
-    const defaultRelation = relations.find(r => r.showInInvoice);
-    if (defaultRelation) {
-      applyContactToInvoice(defaultRelation);
-    } else {
-      document.getElementById('contactNotSelected').style.display = '';
-      document.getElementById('contactSelectedCard').style.display = 'none';
-      hidePreviewContact();
-    }
+    const def = relations.find(r => r.showInInvoice);
+    if (def) { applyContactToInvoice(def); }
+    else { document.getElementById('contactNotSelected').style.display = ''; document.getElementById('contactSelectedCard').style.display = 'none'; }
   }
-
   showToast(`Client "${client.name}" selected`);
 }
 
@@ -1249,93 +1093,49 @@ function changeClient() {
   selectedInvoiceContact = null;
   document.getElementById('clientEmpty').style.display = '';
   document.getElementById('clientSelected').style.display = 'none';
+  document.getElementById('editClientBtn').style.display = 'none';
   document.getElementById('clientSearchInput').value = '';
-  hidePreviewContact();
 }
 
 // ══════════════════════════════════════════════
-// APPLY CONTACT TO INVOICE
+// APPLY CONTACT
 // ══════════════════════════════════════════════
 
 function applyContactToInvoice(relation) {
   const contact = allOrgContacts.find(c => c.id === relation.contactId);
   if (!contact) return;
-
-  // Snapshot the contact details (immutable on the invoice)
   selectedInvoiceContact = {
-    contactId: contact.id,
-    contactRelationId: relation.id,
-    snapshot: {
-      name: `${contact.firstName} ${contact.lastName}`,
-      email: contact.email,
-      phone: contact.phone,
-      designation: relation.role || '',
-      department: relation.department || '',
-    },
+    contactId: contact.id, contactRelationId: relation.id,
+    snapshot: { name:`${contact.firstName} ${contact.lastName}`, email:contact.email, phone:contact.phone, designation:relation.role||'', department:relation.department||'' },
     displayFields: [...relation.displayFields],
   };
-
-  // Update the contact card in form
   document.getElementById('contactNotSelected').style.display = 'none';
   document.getElementById('noContactsLinked').style.display = 'none';
   document.getElementById('contactSelectedCard').style.display = '';
   document.getElementById('invoiceContactAvatar').textContent = contact.initials;
   document.getElementById('invoiceContactName').textContent = selectedInvoiceContact.snapshot.name;
-
-  const roleDept = [relation.role, relation.department].filter(Boolean).join(' \u00B7 ');
-  document.getElementById('invoiceContactRole').textContent = roleDept || '';
-  document.getElementById('invoiceContactRole').style.display = roleDept ? '' : 'none';
-
-  // Render field tags
+  const rd = [relation.role, relation.department].filter(Boolean).join(' \u00B7 ');
+  document.getElementById('invoiceContactRole').textContent = rd || '';
+  document.getElementById('invoiceContactRole').style.display = rd ? '' : 'none';
   renderFieldTags();
-
-  // Update preview
-  updatePreviewContact();
 }
 
 function renderFieldTags() {
   if (!selectedInvoiceContact) return;
-  const container = document.getElementById('invoiceContactFields');
-  container.innerHTML = selectedInvoiceContact.displayFields.map(key => {
+  document.getElementById('invoiceContactFields').innerHTML = selectedInvoiceContact.displayFields.map(key => {
     const opt = DISPLAY_FIELD_OPTIONS.find(o => o.key === key);
-    const value = selectedInvoiceContact.snapshot[key] || '';
-    return `<span class="field-tag">${opt ? opt.label : key}${value ? ': ' + truncate(value, 20) : ''}</span>`;
+    const v = selectedInvoiceContact.snapshot[key] || '';
+    return `<span class="field-tag">${opt?opt.label:key}${v?': '+trunc(v,18):''}</span>`;
   }).join('');
 }
 
-function truncate(str, max) {
-  return str.length > max ? str.substring(0, max) + '...' : str;
-}
+function trunc(s,m) { return s.length>m ? s.substring(0,m)+'...' : s; }
 
 function removeInvoiceContact() {
   selectedInvoiceContact = null;
   document.getElementById('contactSelectedCard').style.display = 'none';
   document.getElementById('contactNotSelected').style.display = '';
-  hidePreviewContact();
   showToast('Contact removed from invoice');
-}
-
-// ══════════════════════════════════════════════
-// PREVIEW
-// ══════════════════════════════════════════════
-
-function updatePreviewContact() {
-  if (!selectedInvoiceContact || selectedInvoiceContact.displayFields.length === 0) {
-    hidePreviewContact();
-    return;
-  }
-
-  const s = selectedInvoiceContact.snapshot;
-  const parts = selectedInvoiceContact.displayFields
-    .map(key => s[key])
-    .filter(Boolean);
-
-  document.getElementById('previewContactValue').textContent = parts.join(' \u00B7 ');
-  document.getElementById('previewContactLine').style.display = '';
-}
-
-function hidePreviewContact() {
-  document.getElementById('previewContactLine').style.display = 'none';
 }
 
 // ══════════════════════════════════════════════
@@ -1346,151 +1146,92 @@ function openSelectContactDrawer() {
   if (!selectedClientId) return;
   drawerSelectedRelationId = selectedInvoiceContact ? selectedInvoiceContact.contactRelationId : null;
   drawerDisplayFields = selectedInvoiceContact ? [...selectedInvoiceContact.displayFields] : ['name'];
-
   document.getElementById('selectContactOverlay').classList.add('visible');
   document.getElementById('selectContactDrawer').classList.add('open');
   document.getElementById('drawerContactSearch').value = '';
-  renderDrawerContacts();
-  updateFieldSelection();
-  updateConfirmButton();
+  renderDrawerContacts(); updateFieldSelection(); updateConfirmButton();
 }
-
 function closeSelectContactDrawer() {
   document.getElementById('selectContactOverlay').classList.remove('visible');
   document.getElementById('selectContactDrawer').classList.remove('open');
 }
-
-function filterDrawerContacts() {
-  renderDrawerContacts();
-}
+function filterDrawerContacts() { renderDrawerContacts(); }
 
 function renderDrawerContacts() {
   const relations = contactRelations[selectedClientId] || [];
   const q = document.getElementById('drawerContactSearch').value.toLowerCase().trim();
   const container = document.getElementById('drawerContactList');
-
   const filtered = relations.filter(r => {
-    const contact = allOrgContacts.find(c => c.id === r.contactId);
-    if (!contact) return false;
+    const c = allOrgContacts.find(x => x.id === r.contactId);
+    if (!c) return false;
     if (!q) return true;
-    const full = `${contact.firstName} ${contact.lastName} ${contact.email} ${r.role || ''}`.toLowerCase();
-    return full.includes(q);
+    return `${c.firstName} ${c.lastName} ${c.email} ${r.role||''}`.toLowerCase().includes(q);
   });
-
-  if (filtered.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:24px; color:#8B95A1; font-size:13px;">No linked contacts found</div>';
-    return;
-  }
-
+  if (!filtered.length) { container.innerHTML = '<div style="text-align:center;padding:20px;color:#8B95A1;font-size:13px;">No linked contacts found</div>'; return; }
   container.innerHTML = filtered.map(r => {
-    const contact = allOrgContacts.find(c => c.id === r.contactId);
-    if (!contact) return '';
-    const isSelected = drawerSelectedRelationId === r.id;
-    const badges = [];
-    if (r.isPrimary) badges.push('<span class="contact-list-badge primary">Primary</span>');
-    if (r.showInInvoice) badges.push('<span class="contact-list-badge show-invoice">Default for Invoice</span>');
-
-    return `
-      <div class="contact-list-item ${isSelected ? 'selected' : ''}" onclick="selectDrawerContact('${r.id}')">
-        <div class="contact-list-avatar">${contact.initials}</div>
-        <div class="contact-list-info">
-          <div class="contact-list-name">${contact.firstName} ${contact.lastName}</div>
-          <div class="contact-list-detail">${[r.role, r.department].filter(Boolean).join(' \u00B7 ')} ${badges.length ? '&nbsp;' + badges.join(' ') : ''}</div>
-          <div class="contact-list-detail">${contact.email} &middot; ${contact.phone}</div>
-        </div>
-        <div class="contact-list-check">${isSelected ? '<svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" fill="none"/></svg>' : ''}</div>
+    const c = allOrgContacts.find(x => x.id === r.contactId);
+    if (!c) return '';
+    const sel = drawerSelectedRelationId === r.id;
+    let badges = '';
+    if (r.isPrimary) badges += '<span class="cl-badge primary">Primary</span>';
+    if (r.showInInvoice) badges += '<span class="cl-badge invoice-default">Invoice Default</span>';
+    return `<div class="contact-list-item ${sel?'selected':''}" onclick="selectDrawerContact('${r.id}')">
+      <div class="cl-avatar">${c.initials}</div>
+      <div class="cl-info">
+        <div class="cl-name">${c.firstName} ${c.lastName}</div>
+        <div class="cl-detail">${[r.role,r.department].filter(Boolean).join(' \u00B7 ')}</div>
+        ${badges ? '<div class="cl-badges">'+badges+'</div>' : ''}
+        <div class="cl-detail">${c.email} &middot; ${c.phone}</div>
       </div>
-    `;
+      <div class="cl-check">${sel?'<svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" fill="none"/></svg>':''}</div>
+    </div>`;
   }).join('');
 }
 
 function selectDrawerContact(relationId) {
   drawerSelectedRelationId = relationId;
-
-  // Load saved displayFields from the relation
-  const relation = (contactRelations[selectedClientId] || []).find(r => r.id === relationId);
-  if (relation) {
-    drawerDisplayFields = relation.displayFields && relation.displayFields.length > 0
-      ? [...relation.displayFields]
-      : ['name'];
-  }
-
-  renderDrawerContacts();
-  updateFieldSelection();
-  updateConfirmButton();
+  const rel = (contactRelations[selectedClientId]||[]).find(r => r.id === relationId);
+  if (rel) drawerDisplayFields = rel.displayFields && rel.displayFields.length ? [...rel.displayFields] : ['name'];
+  renderDrawerContacts(); updateFieldSelection(); updateConfirmButton();
 }
 
 function updateFieldSelection() {
   const area = document.getElementById('fieldSelectionArea');
   const container = document.getElementById('fieldCheckboxes');
-
-  if (!drawerSelectedRelationId) {
-    area.style.display = 'none';
-    return;
-  }
-
+  if (!drawerSelectedRelationId) { area.style.display='none'; return; }
   area.style.display = '';
-  const relation = (contactRelations[selectedClientId] || []).find(r => r.id === drawerSelectedRelationId);
-  const contact = relation ? allOrgContacts.find(c => c.id === relation.contactId) : null;
-
+  const rel = (contactRelations[selectedClientId]||[]).find(r => r.id === drawerSelectedRelationId);
+  const contact = rel ? allOrgContacts.find(c => c.id === rel.contactId) : null;
   container.innerHTML = DISPLAY_FIELD_OPTIONS.map(opt => {
     const checked = drawerDisplayFields.includes(opt.key);
-    const disabled = opt.alwaysOn ? 'disabled checked' : '';
-    const value = contact ? getFieldValue(contact, relation, opt.key) : '';
-
-    return `
-      <label class="field-checkbox">
-        <input type="checkbox" ${checked ? 'checked' : ''} ${disabled}
-          onchange="toggleDisplayField('${opt.key}', this.checked)">
-        ${opt.label}
-        ${value ? `<span class="field-value" title="${value}">${value}</span>` : ''}
-      </label>
-    `;
+    const dis = opt.alwaysOn ? 'disabled checked' : '';
+    const val = contact ? getFieldValue(contact, rel, opt.key) : '';
+    return `<label class="field-checkbox"><input type="checkbox" ${checked?'checked':''} ${dis} onchange="toggleDisplayField('${opt.key}',this.checked)">${opt.label}${val?`<span class="fv" title="${val}">${val}</span>`:''}</label>`;
   }).join('');
 }
 
-function getFieldValue(contact, relation, key) {
-  switch(key) {
-    case 'name': return `${contact.firstName} ${contact.lastName}`;
-    case 'email': return contact.email;
-    case 'phone': return contact.phone;
-    case 'designation': return relation.role || '';
-    case 'department': return relation.department || '';
-    default: return '';
-  }
+function getFieldValue(c, r, k) {
+  switch(k) { case 'name': return `${c.firstName} ${c.lastName}`; case 'email': return c.email; case 'phone': return c.phone; case 'designation': return r.role||''; case 'department': return r.department||''; default: return ''; }
 }
-
 function toggleDisplayField(key, checked) {
-  if (checked && !drawerDisplayFields.includes(key)) {
-    drawerDisplayFields.push(key);
-  } else if (!checked) {
-    drawerDisplayFields = drawerDisplayFields.filter(f => f !== key);
-  }
+  if (checked && !drawerDisplayFields.includes(key)) drawerDisplayFields.push(key);
+  else if (!checked) drawerDisplayFields = drawerDisplayFields.filter(f => f !== key);
   updateConfirmButton();
 }
-
-function updateConfirmButton() {
-  const btn = document.getElementById('confirmContactBtn');
-  btn.disabled = !drawerSelectedRelationId;
-}
+function updateConfirmButton() { document.getElementById('confirmContactBtn').disabled = !drawerSelectedRelationId; }
 
 function confirmContactSelection() {
   if (!drawerSelectedRelationId) return;
-
-  const relation = (contactRelations[selectedClientId] || []).find(r => r.id === drawerSelectedRelationId);
-  if (!relation) return;
-
-  // Save displayFields back to the relation (persisted on contactRelation)
-  relation.displayFields = [...drawerDisplayFields];
-
-  // Apply to invoice
-  applyContactToInvoice(relation);
+  const rel = (contactRelations[selectedClientId]||[]).find(r => r.id === drawerSelectedRelationId);
+  if (!rel) return;
+  rel.displayFields = [...drawerDisplayFields];
+  applyContactToInvoice(rel);
   closeSelectContactDrawer();
   showToast('Contact selected for invoice');
 }
 
 // ══════════════════════════════════════════════
-// LINK CONTACT DRAWER (link a new contact to the client)
+// LINK CONTACT DRAWER
 // ══════════════════════════════════════════════
 
 function openLinkContactDrawer() {
@@ -1506,43 +1247,19 @@ function openLinkContactDrawer() {
   document.getElementById('linkIsPrimary').checked = false;
   document.getElementById('linkError').style.display = 'none';
 }
-
 function closeLinkContactDrawer() {
   document.getElementById('linkContactOverlay').classList.remove('visible');
   document.getElementById('linkContactDrawer').classList.remove('open');
   document.getElementById('linkContactDropdown').classList.remove('open');
 }
-
-function showLinkDropdown() {
-  if (linkSelectedContact) return;
-  filterLinkContacts();
-  document.getElementById('linkContactDropdown').classList.add('open');
-}
+function showLinkDropdown() { if (linkSelectedContact) return; filterLinkContacts(); document.getElementById('linkContactDropdown').classList.add('open'); }
 
 function filterLinkContacts() {
   const q = document.getElementById('linkContactSearchInput').value.toLowerCase().trim();
   const list = document.getElementById('linkContactOptions');
-  const linkedIds = (contactRelations[selectedClientId] || []).map(r => r.contactId);
-
-  const filtered = allOrgContacts.filter(c => {
-    if (linkedIds.includes(c.id)) return false;
-    if (!q) return true;
-    return `${c.firstName} ${c.lastName} ${c.email}`.toLowerCase().includes(q);
-  });
-
-  if (filtered.length === 0 && q) {
-    list.innerHTML = '<div class="no-results">No contacts found</div>';
-  } else {
-    list.innerHTML = filtered.map(c => `
-      <div class="dropdown-option" onclick="selectLinkContact('${c.id}')">
-        <div class="avatar sm">${c.initials}</div>
-        <div>
-          <div class="dropdown-opt-name">${c.firstName} ${c.lastName}</div>
-          <div class="dropdown-opt-email">${c.email}</div>
-        </div>
-      </div>
-    `).join('');
-  }
+  const linkedIds = (contactRelations[selectedClientId]||[]).map(r => r.contactId);
+  const filtered = allOrgContacts.filter(c => { if (linkedIds.includes(c.id)) return false; if (!q) return true; return `${c.firstName} ${c.lastName} ${c.email}`.toLowerCase().includes(q); });
+  list.innerHTML = filtered.length ? filtered.map(c => `<div class="client-dropdown-option" onclick="selectLinkContact('${c.id}')"><div class="biz-avatar" style="width:28px;height:28px;font-size:11px;">${c.initials}</div><div><div class="opt-name">${c.firstName} ${c.lastName}</div><div class="opt-meta">${c.email}</div></div></div>`).join('') : '<div class="no-results">No contacts found</div>';
   document.getElementById('linkDropdownDivider').style.display = filtered.length ? '' : 'none';
   document.getElementById('linkContactDropdown').classList.add('open');
 }
@@ -1557,7 +1274,6 @@ function selectLinkContact(id) {
   document.getElementById('linkChipName').textContent = `${c.firstName} ${c.lastName}`;
   document.getElementById('linkContactDropdown').classList.remove('open');
 }
-
 function clearLinkSelected() {
   linkSelectedContact = null;
   document.getElementById('linkContactSearchInput').style.display = '';
@@ -1566,71 +1282,22 @@ function clearLinkSelected() {
 }
 
 function submitLinkContact() {
-  if (!linkSelectedContact) {
-    document.getElementById('linkError').textContent = 'Please select a contact to link.';
-    document.getElementById('linkError').style.display = 'block';
-    return;
-  }
-
+  if (!linkSelectedContact) { document.getElementById('linkError').textContent='Please select a contact.'; document.getElementById('linkError').style.display='block'; return; }
   if (!selectedClientId) return;
-
-  // Check duplicate
-  const existing = (contactRelations[selectedClientId] || []).find(r => r.contactId === linkSelectedContact.id);
-  if (existing) {
-    document.getElementById('linkError').textContent = 'This contact is already linked to this client.';
-    document.getElementById('linkError').style.display = 'block';
-    return;
-  }
-
+  if ((contactRelations[selectedClientId]||[]).find(r => r.contactId===linkSelectedContact.id)) { document.getElementById('linkError').textContent='Already linked.'; document.getElementById('linkError').style.display='block'; return; }
   const isPrimary = document.getElementById('linkIsPrimary').checked;
   const showInInvoice = document.getElementById('linkShowInInvoice').checked;
-  const role = document.getElementById('linkRelationType').value;
-  const department = document.getElementById('linkDepartment').value.trim();
-
-  // If marking as primary, unmark existing
-  if (isPrimary) {
-    (contactRelations[selectedClientId] || []).forEach(r => r.isPrimary = false);
-  }
-
-  // If showInInvoice, unmark existing (only one default per client)
-  if (showInInvoice) {
-    (contactRelations[selectedClientId] || []).forEach(r => r.showInInvoice = false);
-  }
-
+  if (isPrimary) (contactRelations[selectedClientId]||[]).forEach(r => r.isPrimary=false);
+  if (showInInvoice) (contactRelations[selectedClientId]||[]).forEach(r => r.showInInvoice=false);
   if (!contactRelations[selectedClientId]) contactRelations[selectedClientId] = [];
-
-  const newRelation = {
-    id: 'cr' + (nextId++),
-    contactId: linkSelectedContact.id,
-    clientId: selectedClientId,
-    role: role,
-    department: department,
-    isPrimary: isPrimary,
-    showInInvoice: showInInvoice,
-    displayFields: ['name', 'email', 'phone'],
-    linkedOn: 'Mar 23, 2026',
-  };
-
-  contactRelations[selectedClientId].push(newRelation);
-
+  const newRel = { id:'cr'+(nextId++), contactId:linkSelectedContact.id, clientId:selectedClientId, role:document.getElementById('linkRelationType').value, department:document.getElementById('linkDepartment').value.trim(), isPrimary, showInInvoice, displayFields:['name','email','phone'], linkedOn:'Mar 23, 2026' };
+  contactRelations[selectedClientId].push(newRel);
   closeLinkContactDrawer();
-  showToast(`${linkSelectedContact.firstName} ${linkSelectedContact.lastName} linked to client`);
-
-  // Update the no-contacts state
+  showToast(`${linkSelectedContact.firstName} ${linkSelectedContact.lastName} linked`);
   document.getElementById('noContactsLinked').style.display = 'none';
-  if (!selectedInvoiceContact) {
-    document.getElementById('contactNotSelected').style.display = '';
-  }
-
-  // If the select drawer is open, refresh it
-  if (document.getElementById('selectContactDrawer').classList.contains('open')) {
-    renderDrawerContacts();
-  }
-
-  // If showInInvoice, auto-apply to current invoice
-  if (showInInvoice) {
-    applyContactToInvoice(newRelation);
-  }
+  if (!selectedInvoiceContact) document.getElementById('contactNotSelected').style.display = '';
+  if (document.getElementById('selectContactDrawer').classList.contains('open')) renderDrawerContacts();
+  if (showInInvoice) applyContactToInvoice(newRel);
 }
 
 // ══════════════════════════════════════════════
@@ -1641,80 +1308,37 @@ function openCreateContactDrawer() {
   document.getElementById('linkContactDropdown').classList.remove('open');
   document.getElementById('createContactOverlay').classList.add('visible');
   document.getElementById('createContactDrawer').classList.add('open');
-  document.getElementById('newFirstName').value = '';
-  document.getElementById('newLastName').value = '';
-  document.getElementById('newEmail').value = '';
-  document.getElementById('newPhone').value = '';
-
-  // Pre-fill from search text
-  const searchVal = document.getElementById('linkContactSearchInput').value.trim();
-  if (searchVal) {
-    const parts = searchVal.split(' ');
-    document.getElementById('newFirstName').value = parts[0] || '';
-    document.getElementById('newLastName').value = parts.slice(1).join(' ') || '';
-  }
+  ['newFirstName','newLastName','newEmail','newPhone'].forEach(id => document.getElementById(id).value='');
+  const sv = document.getElementById('linkContactSearchInput').value.trim();
+  if (sv) { const p=sv.split(' '); document.getElementById('newFirstName').value=p[0]||''; document.getElementById('newLastName').value=p.slice(1).join(' ')||''; }
 }
-
 function closeCreateContactDrawer() {
   document.getElementById('createContactOverlay').classList.remove('visible');
   document.getElementById('createContactDrawer').classList.remove('open');
 }
-
 function submitCreateContact() {
-  const firstName = document.getElementById('newFirstName').value.trim();
-  const lastName = document.getElementById('newLastName').value.trim();
-  const email = document.getElementById('newEmail').value.trim();
-  const phone = document.getElementById('newPhone').value.trim();
-
-  if (!firstName) {
-    alert('First name is required');
-    return;
-  }
-
-  const initials = (firstName[0] + (lastName ? lastName[0] : '')).toUpperCase();
-  const newContact = {
-    id: 'c' + (nextId++),
-    firstName, lastName,
-    email: email || `${firstName.toLowerCase()}@example.com`,
-    phone: phone || '',
-    initials,
-  };
-
-  allOrgContacts.push(newContact);
+  const fn=document.getElementById('newFirstName').value.trim(), ln=document.getElementById('newLastName').value.trim();
+  if (!fn) { alert('First name is required'); return; }
+  const em=document.getElementById('newEmail').value.trim(), ph=document.getElementById('newPhone').value.trim();
+  const ini=(fn[0]+(ln?ln[0]:'')).toUpperCase();
+  const nc = { id:'c'+(nextId++), firstName:fn, lastName:ln, email:em||`${fn.toLowerCase()}@example.com`, phone:ph||'', initials:ini };
+  allOrgContacts.push(nc);
   closeCreateContactDrawer();
-  selectLinkContact(newContact.id);
-  showToast(`Contact "${firstName} ${lastName}" created`);
+  selectLinkContact(nc.id);
+  showToast(`Contact "${fn} ${ln}" created`);
 }
 
 // ══════════════════════════════════════════════
-// SAVE INVOICE (demo)
+// SAVE INVOICE
 // ══════════════════════════════════════════════
 
 function handleSaveInvoice() {
-  if (!selectedClientId) {
-    showToast('Please select a client first');
-    return;
-  }
-
-  // Build the invoice payload showing what gets saved
-  const payload = {
-    client: selectedClientId,
-    invoiceNumber: 'INV-2026-0047',
-    invoiceDate: '2026-03-23',
-    dueDate: '2026-04-22',
-  };
-
+  if (!selectedClientId) { showToast('Please select a client'); return; }
+  const payload = { client:selectedClientId, invoiceNumber:'INV-2026-0047', invoiceDate:'2026-03-23', dueDate:'2026-04-22' };
   if (selectedInvoiceContact) {
-    // This is the immutable snapshot stored on the invoice document
-    payload.invoiceContact = {
-      contactId: selectedInvoiceContact.contactId,
-      contactRelationId: selectedInvoiceContact.contactRelationId,
-      ...selectedInvoiceContact.snapshot,
-      displayFields: selectedInvoiceContact.displayFields,
-    };
+    payload.invoiceContact = { contactId:selectedInvoiceContact.contactId, contactRelationId:selectedInvoiceContact.contactRelationId, ...selectedInvoiceContact.snapshot, displayFields:selectedInvoiceContact.displayFields };
   }
-
-  console.log('Invoice payload (what gets saved):', JSON.stringify(payload, null, 2));
+  console.log('Invoice payload:', JSON.stringify(payload, null, 2));
   showToast('Invoice saved! Check console for payload.');
 }
 
@@ -1722,83 +1346,66 @@ function handleSaveInvoice() {
 // UTILITIES
 // ══════════════════════════════════════════════
 
-function toggleSection(header) {
-  header.classList.toggle('open');
-  const body = header.nextElementSibling;
-  body.classList.toggle('open');
+function toggleSection(header) { header.classList.toggle('open'); header.nextElementSibling.classList.toggle('open'); }
+
+function toggleOptional(id, btn) {
+  const el = document.getElementById('opt-'+id);
+  const isOpen = el.classList.toggle('open');
+  btn.classList.toggle('active', isOpen);
 }
 
 function showToast(msg) {
-  const toast = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  toast.classList.add('visible');
-  setTimeout(() => toast.classList.remove('visible'), 3000);
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('visible');
+  setTimeout(()=>t.classList.remove('visible'),3000);
 }
 
-// Close client dropdown on outside click
-document.addEventListener('click', (e) => {
-  const clientWrap = document.getElementById('clientSearchInput');
-  const clientDropdown = document.getElementById('clientDropdown');
-  if (clientWrap && !clientWrap.contains(e.target) && !clientDropdown.contains(e.target)) {
-    clientDropdown.classList.remove('open');
-  }
-
-  const linkWrap = document.getElementById('linkContactSelectWrap');
-  const linkDropdown = document.getElementById('linkContactDropdown');
-  if (linkWrap && !linkWrap.contains(e.target)) {
-    linkDropdown.classList.remove('open');
-  }
+document.addEventListener('click', e => {
+  const ci=document.getElementById('clientSearchInput'), cd=document.getElementById('clientDropdown');
+  if (ci && !ci.contains(e.target) && !cd.contains(e.target)) cd.classList.remove('open');
+  const lw=document.getElementById('linkContactSelectWrap'), ld=document.getElementById('linkContactDropdown');
+  if (lw && !lw.contains(e.target)) ld.classList.remove('open');
 });
 
 // ══════════════════════════════════════════════
-// INIT — Auto-select first client to show the full flow
+// INIT — Auto-select Gupta Industries to show full flow
 // ══════════════════════════════════════════════
-
-// Start with Gupta Industries selected to demonstrate the contact flow
 selectClient('cl1');
 </script>
 
 <!--
   PROTOTYPE NOTES — Invoice Contact Display Feature
 
-  DATA MODEL:
-  - contactRelations gets two new fields:
-    - showInInvoice (Boolean) — marks which contact is the default for invoices (one per client)
-    - displayFields ([String]) — which contact fields to show (e.g. ["name", "email", "phone"])
-  - Invoice document gets a new embedded object:
-    - invoiceContact: { contactId, contactRelationId, name, email, phone, designation, department, displayFields }
-    - This is a SNAPSHOT — immutable after save. Even if the contact is later edited or unlinked, the invoice retains the original data.
+  PRODUCTION LAYOUT MATCH:
+  - Stepper above the card (InvoiceStepper: "Invoice Details" > "Add Banking Details" > "Design & Share")
+  - Single card (InvoiceCard) with 12px radius, 32px padding
+  - Headers section: two-column flex — fields left (invoice #, date, due date, PO#), logo upload right
+  - Business section: two equal side-by-side boxes — "Billed By" left, "Billed To" right
+  - Client selector is a searchable dropdown INSIDE the Billed To box (matches BusinessSelection)
+  - Line items with colored header bar and CSS grid (matches LineItems)
+  - Totals right-aligned in neutral-50 box (matches InvoiceBalance)
+  - Optional sections toggled via pill buttons (matches ButtonGroup: Terms, Notes, Attachments, Contact, Signature)
+  - Form buttons at bottom: "Save as Draft" + "Save Invoice"
 
-  FLOW:
-  1. User selects a client → contact section appears
-  2. If client has a contact with showInInvoice:true → auto-selected with saved displayFields
-  3. User can click to change contact → opens drawer with all linked contacts
-  4. In drawer: pick a contact, then check which fields to display via checkboxes
-  5. displayFields selection is saved back to the contactRelation (persists for next invoice)
-  6. If no contacts linked → empty state with "Link a Contact" CTA
-  7. Link Contact drawer → search org contacts, create inline, set relation type + showInInvoice
-  8. On save → invoice stores immutable snapshot of contact details + displayFields
-
-  KEY DECISIONS:
-  - showInInvoice is on contactRelation, not contact — a contact may be linked to multiple clients
-  - displayFields is on contactRelation — different clients may want different fields shown
-  - Name is always included (checkbox disabled) — you can't show a contact without a name
-  - Invoice preview updates live as contact/fields change
-  - Only one showInInvoice per client (toggling one off-toggles the previous)
-  - The "Save Invoice" button logs the full payload to console showing the snapshot shape
+  NEW FEATURE — CONTACT PERSON ON INVOICE:
+  - Sits inside the "Billed To" box, below client details, separated by a border
+  - showInInvoice (Boolean) on contactRelation — marks default contact for invoices
+  - displayFields ([String]) on contactRelation — which fields to show
+  - Invoice document stores immutable snapshot: { contactId, contactRelationId, name, email, phone, designation, department, displayFields }
+  - Field tags (purple chips) show which fields will appear on the invoice
+  - Select drawer: pick from linked contacts + choose display fields via checkboxes
+  - Link drawer: link a new contact to the client inline
+  - Create drawer: create a brand new contact and auto-link
 
   COMPONENTS REFERENCED:
-  - Client selector mimics the client dropdown in NewDocument.jsx (onClientSearch, addNewClient)
-  - Contact drawer pattern matches LinkContactModal from jupiter PR #2865
-  - Field checkboxes are a new pattern for this feature
-  - Invoice preview shows how contact renders in billing details (embedded, not separate section)
-
-  OUT OF SCOPE:
-  - Non-invoice bill types
-  - Actual PDF rendering
-  - Backend API
-  - Permission controls
-  - Multiple contacts per invoice
+  - InvoiceForm (jupiter) — overall layout, stepper, card structure
+  - BusinessSelection (jupiter/widgets) — Billed By/To boxes
+  - LineItems (jupiter/widgets) — colored header, grid layout
+  - InvoiceBalance (jupiter/widgets) — right-aligned totals
+  - ButtonGroup (jupiter/widgets) — toggle pills for optional sections
+  - FormButtons (jupiter) — save bar
+  - LinkContactModal (jupiter) — contact search/create pattern
 -->
 </body>
 </html>
