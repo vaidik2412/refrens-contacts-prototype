@@ -457,6 +457,35 @@ body {
   display: flex; align-items: center; gap: 8px; flex-shrink: 0;
 }
 
+/* ─── Modal (centered, for Client create/edit on invoice page) ─── */
+.modal {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 640px; max-height: 85vh;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(20,28,39,0.18);
+  z-index: 210; display: none; flex-direction: column;
+  opacity: 0; transition: opacity 0.2s, transform 0.2s;
+}
+.modal.open { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px; border-bottom: 1px solid #EFF2F6; flex-shrink: 0;
+}
+.modal-title { font-size: 17px; font-weight: 600; color: #2F3945; }
+.modal-close {
+  width: 32px; height: 32px; border: none; background: none;
+  cursor: pointer; color: #686F78; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.modal-close:hover { background: #F7F9FA; color: #2F3945; }
+.modal-body { flex: 1; overflow-y: auto; padding: 24px; }
+.modal-footer {
+  padding: 12px 24px; border-top: 1px solid #EFF2F6;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+
 /* ─── Contact list in drawer ─── */
 .contact-list-item {
   display: flex; align-items: center; gap: 12px;
@@ -990,14 +1019,14 @@ body {
   </div>
 </div>
 
-<!-- ═══ Create / Edit Client Drawer ═══ -->
-<div class="overlay" id="clientDrawerOverlay" onclick="closeClientDrawer()"></div>
-<div class="drawer" id="clientDrawer" style="width:580px;">
-  <div class="drawer-header">
-    <span class="drawer-title" id="clientDrawerTitle">New Client</span>
-    <button class="drawer-close" onclick="closeClientDrawer()">&#10005;</button>
+<!-- ═══ Create / Edit Client Modal ═══ -->
+<div class="overlay" id="clientModalOverlay" onclick="closeClientModal()"></div>
+<div class="modal" id="clientModal">
+  <div class="modal-header">
+    <span class="modal-title" id="clientModalTitle">New Client</span>
+    <button class="modal-close" onclick="closeClientModal()">&#10005;</button>
   </div>
-  <div class="drawer-body">
+  <div class="modal-body">
 
     <!-- Basic Details -->
     <div style="margin-bottom:24px;">
@@ -1089,9 +1118,9 @@ body {
     </div>
 
   </div>
-  <div class="drawer-footer">
-    <button class="btn btn-secondary" onclick="closeClientDrawer()">Cancel</button>
-    <button class="btn btn-primary" id="cdSaveBtn" onclick="saveClientDrawer()">Save Client</button>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeClientModal()">Cancel</button>
+    <button class="btn btn-primary" id="cdSaveBtn" onclick="saveClientModal()">Save Client</button>
   </div>
 </div>
 
@@ -1359,10 +1388,18 @@ function closeLinkContactDrawer() {
 }
 function showLinkDropdown() { if (linkSelectedContact) return; filterLinkContacts(); document.getElementById('linkContactDropdown').classList.add('open'); }
 
+// Resolves the client id to link contacts against — works from invoice OR from client modal
+function getLinkTargetClientId() {
+  const modalOpen = document.getElementById('clientModal').classList.contains('open');
+  if (modalOpen) return getModalClientId();
+  return selectedClientId;
+}
+
 function filterLinkContacts() {
   const q = document.getElementById('linkContactSearchInput').value.toLowerCase().trim();
   const list = document.getElementById('linkContactOptions');
-  const linkedIds = (contactRelations[selectedClientId]||[]).map(r => r.contactId);
+  const targetId = getLinkTargetClientId();
+  const linkedIds = (contactRelations[targetId]||[]).map(r => r.contactId);
   const filtered = allOrgContacts.filter(c => { if (linkedIds.includes(c.id)) return false; if (!q) return true; return `${c.firstName} ${c.lastName} ${c.email}`.toLowerCase().includes(q); });
   list.innerHTML = filtered.length ? filtered.map(c => `<div class="client-dropdown-option" onclick="selectLinkContact('${c.id}')"><div class="biz-avatar" style="width:28px;height:28px;font-size:11px;">${c.initials}</div><div><div class="opt-name">${c.firstName} ${c.lastName}</div><div class="opt-meta">${c.email}</div></div></div>`).join('') : '<div class="no-results">No contacts found</div>';
   document.getElementById('linkDropdownDivider').style.display = filtered.length ? '' : 'none';
@@ -1388,17 +1425,22 @@ function clearLinkSelected() {
 
 function submitLinkContact() {
   if (!linkSelectedContact) { document.getElementById('linkError').textContent='Please select a contact.'; document.getElementById('linkError').style.display='block'; return; }
-  if (!selectedClientId) return;
-  if ((contactRelations[selectedClientId]||[]).find(r => r.contactId===linkSelectedContact.id)) { document.getElementById('linkError').textContent='Already linked.'; document.getElementById('linkError').style.display='block'; return; }
+  const targetId = getLinkTargetClientId();
+  if (!targetId) { document.getElementById('linkError').textContent='No client context.'; document.getElementById('linkError').style.display='block'; return; }
+  if ((contactRelations[targetId]||[]).find(r => r.contactId===linkSelectedContact.id)) { document.getElementById('linkError').textContent='Already linked.'; document.getElementById('linkError').style.display='block'; return; }
   const isPrimary = document.getElementById('linkIsPrimary').checked;
   const showInInvoice = document.getElementById('linkShowInInvoice').checked;
-  if (isPrimary) (contactRelations[selectedClientId]||[]).forEach(r => r.isPrimary=false);
-  if (showInInvoice) (contactRelations[selectedClientId]||[]).forEach(r => r.showInInvoice=false);
-  if (!contactRelations[selectedClientId]) contactRelations[selectedClientId] = [];
-  const newRel = { id:'cr'+(nextId++), contactId:linkSelectedContact.id, clientId:selectedClientId, role:document.getElementById('linkRelationType').value, department:document.getElementById('linkDepartment').value.trim(), isPrimary, showInInvoice, displayFields:['name','email','phone'], linkedOn:'Mar 23, 2026' };
-  contactRelations[selectedClientId].push(newRel);
+  if (isPrimary) (contactRelations[targetId]||[]).forEach(r => r.isPrimary=false);
+  if (showInInvoice) (contactRelations[targetId]||[]).forEach(r => r.showInInvoice=false);
+  if (!contactRelations[targetId]) contactRelations[targetId] = [];
+  const newRel = { id:'cr'+(nextId++), contactId:linkSelectedContact.id, clientId:targetId, role:document.getElementById('linkRelationType').value, department:document.getElementById('linkDepartment').value.trim(), isPrimary, showInInvoice, displayFields:['name','email','phone'], linkedOn:'Mar 23, 2026' };
+  contactRelations[targetId].push(newRel);
   closeLinkContactDrawer();
   showToast(`${linkSelectedContact.firstName} ${linkSelectedContact.lastName} linked`);
+  // If client modal is open, refresh its contacts list
+  const modalOpen = document.getElementById('clientModal').classList.contains('open');
+  if (modalOpen) { renderClientModalContacts(targetId); return; }
+  // Otherwise update invoice contact section
   document.getElementById('noContactsLinked').style.display = 'none';
   if (!selectedInvoiceContact) document.getElementById('contactNotSelected').style.display = '';
   if (document.getElementById('selectContactDrawer').classList.contains('open')) renderDrawerContacts();
@@ -1434,60 +1476,70 @@ function submitCreateContact() {
 }
 
 // ══════════════════════════════════════════════
-// CREATE / EDIT CLIENT DRAWER
+// CREATE / EDIT CLIENT MODAL
 // ══════════════════════════════════════════════
 
-let clientDrawerMode = 'create'; // 'create' or 'edit'
+let clientModalMode = 'create'; // 'create' or 'edit'
 let editingClientId = null;
+// Temp client id used during create — so Link Contact works before saving
+let pendingClientId = null;
 
 function openCreateClientDrawer() {
-  clientDrawerMode = 'create';
+  clientModalMode = 'create';
   editingClientId = null;
-  document.getElementById('clientDrawerTitle').textContent = 'New Client';
+  // Create a pending client id so Link Contact works
+  pendingClientId = 'cl_pending_' + (nextId++);
+  contactRelations[pendingClientId] = [];
+  document.getElementById('clientModalTitle').textContent = 'New Client';
   document.getElementById('cdSaveBtn').textContent = 'Save Client';
   document.getElementById('clientDropdown').classList.remove('open');
-  // Clear all fields
   ['cdClientName','cdEmail','cdPhone','cdGstin','cdPan','cdStreet','cdCity','cdState','cdPincode'].forEach(id => document.getElementById(id).value = '');
-  // Pre-fill search text as client name
   const sv = document.getElementById('clientSearchInput').value.trim();
   if (sv) document.getElementById('cdClientName').value = sv;
-  renderClientDrawerContacts(null);
-  document.getElementById('clientDrawerOverlay').classList.add('visible');
-  document.getElementById('clientDrawer').classList.add('open');
+  renderClientModalContacts(pendingClientId);
+  document.getElementById('clientModalOverlay').classList.add('visible');
+  document.getElementById('clientModal').classList.add('open');
 }
 
 function openEditClientDrawer() {
   if (!selectedClientId) return;
-  clientDrawerMode = 'edit';
+  clientModalMode = 'edit';
   editingClientId = selectedClientId;
+  pendingClientId = null;
   const client = clients.find(c => c.id === selectedClientId);
   if (!client) return;
-  document.getElementById('clientDrawerTitle').textContent = 'Edit Client';
+  document.getElementById('clientModalTitle').textContent = 'Edit Client';
   document.getElementById('cdSaveBtn').textContent = 'Update Client';
-  // Parse address from HTML
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = client.address;
-  const addrParts = tempDiv.textContent.split(',').map(s => s.trim());
   document.getElementById('cdClientName').value = client.name;
   document.getElementById('cdEmail').value = client.email || '';
   document.getElementById('cdPhone').value = client.phone || '';
   document.getElementById('cdGstin').value = client.gstin || '';
   document.getElementById('cdPan').value = client.pan || '';
-  document.getElementById('cdStreet').value = client.street || addrParts[0] || '';
-  document.getElementById('cdCity').value = client.city || addrParts.slice(-2,-1)[0] || '';
+  document.getElementById('cdStreet').value = client.street || '';
+  document.getElementById('cdCity').value = client.city || '';
   document.getElementById('cdState').value = client.state || '';
   document.getElementById('cdPincode').value = client.pincode || '';
-  renderClientDrawerContacts(selectedClientId);
-  document.getElementById('clientDrawerOverlay').classList.add('visible');
-  document.getElementById('clientDrawer').classList.add('open');
+  renderClientModalContacts(selectedClientId);
+  document.getElementById('clientModalOverlay').classList.add('visible');
+  document.getElementById('clientModal').classList.add('open');
 }
 
-function closeClientDrawer() {
-  document.getElementById('clientDrawerOverlay').classList.remove('visible');
-  document.getElementById('clientDrawer').classList.remove('open');
+function closeClientModal() {
+  document.getElementById('clientModalOverlay').classList.remove('visible');
+  document.getElementById('clientModal').classList.remove('open');
+  // Clean up pending client if cancelled
+  if (pendingClientId && contactRelations[pendingClientId]) {
+    delete contactRelations[pendingClientId];
+    pendingClientId = null;
+  }
 }
 
-function renderClientDrawerContacts(clientId) {
+// Returns the effective client id for linking contacts (works during create & edit)
+function getModalClientId() {
+  return clientModalMode === 'edit' ? editingClientId : pendingClientId;
+}
+
+function renderClientModalContacts(clientId) {
   const relations = clientId ? (contactRelations[clientId] || []) : [];
   const countEl = document.getElementById('cdContactCount');
   const listEl = document.getElementById('cdContactsList');
@@ -1516,7 +1568,7 @@ function renderClientDrawerContacts(clientId) {
   }).join('');
 }
 
-function saveClientDrawer() {
+function saveClientModal() {
   const name = document.getElementById('cdClientName').value.trim();
   if (!name) { alert('Client name is required'); return; }
   const email = document.getElementById('cdEmail').value.trim();
@@ -1528,34 +1580,39 @@ function saveClientDrawer() {
   const state = document.getElementById('cdState').value.trim();
   const pincode = document.getElementById('cdPincode').value.trim();
   const initials = name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
-  const addrParts = [street, city, state, pincode].filter(Boolean);
-  const addressHtml = addrParts.length ? addrParts.slice(0,-1).join(', ') + (pincode ? ' ' + pincode : '') : '';
+  const addrLines = [street, [city, state].filter(Boolean).join(', ')].filter(Boolean);
+  const addressHtml = addrLines.join('<br>') + (pincode ? ' ' + pincode : '');
   const location = [city, state].filter(Boolean).join(', ');
 
-  if (clientDrawerMode === 'edit' && editingClientId) {
-    // Update existing client
+  if (clientModalMode === 'edit' && editingClientId) {
     const client = clients.find(c => c.id === editingClientId);
     if (client) {
       client.name = name; client.initials = initials; client.gstin = gstin;
       client.location = location; client.email = email; client.phone = phone;
       client.pan = pan; client.street = street; client.city = city; client.state = state; client.pincode = pincode;
-      client.address = addressHtml.replace(/, /g, '<br>');
-      // Refresh Billed To display
+      client.address = addressHtml;
       if (selectedClientId === editingClientId) {
         document.getElementById('selectedClientAvatar').textContent = initials;
         document.getElementById('selectedClientName').textContent = name;
         document.getElementById('selectedClientDetail').innerHTML = client.address + (gstin ? '<br><strong>GSTIN:</strong> ' + gstin : '');
       }
     }
-    closeClientDrawer();
+    document.getElementById('clientModalOverlay').classList.remove('visible');
+    document.getElementById('clientModal').classList.remove('open');
+    pendingClientId = null;
     showToast(`"${name}" updated`);
   } else {
-    // Create new client
+    // Create new client — transfer pending relations to real id
     const newId = 'cl' + (nextId++);
-    const newClient = { id:newId, name, initials, gstin, location, email, phone, pan, street, city, state, pincode, address:addressHtml.replace(/, /g, '<br>') };
+    const pendingRelations = pendingClientId ? (contactRelations[pendingClientId] || []) : [];
+    // Move relations to the new real id
+    contactRelations[newId] = pendingRelations.map(r => ({ ...r, clientId: newId }));
+    if (pendingClientId) delete contactRelations[pendingClientId];
+    pendingClientId = null;
+    const newClient = { id:newId, name, initials, gstin, location, email, phone, pan, street, city, state, pincode, address:addressHtml };
     clients.push(newClient);
-    contactRelations[newId] = [];
-    closeClientDrawer();
+    document.getElementById('clientModalOverlay').classList.remove('visible');
+    document.getElementById('clientModal').classList.remove('open');
     selectClient(newId);
     showToast(`"${name}" created & selected`);
   }
