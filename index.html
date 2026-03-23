@@ -1,9 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="refresh" content="0; url=prototype-client-contacts.html">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refrens — Contacts Prototypes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #F7F9FA;
+  color: #2F3945;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 640px;
+  width: 100%;
+}
+.proto-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.proto-card:hover {
+  border-color: #4F46E5;
+  box-shadow: 0 4px 16px rgba(79,70,229,0.1);
+  transform: translateY(-2px);
+}
+.proto-card .icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: #F7F3FD;
+  color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+}
+.proto-card h2 { font-size: 16px; font-weight: 600; }
+.proto-card p { font-size: 13px; color: #686F78; line-height: 1.5; }
+.proto-card .tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 12px;
+  background: #ECFDF5; color: #059669;
+  margin-top: 4px; width: fit-content;
+}
+h1 {
+  font-size: 20px; font-weight: 700; color: #2F3945;
+  text-align: center;
+  margin-bottom: 24px;
+  grid-column: 1 / -1;
+}
+</style>
 </head>
 <body>
-<a href="prototype-client-contacts.html">Redirecting...</a>
+<div class="card-grid">
+  <h1>Contacts Prototypes</h1>
+  <a href="prototype-client-contacts.html" class="proto-card">
+    <div class="icon">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+    </div>
+    <h2>Client Form — Linked Contacts</h2>
+    <p>Link, unlink, and manage contacts on the client create/edit form.</p>
+    <span class="tag">Phase 1</span>
+  </a>
+  <a href="prototype-invoice-contact.html" class="proto-card">
+    <div class="icon">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+    <h2>Invoice — Contact on Invoice</h2>
+    <p>Select a contact to display on the invoice with field selection and immutable snapshot.</p>
+    <span class="tag">Phase 2</span>
+  </a>
+</div>
 </body>
 </html>
