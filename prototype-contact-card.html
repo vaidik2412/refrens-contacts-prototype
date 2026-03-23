@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refrens — Contact Card Component</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset & Jupiter Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #2F3945;
+  background: #F7F9FA;
+  letter-spacing: -0.25px;
+  line-height: 1.5;
+}
+
+/* ─── Page layout ─── */
+.page { max-width: 960px; margin: 0 auto; padding: 32px; }
+.page-title { font-size: 24px; font-weight: 700; color: #2F3945; letter-spacing: -1px; margin-bottom: 4px; }
+.page-subtitle { font-size: 14px; color: #8B95A1; margin-bottom: 32px; }
+
+/* Section divider */
+.section { margin-bottom: 40px; }
+.section-label {
+  font-size: 12px; font-weight: 600; color: #8B95A1;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 16px; padding-bottom: 8px;
+  border-bottom: 1px solid #EEF2F5;
+}
+.variant-label {
+  font-size: 13px; font-weight: 500; color: #686F78;
+  margin-bottom: 8px;
+}
+.variant-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.variant-col { flex: 1; min-width: 280px; }
+
+/* ═══════════════════════════════════════════
+   CONTACT CARD COMPONENT
+   ═══════════════════════════════════════════ */
+
+/* ─── Base card ─── */
+.contact-card {
+  background: #FFFFFF;
+  border: 1px solid #EEF2F5;
+  border-radius: 12px;
+  padding: 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.contact-card:hover {
+  border-color: #DCE0E3;
+  box-shadow: 0 2px 8px rgba(20,28,39,0.06);
+}
+
+/* ─── Header row: avatar + name + badges + actions ─── */
+.cc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cc-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #F7F3FD; color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; flex-shrink: 0;
+  letter-spacing: 0;
+}
+.cc-avatar.sm { width: 32px; height: 32px; font-size: 12px; }
+.cc-identity { flex: 1; min-width: 0; }
+.cc-name {
+  font-size: 14px; font-weight: 600; color: #2F3945;
+  letter-spacing: -0.25px;
+  display: flex; align-items: center; gap: 6px;
+}
+.cc-role {
+  font-size: 12px; font-weight: 400; color: #8B95A1;
+  letter-spacing: -0.25px; margin-top: 1px;
+}
+.cc-badges { display: flex; gap: 4px; margin-top: 4px; }
+
+/* Badges */
+.cc-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 8px; border-radius: 6px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0;
+}
+.cc-badge-primary { background: #F7F3FD; color: #7B3EFF; }
+.cc-badge-invoice { background: #ECFDF5; color: #059669; }
+.cc-badge-neutral { background: #F7F9FA; color: #686F78; border: 1px solid #EEF2F5; }
+
+/* Actions */
+.cc-actions {
+  display: flex; gap: 2px; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.15s;
+}
+.contact-card:hover .cc-actions { opacity: 1; }
+.cc-action {
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #8B95A1; transition: all 0.1s;
+}
+.cc-action:hover { background: #F7F3FD; color: #7B3EFF; }
+.cc-action.danger:hover { background: #FEE2E2; color: #EF4444; }
+
+/* Always show actions (for touch / mobile) */
+.contact-card.actions-visible .cc-actions { opacity: 1; }
+
+/* ─── Detail rows (email, phone, department etc.) ─── */
+.cc-details {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid #EEF2F5;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cc-detail-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 13px;
+}
+.cc-detail-icon {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: #C7CDD6; margin-top: 2px;
+}
+.cc-detail-label {
+  width: 80px; flex-shrink: 0;
+  font-size: 12px; font-weight: 500; color: #8B95A1;
+}
+.cc-detail-value {
+  font-size: 13px; font-weight: 400; color: #2F3945;
+  letter-spacing: -0.25px;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.cc-detail-value a { color: #4F46E5; text-decoration: none; }
+.cc-detail-value a:hover { text-decoration: underline; }
+
+/* ─── Compact variant (for table rows / inline use) ─── */
+.contact-card.compact {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.contact-card.compact .cc-details { display: none; }
+.contact-card.compact .cc-avatar { width: 32px; height: 32px; font-size: 12px; }
+.contact-card.compact .cc-name { font-size: 13px; }
+
+/* ─── Inline variant (no card chrome, for embedding in tables) ─── */
+.contact-card.inline {
+  background: transparent;
+  border: none; border-radius: 0;
+  padding: 0; box-shadow: none;
+}
+.contact-card.inline:hover { border-color: transparent; box-shadow: none; }
+.contact-card.inline .cc-actions { opacity: 1; }
+
+/* ─── Selectable variant (for picker drawers) ─── */
+.contact-card.selectable {
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.contact-card.selectable:hover {
+  border-color: #EDE4FB;
+  background: #FDFCFF;
+  box-shadow: none;
+}
+.contact-card.selectable.selected {
+  border-color: #7B3EFF;
+  background: #FDFCFF;
+}
+.cc-select-indicator {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #DCE0E3; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.contact-card.selectable.selected .cc-select-indicator {
+  border-color: #7B3EFF; background: #7B3EFF;
+}
+
+/* ─── Skeleton / loading ─── */
+.contact-card.skeleton .cc-avatar { background: #EEF2F5; }
+.skeleton-line {
+  height: 12px; border-radius: 4px; background: #EEF2F5;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.skeleton-line.w60 { width: 60%; }
+.skeleton-line.w40 { width: 40%; }
+.skeleton-line.w80 { width: 80%; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Context surfaces (shows card in different backgrounds) ─── */
+.surface-white { background: #FFFFFF; padding: 24px; border-radius: 12px; border: 1px solid #EEF2F5; }
+.surface-gray { background: #F7F9FA; padding: 24px; border-radius: 12px; }
+.surface-drawer {
+  background: #FFFFFF; padding: 24px;
+  border-radius: 12px; border: 1px solid #EEF2F5;
+  box-shadow: 0 2px 8px rgba(20,28,39,0.08);
+}
+
+/* ─── Utility ─── */
+.icon-svg { width: 14px; height: 14px; }
+
+/* ─── Context header (simulates where the card lives) ─── */
+.context-header {
+  font-size: 11px; font-weight: 600; color: #8B95A1;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.context-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.context-dot.green { background: #059669; }
+.context-dot.purple { background: #7B3EFF; }
+.context-dot.gray { background: #8B95A1; }
+
+/* ─── More menu ─── */
+.cc-more-menu {
+  position: absolute; top: 100%; right: 0; margin-top: 4px;
+  background: #FFFFFF; border: 1px solid #EEF2F5;
+  border-radius: 8px; box-shadow: 0 4px 16px rgba(20,28,39,0.12);
+  min-width: 180px; z-index: 10; display: none;
+  padding: 4px 0;
+}
+.cc-more-menu.open { display: block; }
+.cc-menu-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; font-size: 13px; color: #2F3945;
+  cursor: pointer; transition: background 0.1s;
+  border: none; background: none; width: 100%; text-align: left;
+  font-family: 'Inter', sans-serif; letter-spacing: -0.25px;
+}
+.cc-menu-item:hover { background: #F7F9FA; }
+.cc-menu-item.danger { color: #EF4444; }
+.cc-menu-item.danger:hover { background: #FEF2F2; }
+.cc-menu-icon { width: 16px; color: #8B95A1; }
+.cc-menu-item.danger .cc-menu-icon { color: #EF4444; }
+
+/* ─── Toggle switch ─── */
+.cc-toggle {
+  position: relative; width: 36px; height: 20px;
+  background: #DCE0E3; border-radius: 10px;
+  cursor: pointer; transition: background 0.2s;
+  flex-shrink: 0;
+}
+.cc-toggle.on { background: #7B3EFF; }
+.cc-toggle::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #FFFFFF; transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.cc-toggle.on::after { transform: translateX(16px); }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="page-title">Contact Card Component</div>
+  <div class="page-subtitle">Reusable component for full-page forms, drawers, modals, and invoice display</div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 1: Default / Expanded -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">1. Default — Full Card (forms, detail panels)</div>
+    <div class="variant-row">
+      <div class="variant-col">
+        <div class="variant-label">With all details + badges</div>
+        <div class="contact-card actions-visible">
+          <div class="cc-header">
+            <div class="cc-avatar">SG</div>
+            <div class="cc-identity">
+              <div class="cc-name">Sunita Gupta</div>
+              <div class="cc-role">CFO &middot; Finance</div>
+              <div class="cc-badges">
+                <span class="cc-badge cc-badge-primary">Primary</span>
+                <span class="cc-badge cc-badge-invoice">Show on Invoice</span>
+              </div>
+            </div>
+            <div class="cc-actions">
+              <button class="cc-action" title="Edit">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="cc-action" title="More" onclick="this.nextElementSibling.classList.toggle('open')">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+              </button>
+              <div class="cc-more-menu">
+                <button class="cc-menu-item">
+                  <svg class="cc-menu-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  Mark as Primary
+                </button>
+                <button class="cc-menu-item">
+                  <svg class="cc-menu-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                  Show on Invoice
+                </button>
+                <button class="cc-menu-item danger">
+                  <svg class="cc-menu-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  Unlink Contact
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="cc-details">
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Email</div>
+              <div class="cc-detail-value"><a href="#">sunita@guptaindustries.in</a></div>
+            </div>
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Phone</div>
+              <div class="cc-detail-value">+91 65432 10987</div>
+            </div>
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Department</div>
+              <div class="cc-detail-value">Finance</div>
+            </div>
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Linked On</div>
+              <div class="cc-detail-value">Mar 15, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="variant-col">
+        <div class="variant-label">Minimal details (no badges)</div>
+        <div class="contact-card actions-visible">
+          <div class="cc-header">
+            <div class="cc-avatar">RM</div>
+            <div class="cc-identity">
+              <div class="cc-name">Rahul Mehta</div>
+              <div class="cc-role">Procurement Head &middot; Purchasing</div>
+            </div>
+            <div class="cc-actions">
+              <button class="cc-action" title="Edit">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="cc-action danger" title="Remove">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cc-details">
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Email</div>
+              <div class="cc-detail-value">rahul@mehtatraders.in</div>
+            </div>
+            <div class="cc-detail-row">
+              <div class="cc-detail-label">Phone</div>
+              <div class="cc-detail-value">+91 98765 43210</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 2: Compact -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">2. Compact — Table rows / List items</div>
+    <div style="display:flex; flex-direction:column; gap:4px; max-width:480px;">
+      <div class="contact-card compact">
+        <div class="cc-header">
+          <div class="cc-avatar sm">SG</div>
+          <div class="cc-identity">
+            <div class="cc-name">
+              Sunita Gupta
+              <span class="cc-badge cc-badge-primary" style="font-size:10px; padding:1px 6px;">Primary</span>
+              <span class="cc-badge cc-badge-invoice" style="font-size:10px; padding:1px 6px;">Invoice</span>
+            </div>
+            <div class="cc-role">CFO &middot; Finance &middot; sunita@guptaindustries.in</div>
+          </div>
+          <div class="cc-actions">
+            <button class="cc-action" title="Edit">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="cc-action" title="More">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="contact-card compact">
+        <div class="cc-header">
+          <div class="cc-avatar sm">RM</div>
+          <div class="cc-identity">
+            <div class="cc-name">Rahul Mehta</div>
+            <div class="cc-role">Procurement Head &middot; Purchasing &middot; rahul@mehtatraders.in</div>
+          </div>
+          <div class="cc-actions">
+            <button class="cc-action" title="Edit">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="cc-action" title="More">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="contact-card compact">
+        <div class="cc-header">
+          <div class="cc-avatar sm">PP</div>
+          <div class="cc-identity">
+            <div class="cc-name">Priya Patel</div>
+            <div class="cc-role">Director &middot; Operations &middot; priya.patel@outlook.com</div>
+          </div>
+          <div class="cc-actions">
+            <button class="cc-action" title="Edit">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="cc-action" title="More">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 3: Selectable (picker drawer) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">3. Selectable — Contact Picker (drawers, modals)</div>
+    <div class="surface-drawer" style="max-width:480px;">
+      <div class="context-header">
+        <span class="context-dot purple"></span>
+        Select Contact for Invoice
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <div class="contact-card selectable selected" onclick="toggleSelect(this)">
+          <div class="cc-header">
+            <div class="cc-avatar sm">SG</div>
+            <div class="cc-identity">
+              <div class="cc-name">Sunita Gupta</div>
+              <div class="cc-role">CFO &middot; Finance</div>
+              <div class="cc-badges">
+                <span class="cc-badge cc-badge-primary" style="font-size:10px; padding:1px 6px;">Primary</span>
+                <span class="cc-badge cc-badge-invoice" style="font-size:10px; padding:1px 6px;">Invoice Default</span>
+              </div>
+            </div>
+            <div class="cc-select-indicator">
+              <svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" fill="none"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card selectable" onclick="toggleSelect(this)">
+          <div class="cc-header">
+            <div class="cc-avatar sm">RM</div>
+            <div class="cc-identity">
+              <div class="cc-name">Rahul Mehta</div>
+              <div class="cc-role">Procurement Head &middot; Purchasing</div>
+            </div>
+            <div class="cc-select-indicator"></div>
+          </div>
+        </div>
+        <div class="contact-card selectable" onclick="toggleSelect(this)">
+          <div class="cc-header">
+            <div class="cc-avatar sm">PP</div>
+            <div class="cc-identity">
+              <div class="cc-name">Priya Patel</div>
+              <div class="cc-role">Director &middot; Operations</div>
+            </div>
+            <div class="cc-select-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 4: Inline (inside Business details table) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">4. Inline — Inside Business Details (invoice Billed To)</div>
+    <div class="surface-white" style="max-width:480px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:13px; font-weight:600; color:#2F3945;">Business details</span>
+        <span style="font-size:12px; color:#4F46E5; cursor:pointer;">&#9998; Edit</span>
+      </div>
+      <table style="width:100%; font-size:13px; border-collapse:collapse;">
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0; width:110px; vertical-align:top;">Business Name</td><td style="color:#4F46E5; font-weight:500;">Gupta Industries Pvt Ltd</td></tr>
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0; vertical-align:top;">Address</td><td style="color:#2F3945;">42, Industrial Area, Phase II, Mumbai, Maharashtra, India - 400093</td></tr>
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0;">GSTIN</td><td style="color:#2F3945;">27AABCG1234F1ZL</td></tr>
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0;">PAN</td><td style="color:#2F3945;">AABCG1234F</td></tr>
+        <tr>
+          <td style="color:#686F78; padding:4px 12px 4px 0; vertical-align:top;">Contact Person</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-weight:500; color:#2F3945;">Sunita Gupta</span>
+              <svg width="13" height="13" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24" style="cursor:pointer;"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <svg width="13" height="13" fill="none" stroke="#EF4444" stroke-width="2" viewBox="0 0 24 24" style="cursor:pointer;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </div>
+          </td>
+        </tr>
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0;">Contact Email</td><td style="color:#2F3945;">sunita@guptaindustries.in</td></tr>
+        <tr><td style="color:#686F78; padding:4px 12px 4px 0;">Contact Phone</td><td style="color:#2F3945;">+91 65432 10987</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 5: With toggle controls -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">5. With Toggle Controls (Link Contact drawer)</div>
+    <div class="surface-drawer" style="max-width:480px;">
+      <div class="contact-card actions-visible">
+        <div class="cc-header">
+          <div class="cc-avatar">SG</div>
+          <div class="cc-identity">
+            <div class="cc-name">Sunita Gupta</div>
+            <div class="cc-role">CFO &middot; Finance</div>
+          </div>
+        </div>
+        <div class="cc-details">
+          <div class="cc-detail-row">
+            <div class="cc-detail-label">Email</div>
+            <div class="cc-detail-value">sunita@guptaindustries.in</div>
+          </div>
+          <div class="cc-detail-row">
+            <div class="cc-detail-label">Phone</div>
+            <div class="cc-detail-value">+91 65432 10987</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; padding-top:12px; border-top:1px solid #EEF2F5; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:13px; color:#2F3945; font-weight:500;">Primary Contact</span>
+            <div class="cc-toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:13px; color:#2F3945; font-weight:500;">Show on Invoice</span>
+            <div class="cc-toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 6: Empty + Skeleton states -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">6. Empty &amp; Loading States</div>
+    <div class="variant-row">
+      <div class="variant-col">
+        <div class="variant-label">Empty — No contact selected</div>
+        <div class="contact-card" style="border-style:dashed; border-color:#DCE0E3; cursor:pointer;">
+          <div class="cc-header" style="justify-content:center;">
+            <svg width="18" height="18" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+            <span style="font-size:13px; color:#8B95A1;">Select a contact</span>
+            <span style="font-size:12px; color:#4F46E5; font-weight:500;">Select</span>
+          </div>
+        </div>
+      </div>
+      <div class="variant-col">
+        <div class="variant-label">Empty — No contacts linked</div>
+        <div class="contact-card" style="border-style:dashed; border-color:#DCE0E3; text-align:center; padding:24px;">
+          <div style="font-size:13px; font-weight:600; color:#2F3945; margin-bottom:4px;">No contacts linked</div>
+          <div style="font-size:12px; color:#8B95A1; margin-bottom:12px;">Link a contact to this client to get started</div>
+          <button style="display:inline-flex; align-items:center; gap:6px; background:#FFFFFF; border:1px solid rgba(0,0,0,0.15); border-radius:8px; padding:6px 14px; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:#313944; cursor:pointer;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Link Contact
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="variant-row">
+      <div class="variant-col" style="max-width:340px;">
+        <div class="variant-label">Loading skeleton</div>
+        <div class="contact-card skeleton">
+          <div class="cc-header">
+            <div class="cc-avatar sm"></div>
+            <div class="cc-identity" style="display:flex; flex-direction:column; gap:6px;">
+              <div class="skeleton-line w60" style="height:14px;"></div>
+              <div class="skeleton-line w40" style="height:10px;"></div>
+            </div>
+          </div>
+          <div class="cc-details">
+            <div class="cc-detail-row">
+              <div class="skeleton-line w40" style="height:10px;"></div>
+              <div class="skeleton-line w80" style="height:10px; flex:1;"></div>
+            </div>
+            <div class="cc-detail-row">
+              <div class="skeleton-line w40" style="height:10px;"></div>
+              <div class="skeleton-line w60" style="height:10px; flex:1;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSelect(el) {
+  el.closest('.surface-drawer').querySelectorAll('.contact-card.selectable').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+</script>
+
+<!--
+  CONTACT CARD COMPONENT — Design Spec
+
+  VARIANTS:
+  1. Default (full)      — .contact-card                    → Forms, detail panels
+  2. Compact             — .contact-card.compact            → Table rows, lists, inline references
+  3. Selectable          — .contact-card.selectable         → Picker drawers, selection modals
+  4. Inline              — .contact-card.inline             → Embedded in business details table
+  5. With toggles        — Default + toggle controls        → Link Contact drawer settings
+
+  STATES:
+  - Default (hover reveals actions)
+  - Selected (.selected on .selectable variant)
+  - Loading (.skeleton)
+  - Empty (dashed border states)
+
+  CSS CLASSES:
+  .contact-card           Base container
+  .cc-header              Header flex row
+  .cc-avatar / .cc-avatar.sm   Avatar (40px / 32px)
+  .cc-identity            Name + role + badges container
+  .cc-name                Contact name
+  .cc-role                Role · Department meta
+  .cc-badges              Badge row
+  .cc-badge-primary       Purple badge
+  .cc-badge-invoice       Green badge
+  .cc-actions             Action buttons (show on hover)
+  .cc-action              28px icon button
+  .cc-details             Detail rows section
+  .cc-detail-row          Label + value row
+  .cc-select-indicator    Radio circle for selectable
+  .cc-toggle              Toggle switch
+  .cc-more-menu           Dropdown menu
+
+  JUPITER TOKENS USED:
+  - Font: Inter
+  - Colors: #2F3945 (text), #8B95A1 (muted), #7B3EFF (purple), #4F46E5 (indigo CTA)
+  - Backgrounds: #F7F3FD (purple light), #ECFDF5 (green light), #F7F9FA (gray)
+  - Borders: #EEF2F5 (section), #DCE0E3 (subtle), #EDE4FB (purple)
+  - Radius: 12px (card), 8px (compact), 6px (badges), 50% (avatar)
+  - Spacing: 4/8/12/16px grid
+  - Shadows: 0 2px 8px rgba(20,28,39,0.06) hover
+-->
+</body>
+</html>
