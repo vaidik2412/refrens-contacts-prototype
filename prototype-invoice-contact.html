@@ -1699,6 +1699,23 @@ function saveClientModal() {
     document.getElementById('clientModalOverlay').classList.remove('visible');
     document.getElementById('clientModal').classList.remove('open');
     pendingClientId = null;
+    // After edit, check if a showInInvoice contact should auto-apply
+    if (selectedClientId === editingClientId) {
+      const relations = contactRelations[editingClientId] || [];
+      const invoiceDefault = relations.find(r => r.showInInvoice);
+      if (invoiceDefault && (!selectedInvoiceContact || selectedInvoiceContact.contactRelationId !== invoiceDefault.id)) {
+        applyContactToInvoice(invoiceDefault);
+      }
+      // Also update contact section visibility
+      if (relations.length === 0) {
+        document.getElementById('noContactsLinked').style.display = '';
+        document.getElementById('contactNotSelected').style.display = 'none';
+        document.getElementById('contactSelectedCard').style.display = 'none';
+      } else if (!selectedInvoiceContact) {
+        document.getElementById('noContactsLinked').style.display = 'none';
+        document.getElementById('contactNotSelected').style.display = '';
+      }
+    }
     showToast(`"${name}" updated`);
   } else {
     // Create new client — transfer pending relations to real id
