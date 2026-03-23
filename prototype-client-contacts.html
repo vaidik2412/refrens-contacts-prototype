@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refrens — New Client (Contact Linking Prototype)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #2F3945;
+  background: #F7F9FA;
+  letter-spacing: -0.25px;
+  line-height: 1.5;
+}
+
+/* ─── Top Nav ─── */
+.top-nav {
+  height: 52px;
+  background: #5B21B6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.top-nav-left { display: flex; align-items: center; gap: 12px; }
+.nav-logo { font-size: 16px; font-weight: 700; }
+.top-nav-right { display: flex; align-items: center; gap: 12px; }
+.account-manager-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 24px;
+  padding: 4px 12px 4px 4px;
+  cursor: pointer;
+}
+.am-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+}
+.am-info { display: flex; flex-direction: column; }
+.am-name { font-size: 12px; font-weight: 600; }
+.am-role { font-size: 10px; color: rgba(255,255,255,0.75); }
+
+/* ─── Layout ─── */
+.page-shell {
+  margin-top: 52px;
+  padding: 24px 32px;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─── Breadcrumb ─── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #8B95A1;
+  margin-bottom: 8px;
+}
+.breadcrumb a { color: #8B95A1; text-decoration: none; }
+.breadcrumb a:hover { color: #4F46E5; }
+.breadcrumb-sep { color: #C4C9D1; }
+
+/* ─── Page Header ─── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.page-title { font-size: 22px; font-weight: 600; color: #2F3945; }
+
+/* ─── Card ─── */
+.form-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: visible;
+}
+
+/* ─── Collapsible Section ─── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.section-header:hover { background: #F7F9FA; }
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2F3945;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-chevron {
+  width: 20px; height: 20px;
+  color: #8B95A1;
+  transition: transform 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.section-header.open .section-chevron { transform: rotate(180deg); }
+.section-body {
+  display: none;
+  padding: 0 24px 24px;
+  border-top: 1px solid #EEF2F5;
+  overflow: visible;
+}
+.section-body.open { display: block; }
+
+/* ─── Form Fields ─── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+.field-group { display: flex; flex-direction: column; gap: 4px; }
+.field-group.full-width { grid-column: 1 / -1; }
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #313944;
+}
+.field-label .required { color: #EF4444; }
+.field-input, .field-select {
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #313944;
+  width: 100%;
+  outline: none;
+  background: #fff;
+}
+.field-input:focus, .field-select:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+}
+.field-input::placeholder { color: #8B95A1; }
+.field-hint { font-size: 12px; color: #8B95A1; }
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: #4F46E5;
+  color: #FFFFFF;
+}
+.btn-primary:hover { background: #4338CA; }
+.btn-secondary {
+  background: #FFFFFF;
+  color: #313944;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+.btn-secondary:hover { background: #F7F9FA; }
+.btn-danger {
+  background: #EF4444;
+  color: #FFFFFF;
+}
+.btn-danger:hover { background: #DC2626; }
+.btn-ghost {
+  background: transparent;
+  color: #4F46E5;
+}
+.btn-ghost:hover { background: rgba(79,70,229,0.05); }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+
+/* ─── Linked Contacts Section ─── */
+.contact-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: #E8EAED;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #686F78;
+}
+.contacts-table-wrap {
+  padding: 0;
+}
+
+/* ─── Disco-style Table ─── */
+.disco-table-wrapper {
+  border: 1px solid #E8EAED;
+  border-radius: 8px;
+  overflow: visible;
+}
+
+/* Toolbar */
+.disco-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid #E8EAED;
+  background: #fff;
+  min-height: 44px;
+}
+.disco-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.disco-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.disco-result-count {
+  font-size: 13px;
+  color: #686F78;
+}
+.disco-result-count strong {
+  color: #2F3945;
+  font-weight: 600;
+}
+.disco-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid #DCE0E3;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #686F78;
+  cursor: pointer;
+  height: 28px;
+}
+.disco-toolbar-btn:hover { background: #F7F9FA; color: #2F3945; border-color: #C7CDD6; }
+.disco-toolbar-btn.active { background: #F7F3FD; color: #7B3EFF; border-color: #EDE4FB; }
+.disco-toolbar-divider {
+  width: 1px;
+  height: 20px;
+  background: #E8EAED;
+}
+
+/* Pagination row */
+.disco-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-top: 1px solid #E8EAED;
+  background: #fff;
+}
+.disco-page-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.disco-page-btn {
+  min-width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #686F78;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.disco-page-btn:hover { background: #F7F9FA; }
+.disco-page-btn.active {
+  background: #4F46E5;
+  color: #fff;
+  border-color: #4F46E5;
+}
+.disco-page-btn.disabled { color: #C7CDD6; cursor: default; }
+.disco-page-btn.disabled:hover { background: transparent; }
+.disco-per-page {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #686F78;
+}
+.disco-per-page select {
+  height: 28px;
+  border: 1px solid #DCE0E3;
+  border-radius: 6px;
+  padding: 0 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #2F3945;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th {
+  font-size: 13px;
+  font-weight: 500;
+  color: #686F78;
+  letter-spacing: -0.25px;
+  padding: 8px 12px;
+  text-align: left;
+  background: #F7F9FA;
+  border-bottom: 1px solid #EEF2F5;
+  white-space: nowrap;
+  user-select: none;
+  cursor: default;
+  position: relative;
+}
+.data-table th.sortable { cursor: pointer; }
+.data-table th.sortable:hover { color: #2F3945; }
+.data-table th .sort-icon {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 10px;
+  color: #C7CDD6;
+  vertical-align: middle;
+}
+.data-table th.sortable:hover .sort-icon { color: #686F78; }
+.data-table td {
+  font-size: 13px;
+  color: #2F3945;
+  padding: 8px 12px;
+  border-bottom: 1px solid #EEF2F5;
+  vertical-align: middle;
+  letter-spacing: -0.25px;
+  height: 40px;
+}
+.data-table tbody tr:nth-child(even) td { background: #FAFBFC; }
+.data-table tbody tr:hover td { background: #F3F4F8; }
+.data-table .cell-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Sticky action col */
+.data-table th:last-child,
+.data-table td:last-child {
+  position: sticky;
+  right: 0;
+  background: inherit;
+  z-index: 1;
+}
+.data-table tbody tr:hover td:last-child { background: #F3F4F8; }
+
+/* More menu (⋮ dropdown) */
+.more-menu-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.more-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #8B95A1;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.1s;
+}
+.more-trigger:hover { background: #F7F9FA; color: #2F3945; border-color: #E8EAED; }
+.more-trigger.active { background: #F7F9FA; color: #2F3945; border-color: #E8EAED; }
+.more-dropdown {
+  position: fixed;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(20,28,39,0.12);
+  z-index: 999;
+  display: none;
+  padding: 4px 0;
+}
+.more-dropdown.open { display: block; }
+.more-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2F3945;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.25px;
+  transition: background 0.1s;
+}
+.more-dropdown-item:hover { background: #F7F9FA; }
+.more-dropdown-item.danger { color: #EF4444; }
+.more-dropdown-item.danger:hover { background: #FEF2F2; }
+.more-dropdown-item.disabled { color: #C7CDD6; cursor: default; }
+.more-dropdown-item.disabled:hover { background: transparent; }
+.more-dropdown-divider { height: 1px; background: #EEF2F5; margin: 4px 0; }
+
+/* Avatar */
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: #EDE4FB;
+  color: #7B3EFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+  flex-shrink: 0;
+}
+.avatar.sm { width: 28px; height: 28px; font-size: 11px; }
+.contact-name-text { font-weight: 500; color: #2F3945; }
+
+/* Primary badge */
+.badge-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #F7F3FD;
+  color: #7B3EFF;
+  border: 1px solid #EDE4FB;
+}
+
+/* ─── Empty State ─── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  text-align: center;
+}
+.empty-icon {
+  color: #C7CDD6;
+  margin-bottom: 12px;
+}
+.empty-title { font-size: 16px; font-weight: 600; color: #313944; margin-bottom: 6px; }
+.empty-description { font-size: 13px; color: #686F78; margin-bottom: 16px; max-width: 320px; }
+
+/* ─── Overlay ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.overlay.visible { display: block; opacity: 1; }
+
+/* ─── Drawer ─── */
+.drawer {
+  position: fixed;
+  top: 0; bottom: 0; right: 0;
+  width: 800px;
+  background: #FFFFFF;
+  box-shadow: -4px 0 24px rgba(20, 28, 39, 0.12);
+  z-index: 210;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.drawer.open { transform: translateX(0); }
+.drawer.narrow { width: 700px; z-index: 220; }
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  height: 64px;
+  border-bottom: 1px solid #EFF2F6;
+  flex-shrink: 0;
+}
+.drawer-title { font-size: 18px; font-weight: 600; color: #2F3945; }
+.drawer-close {
+  width: 32px; height: 32px;
+  border: none; background: none;
+  cursor: pointer; color: #686F78;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.drawer-close:hover { background: #F7F9FA; color: #2F3945; }
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.drawer-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #EFF2F6;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── Select / Dropdown ─── */
+.select-wrap { position: relative; }
+.select-input {
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #313944;
+  width: 100%;
+  outline: none;
+  background: #fff;
+  cursor: text;
+}
+.select-input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+}
+.select-input::placeholder { color: #8B95A1; }
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(20,28,39,0.12);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 10;
+  display: none;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.dropdown-option:hover { background: #F7F9FA; }
+.dropdown-option.selected { background: #F7F3FD; }
+.dropdown-opt-name { font-size: 14px; font-weight: 500; color: #2F3945; }
+.dropdown-opt-email { font-size: 12px; color: #8B95A1; }
+.dropdown-divider { border-top: 1px solid #EEF2F5; margin: 4px 0; }
+.dropdown-create {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: #4F46E5;
+  font-weight: 500;
+  font-size: 14px;
+}
+.dropdown-create:hover { background: rgba(79,70,229,0.04); }
+.no-results {
+  padding: 16px 12px;
+  text-align: center;
+  color: #8B95A1;
+  font-size: 13px;
+}
+
+/* ─── Checkbox ─── */
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #313944;
+  user-select: none;
+}
+.checkbox-wrap input[type="checkbox"] {
+  width: 18px; height: 18px;
+  accent-color: #4F46E5;
+  cursor: pointer;
+}
+
+/* ─── Modal ─── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+.modal-overlay.visible { display: flex; }
+.modal {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #EEF2F5;
+}
+.modal-title { font-size: 18px; font-weight: 600; color: #313944; }
+.modal-body { padding: 24px; }
+.modal-body p { font-size: 14px; color: #686F78; line-height: 1.6; }
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px;
+  border-top: 1px solid #EEF2F5;
+}
+
+/* ─── Form Save Bar ─── */
+.form-save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 0;
+  margin-top: 8px;
+}
+
+/* ─── Section collapse placeholder ─── */
+.collapsed-placeholder {
+  padding: 16px 24px;
+  color: #8B95A1;
+  font-size: 13px;
+  border-top: 1px solid #EEF2F5;
+  display: none;
+}
+.collapsed-placeholder.open { display: block; }
+
+/* ─── Spacing utilities ─── */
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+
+/* ─── Custom Field placeholder ─── */
+.custom-field-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #EEF2F5;
+}
+.custom-field-section .section-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #686F78;
+  margin-bottom: 12px;
+}
+
+/* ─── Selected contact chip in select ─── */
+.selected-contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #F7F3FD;
+  border: 1px solid #EDE4FB;
+  border-radius: 6px;
+  padding: 4px 8px 4px 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #281347;
+}
+.selected-contact-chip .chip-remove {
+  cursor: pointer;
+  color: #8B95A1;
+  font-size: 14px;
+  margin-left: 4px;
+}
+.selected-contact-chip .chip-remove:hover { color: #EF4444; }
+
+/* ─── Success toast ─── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #065F46;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  z-index: 400;
+  display: none;
+  animation: toastIn 0.3s ease;
+}
+.toast.visible { display: flex; align-items: center; gap: 8px; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Top Nav ═══ -->
+<div class="top-nav">
+  <div class="top-nav-left">
+    <span style="font-size:18px; cursor:pointer;">☰</span>
+    <span class="nav-logo">▲ Refrens</span>
+  </div>
+  <div class="top-nav-right">
+    <div class="account-manager-pill">
+      <div class="am-avatar">VP</div>
+      <div class="am-info">
+        <span class="am-name">Vaidik Patel</span>
+        <span class="am-role">Account Manager</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Page Content ═══ -->
+<div class="page-shell">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Mehta Traders</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Clients</a>
+    <span class="breadcrumb-sep">›</span>
+    <span style="color:#2F3945;">New Client</span>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">New Client</h1>
+  </div>
+
+  <!-- ═══ Section 1: Basic Details (collapsed) ═══ -->
+  <div class="form-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">
+        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Basic Details
+      </span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">Client Name <span class="required">*</span></label>
+          <input class="field-input" type="text" placeholder="e.g. Shah Enterprises" value="Gupta Industries Pvt Ltd">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <input class="field-input" type="email" placeholder="client@example.com" value="accounts@guptaindustries.in">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Phone</label>
+          <input class="field-input" type="tel" placeholder="+91 98765 43210" value="+91 98765 43210">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Country <span class="required">*</span></label>
+          <select class="field-select">
+            <option selected>India</option>
+            <option>United States</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Section 2: Tax Information (collapsed) ═══ -->
+  <div class="form-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">
+        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Tax Information
+      </span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">GSTIN</label>
+          <input class="field-input" type="text" placeholder="22AAAAA0000A1Z5" value="27AABCG1234F1ZL">
+        </div>
+        <div class="field-group">
+          <label class="field-label">PAN</label>
+          <input class="field-input" type="text" placeholder="AAAAA0000A" value="AABCG1234F">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Section 3: Address (collapsed) ═══ -->
+  <div class="form-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">
+        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Address Details
+      </span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="form-grid">
+        <div class="field-group full-width">
+          <label class="field-label">Street Address</label>
+          <input class="field-input" type="text" placeholder="Street / Area" value="42, Industrial Area, Phase II">
+        </div>
+        <div class="field-group">
+          <label class="field-label">City</label>
+          <input class="field-input" type="text" placeholder="City" value="Mumbai">
+        </div>
+        <div class="field-group">
+          <label class="field-label">State</label>
+          <select class="field-select"><option selected>Maharashtra</option></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Pincode</label>
+          <input class="field-input" type="text" placeholder="400001" value="400093">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ═══ Section 4: LINKED CONTACTS (accordion, default open) ═══ -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="form-card" id="contactsCard">
+    <div class="section-header open" onclick="toggleContactsSection(this)">
+      <span class="section-title">
+        <svg width="20" height="20" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        Linked Contacts
+        <span class="contact-count-badge" id="contactCountBadge">2</span>
+      </span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body open" id="contactsSectionBody">
+
+      <!-- Link Contact CTA — right-aligned, inside body -->
+      <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+        <button class="btn btn-ghost btn-sm" onclick="openLinkDrawer()" style="gap:4px;">
+          <svg width="16" height="16" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>
+          Link Contact
+        </button>
+      </div>
+
+      <!-- Disco-style Table -->
+      <div class="disco-table-wrapper" id="contactsTableWrap">
+        <!-- Table -->
+        <div style="overflow-x:auto;">
+          <table class="data-table" id="contactsTable">
+            <thead>
+              <tr>
+                <th class="sortable" onclick="toggleSort('name')">Contact <span class="sort-icon">⇅</span></th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th class="sortable" onclick="toggleSort('role')">Relation <span class="sort-icon">⇅</span></th>
+                <th>Department</th>
+                <th>Primary</th>
+                <th class="sortable" onclick="toggleSort('linkedOn')">Linked On <span class="sort-icon">⇅</span></th>
+                <th style="width:64px; text-align:center;">More</th>
+              </tr>
+            </thead>
+            <tbody id="contactsTableBody">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Empty state (hidden by default) -->
+      <div class="empty-state" id="contactsEmptyState" style="display:none;">
+        <div class="empty-icon">
+          <svg width="60" height="60" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        </div>
+        <div class="empty-title">Nothing to show here</div>
+        <div class="empty-description">There are no contacts linked with this client. Use the button below to link a contact.</div>
+        <button class="btn btn-secondary" onclick="openLinkDrawer()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Link Contact
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Form Save Bar -->
+  <div class="form-save-bar">
+    <button class="btn btn-secondary">Cancel</button>
+    <button class="btn btn-primary">Save Client</button>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ═══ Link Contact Drawer ═══ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="overlay" id="linkOverlay" onclick="closeLinkDrawer()"></div>
+<div class="drawer" id="linkDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Link Contact</span>
+    <button class="drawer-close" onclick="closeLinkDrawer()">✕</button>
+  </div>
+  <div class="drawer-body">
+
+    <!-- Contact Select -->
+    <div class="field-group mb-24">
+      <label class="field-label">Contact Name <span class="required">*</span></label>
+      <div class="select-wrap" id="contactSelectWrap">
+        <!-- Shows chip when selected, input when searching -->
+        <div id="selectedContactDisplay" style="display:none;">
+          <div class="selected-contact-chip">
+            <div class="avatar sm" id="selectedChipAvatar">RM</div>
+            <span id="selectedChipName">Rahul Mehta</span>
+            <span class="chip-remove" onclick="clearSelectedContact()">✕</span>
+          </div>
+        </div>
+        <input class="select-input" id="contactSearchInput" type="text" placeholder="Search contacts to link..." oninput="filterContacts()" onfocus="showDropdown()">
+        <div class="dropdown-menu" id="contactDropdown">
+          <div id="contactOptionsList"></div>
+          <div class="dropdown-divider" id="dropdownDivider"></div>
+          <div class="dropdown-create" onclick="openCreateDrawer()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            Create new contact
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role & Department -->
+    <div class="form-grid mb-24">
+      <div class="field-group">
+        <label class="field-label">Role</label>
+        <input class="field-input" id="linkRole" type="text" placeholder="e.g. Finance Manager">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Department</label>
+        <input class="field-input" id="linkDepartment" type="text" placeholder="e.g. Accounts">
+      </div>
+    </div>
+
+    <!-- Primary checkbox -->
+    <label class="checkbox-wrap mb-24">
+      <input type="checkbox" id="linkIsPrimary">
+      Mark as Primary Contact
+    </label>
+
+    <!-- Custom Fields placeholder -->
+    <div class="custom-field-section">
+      <div class="section-label">Custom Fields</div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">Contact Reference ID</label>
+          <input class="field-input" type="text" placeholder="e.g. EMP-001">
+        </div>
+      </div>
+    </div>
+
+    <!-- Error message area -->
+    <div id="linkError" style="display:none; margin-top:16px; padding:8px 12px; background:#FEE2E2; border-radius:6px; color:#991B1B; font-size:13px;"></div>
+
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-primary" onclick="submitLinkContact()">Save Changes</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ═══ Create Contact Drawer (nested) ═══ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="overlay" id="createOverlay" style="z-index:215;" onclick="closeCreateDrawer()"></div>
+<div class="drawer narrow" id="createDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Create New Contact</span>
+    <button class="drawer-close" onclick="closeCreateDrawer()">✕</button>
+  </div>
+  <div class="drawer-body">
+
+    <div class="form-grid mb-24">
+      <div class="field-group">
+        <label class="field-label">First Name <span class="required">*</span></label>
+        <input class="field-input" id="newFirstName" type="text" placeholder="First name">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Last Name</label>
+        <input class="field-input" id="newLastName" type="text" placeholder="Last name">
+      </div>
+    </div>
+
+    <div class="field-group mb-24">
+      <label class="field-label">Email</label>
+      <input class="field-input" id="newEmail" type="email" placeholder="email@example.com">
+    </div>
+
+    <div class="field-group mb-24">
+      <label class="field-label">Phone</label>
+      <input class="field-input" id="newPhone" type="tel" placeholder="+91 98765 43210">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Country <span class="required">*</span></label>
+      <select class="field-select" id="newCountry">
+        <option selected>India</option>
+        <option>United States</option>
+        <option>United Kingdom</option>
+        <option>United Arab Emirates</option>
+        <option>Singapore</option>
+      </select>
+    </div>
+
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-primary" onclick="submitCreateContact()">Save Contact</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ═══ Unlink Confirmation Modal ═══ -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="unlinkModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Remove Contact from Client?</span>
+      <button class="drawer-close" onclick="closeUnlinkModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="unlinkMessage">Are you sure you want to remove <strong>Rahul Mehta</strong> from <strong>Gupta Industries Pvt Ltd</strong>?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeUnlinkModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmUnlink()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Toast ═══ -->
+<div class="toast" id="toast">✓ <span id="toastMsg"></span></div>
+
+<script>
+// ─── Data ───
+const allContacts = [
+  { id: 'c1', firstName: 'Rahul', lastName: 'Mehta', email: 'rahul@mehtaTraders.in', phone: '+91 98765 43210', initials: 'RM' },
+  { id: 'c2', firstName: 'Priya', lastName: 'Patel', email: 'priya.patel@outlook.com', phone: '+91 87654 32109', initials: 'PP' },
+  { id: 'c3', firstName: 'Amit', lastName: 'Shah', email: 'amit.shah@shahent.com', phone: '+91 76543 21098', initials: 'AS' },
+  { id: 'c4', firstName: 'Sunita', lastName: 'Gupta', email: 'sunita@guptaindustries.in', phone: '+91 65432 10987', initials: 'SG' },
+  { id: 'c5', firstName: 'Vikram', lastName: 'Desai', email: 'vikram.desai@gmail.com', phone: '+91 54321 09876', initials: 'VD' },
+];
+
+// Linked contacts (initial state — 2 pre-linked)
+let linkedContacts = [
+  { id: 'c4', firstName: 'Sunita', lastName: 'Gupta', email: 'sunita@guptaindustries.in', phone: '+91 65432 10987', initials: 'SG', role: 'CFO', department: 'Finance', isPrimary: true, linkedOn: 'Mar 15, 2026' },
+  { id: 'c1', firstName: 'Rahul', lastName: 'Mehta', email: 'rahul@mehtaTraders.in', phone: '+91 98765 43210', initials: 'RM', role: 'Procurement Head', department: 'Purchasing', isPrimary: false, linkedOn: 'Mar 18, 2026' },
+];
+
+let selectedContact = null;
+let unlinkTargetId = null;
+let nextId = 100;
+
+// ─── Render table ───
+function renderContactsTable() {
+  const tbody = document.getElementById('contactsTableBody');
+  const emptyState = document.getElementById('contactsEmptyState');
+  const tableWrap = document.getElementById('contactsTableWrap');
+  const badge = document.getElementById('contactCountBadge');
+
+  badge.textContent = linkedContacts.length;
+
+  if (linkedContacts.length === 0) {
+    tableWrap.style.display = 'none';
+    emptyState.style.display = '';
+    return;
+  }
+
+  tableWrap.style.display = '';
+  emptyState.style.display = 'none';
+
+  tbody.innerHTML = linkedContacts.map(c => `
+    <tr>
+      <td>
+        <div class="cell-name">
+          <div class="avatar">${c.initials}</div>
+          <div>
+            <div class="contact-name-text">${c.firstName} ${c.lastName}</div>
+          </div>
+        </div>
+      </td>
+      <td><a href="mailto:${c.email}" style="color:#2F3945; text-decoration:none;">${c.email}</a></td>
+      <td><a href="tel:${c.phone}" style="color:#2F3945; text-decoration:none;">${c.phone}</a></td>
+      <td>${c.role || '—'}</td>
+      <td>${c.department || '—'}</td>
+      <td>${c.isPrimary ? '<span class="badge-primary">Primary</span>' : '—'}</td>
+      <td style="font-size:12px;color:#8B95A1;">${c.linkedOn}</td>
+      <td>
+        <div class="more-menu-wrap">
+          <button class="more-trigger" onclick="toggleMoreMenu(event, '${c.id}')">⋯</button>
+          <div class="more-dropdown" id="moreMenu-${c.id}">
+            ${c.isPrimary
+              ? '<button class="more-dropdown-item disabled"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Primary</button>'
+              : `<button class="more-dropdown-item" onclick="markAsPrimary('${c.id}')"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Mark as Primary</button>`
+            }
+            <div class="more-dropdown-divider"></div>
+            <button class="more-dropdown-item danger" onclick="openUnlinkModal('${c.id}', '${c.firstName} ${c.lastName}')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18.84 12.25l1.72-1.71a5 5 0 00-7.07-7.07l-3 3"/><path d="M5.16 11.75l-1.72 1.71a5 5 0 007.07 7.07l3-3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+              Unlink
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ─── More Menu ───
+function toggleMoreMenu(e, contactId) {
+  e.stopPropagation();
+  // Close all other open menus
+  document.querySelectorAll('.more-dropdown.open').forEach(m => {
+    if (m.id !== 'moreMenu-' + contactId) m.classList.remove('open');
+  });
+  document.querySelectorAll('.more-trigger.active').forEach(b => {
+    b.classList.remove('active');
+  });
+  const menu = document.getElementById('moreMenu-' + contactId);
+  const btn = e.currentTarget;
+  const isOpen = menu.classList.toggle('open');
+  if (isOpen) {
+    btn.classList.add('active');
+    // Position the fixed dropdown below, right-aligned to trigger's right edge
+    const rect = btn.getBoundingClientRect();
+    menu.style.top = (rect.bottom + 4) + 'px';
+    menu.style.left = (rect.right - 180) + 'px'; // 180 = min-width of dropdown
+    menu.style.right = 'auto';
+  } else {
+    btn.classList.remove('active');
+  }
+}
+
+// Close more menus on outside click
+document.addEventListener('click', () => {
+  document.querySelectorAll('.more-dropdown.open').forEach(m => m.classList.remove('open'));
+  document.querySelectorAll('.more-trigger.active').forEach(b => b.classList.remove('active'));
+});
+
+function markAsPrimary(contactId) {
+  linkedContacts.forEach(c => c.isPrimary = (c.id === contactId));
+  renderContactsTable();
+  showToast('Primary contact updated');
+}
+
+// ─── Collapsible sections ───
+function toggleSection(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+function toggleContactsSection(header) {
+  header.classList.toggle('open');
+  document.getElementById('contactsSectionBody').classList.toggle('open');
+}
+
+// ─── Link Drawer ───
+function openLinkDrawer() {
+  document.getElementById('linkOverlay').classList.add('visible');
+  document.getElementById('linkDrawer').classList.add('open');
+  clearSelectedContact();
+  document.getElementById('linkRole').value = '';
+  document.getElementById('linkDepartment').value = '';
+  document.getElementById('linkIsPrimary').checked = false;
+  document.getElementById('linkError').style.display = 'none';
+  document.getElementById('contactSearchInput').value = '';
+}
+function closeLinkDrawer() {
+  document.getElementById('linkOverlay').classList.remove('visible');
+  document.getElementById('linkDrawer').classList.remove('open');
+  document.getElementById('contactDropdown').classList.remove('open');
+}
+
+// ─── Contact Search & Dropdown ───
+function showDropdown() {
+  if (selectedContact) return;
+  filterContacts();
+  document.getElementById('contactDropdown').classList.add('open');
+}
+
+function filterContacts() {
+  const q = document.getElementById('contactSearchInput').value.toLowerCase().trim();
+  const list = document.getElementById('contactOptionsList');
+  const linkedIds = linkedContacts.map(c => c.id);
+
+  const filtered = allContacts.filter(c => {
+    if (linkedIds.includes(c.id)) return false;
+    if (!q) return true;
+    const full = `${c.firstName} ${c.lastName} ${c.email}`.toLowerCase();
+    return full.includes(q);
+  });
+
+  if (filtered.length === 0 && q) {
+    list.innerHTML = '<div class="no-results">No contacts found</div>';
+    document.getElementById('dropdownDivider').style.display = '';
+  } else {
+    list.innerHTML = filtered.map(c => `
+      <div class="dropdown-option" onclick="selectContact('${c.id}')">
+        <div class="avatar sm">${c.initials}</div>
+        <div>
+          <div class="dropdown-opt-name">${c.firstName} ${c.lastName}</div>
+          <div class="dropdown-opt-email">${c.email}</div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('dropdownDivider').style.display = filtered.length ? '' : 'none';
+  }
+
+  document.getElementById('contactDropdown').classList.add('open');
+}
+
+function selectContact(id) {
+  const c = allContacts.find(x => x.id === id);
+  if (!c) return;
+  selectedContact = c;
+
+  document.getElementById('contactSearchInput').style.display = 'none';
+  document.getElementById('selectedContactDisplay').style.display = '';
+  document.getElementById('selectedChipAvatar').textContent = c.initials;
+  document.getElementById('selectedChipName').textContent = `${c.firstName} ${c.lastName}`;
+  document.getElementById('contactDropdown').classList.remove('open');
+}
+
+function clearSelectedContact() {
+  selectedContact = null;
+  document.getElementById('contactSearchInput').style.display = '';
+  document.getElementById('contactSearchInput').value = '';
+  document.getElementById('selectedContactDisplay').style.display = 'none';
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+  const wrap = document.getElementById('contactSelectWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('contactDropdown').classList.remove('open');
+  }
+});
+
+// ─── Create Contact Drawer ───
+function openCreateDrawer() {
+  document.getElementById('contactDropdown').classList.remove('open');
+  document.getElementById('createOverlay').classList.add('visible');
+  document.getElementById('createDrawer').classList.add('open');
+  document.getElementById('newFirstName').value = '';
+  document.getElementById('newLastName').value = '';
+  document.getElementById('newEmail').value = '';
+  document.getElementById('newPhone').value = '';
+
+  // Pre-fill from search text
+  const searchVal = document.getElementById('contactSearchInput').value.trim();
+  if (searchVal) {
+    const parts = searchVal.split(' ');
+    document.getElementById('newFirstName').value = parts[0] || '';
+    document.getElementById('newLastName').value = parts.slice(1).join(' ') || '';
+  }
+}
+function closeCreateDrawer() {
+  document.getElementById('createOverlay').classList.remove('visible');
+  document.getElementById('createDrawer').classList.remove('open');
+}
+
+function submitCreateContact() {
+  const firstName = document.getElementById('newFirstName').value.trim();
+  const lastName = document.getElementById('newLastName').value.trim();
+  const email = document.getElementById('newEmail').value.trim();
+  const phone = document.getElementById('newPhone').value.trim();
+
+  if (!firstName) {
+    alert('First name is required');
+    return;
+  }
+
+  const initials = (firstName[0] + (lastName ? lastName[0] : '')).toUpperCase();
+  const newContact = {
+    id: 'c' + (nextId++),
+    firstName,
+    lastName,
+    email: email || `${firstName.toLowerCase()}@example.com`,
+    phone: phone || '',
+    initials,
+  };
+
+  allContacts.push(newContact);
+  closeCreateDrawer();
+
+  // Auto-select the newly created contact
+  selectContact(newContact.id);
+  showToast(`Contact "${firstName} ${lastName}" created`);
+}
+
+// ─── Submit Link ───
+function submitLinkContact() {
+  if (!selectedContact) {
+    document.getElementById('linkError').textContent = 'Please select a contact to link.';
+    document.getElementById('linkError').style.display = 'block';
+    return;
+  }
+
+  // Check if already linked
+  if (linkedContacts.find(c => c.id === selectedContact.id)) {
+    document.getElementById('linkError').textContent = 'This contact is already linked to this client.';
+    document.getElementById('linkError').style.display = 'block';
+    return;
+  }
+
+  const isPrimary = document.getElementById('linkIsPrimary').checked;
+
+  // If marking as primary, unmark existing primary
+  if (isPrimary) {
+    linkedContacts.forEach(c => c.isPrimary = false);
+  }
+
+  linkedContacts.push({
+    ...selectedContact,
+    role: document.getElementById('linkRole').value.trim(),
+    department: document.getElementById('linkDepartment').value.trim(),
+    isPrimary,
+    linkedOn: 'Mar 23, 2026',
+  });
+
+  renderContactsTable();
+  closeLinkDrawer();
+  showToast(`${selectedContact.firstName} ${selectedContact.lastName} linked to client`);
+}
+
+// ─── Unlink ───
+function openUnlinkModal(id, name) {
+  unlinkTargetId = id;
+  document.getElementById('unlinkMessage').innerHTML =
+    `Are you sure you want to remove <strong>${name}</strong> from <strong>Gupta Industries Pvt Ltd</strong>?`;
+  document.getElementById('unlinkModal').classList.add('visible');
+}
+function closeUnlinkModal() {
+  document.getElementById('unlinkModal').classList.remove('visible');
+  unlinkTargetId = null;
+}
+function confirmUnlink() {
+  if (!unlinkTargetId) return;
+  const removed = linkedContacts.find(c => c.id === unlinkTargetId);
+  linkedContacts = linkedContacts.filter(c => c.id !== unlinkTargetId);
+  renderContactsTable();
+  closeUnlinkModal();
+  if (removed) showToast(`${removed.firstName} ${removed.lastName} unlinked`);
+}
+
+// ─── Toast ───
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 3000);
+}
+
+// ─── Sort (visual only) ───
+function toggleSort(col) {
+  // Visual feedback only — in production, useTable handles sorting
+  showToast(`Sorted by ${col}`);
+}
+
+// ─── Init ───
+renderContactsTable();
+</script>
+
+<!--
+  PROTOTYPE NOTES:
+  - This demonstrates the "Linked Contacts" feature in the client form (create/edit).
+  - The LinkClientDrawer uses isClientDashboard=true mode: user selects a contact (not a client).
+  - "Create new contact" in the dropdown opens a nested drawer with ContactsForm fields.
+  - After creating a contact inline, it auto-selects in the link form.
+  - The contacts table mirrors the pattern from ContactView/widgets/LinkClients.tsx.
+  - Primary badge uses token-chip styling (lavender bg, purple text).
+  - Unlink confirmation modal follows the existing pattern from LinkClients.tsx.
+  - Custom fields section is a placeholder — real implementation uses FormCustomFields with category CONTACTS_RELATIONS.
+  - All form sections besides "Linked Contacts" are collapsed stubs for context.
+-->
+</body>
+</html>
