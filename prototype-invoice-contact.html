@@ -629,41 +629,59 @@ body {
   <!-- ═══ Invoice Card (main form) ═══ -->
   <div class="invoice-card">
 
-    <!-- ═══ HEADERS: Title + fields left, logo right ═══ -->
+    <!-- ═══ HEADERS: Centered title, fields left, logo right (matches prod) ═══ -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <div style="display:inline-flex; align-items:center; gap:8px;">
+        <span style="font-size:28px; font-weight:700; font-style:italic; color:#2F3945; text-decoration:underline; text-decoration-style:dashed; text-underline-offset:6px; text-decoration-color:#C7CDD6;">Invoice</span>
+        <svg width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="cursor:pointer;"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div style="margin-top:6px;">
+        <span style="font-size:13px; color:#4F46E5; cursor:pointer; font-weight:500;">+ Add Subtitle</span>
+      </div>
+    </div>
+
     <div class="headers-section">
       <div class="headers-fields">
-        <input class="invoice-title-input" type="text" value="Invoice" placeholder="Invoice Title">
-
         <div class="field-row">
-          <span class="field-row-label">Invoice Number</span>
+          <span class="field-row-label" style="text-decoration:underline; text-decoration-style:dashed; text-underline-offset:3px; text-decoration-color:#C7CDD6; color:#2F3945; font-weight:600;">Invoice No<span style="color:#EF4444;">*</span></span>
           <div class="field-row-value">
-            <input class="field-input" type="text" value="INV-2026-0047" readonly>
-            <div class="field-hint">Last invoice: INV-2026-0046</div>
+            <input class="field-input" type="text" value="INV/25-26/00485" style="border:none; border-bottom:1px solid #E8EAED; border-radius:0; padding-left:0;">
+            <div class="field-hint">Last No: INV/25-26/00484 (Mar 23, 2026)</div>
           </div>
         </div>
         <div class="field-row">
-          <span class="field-row-label">Invoice Date</span>
-          <div class="field-row-value">
-            <input class="field-input" type="date" value="2026-03-23">
+          <span class="field-row-label" style="text-decoration:underline; text-decoration-style:dashed; text-underline-offset:3px; text-decoration-color:#C7CDD6; color:#2F3945; font-weight:600;">Invoice Date<span style="color:#EF4444;">*</span></span>
+          <div class="field-row-value" style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:14px; color:#2F3945;">Mar 23, 2026</span>
+            <svg width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="1.5" viewBox="0 0 24 24" style="cursor:pointer;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
           </div>
         </div>
-        <div class="field-row">
-          <span class="field-row-label">Due Date</span>
-          <div class="field-row-value">
-            <input class="field-input" type="date" value="2026-04-22">
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+          <div style="display:flex; align-items:center; gap:6px; cursor:pointer; color:#686F78; font-size:13px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>
+            Add due date
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; cursor:pointer; color:#686F78; font-size:13px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>
+            Add E-commerce Operator
           </div>
         </div>
-        <div class="field-row">
-          <span class="field-row-label">PO Number</span>
-          <div class="field-row-value">
-            <input class="field-input" type="text" placeholder="e.g. PO-12345">
-          </div>
+        <div style="margin-top:10px;">
+          <span style="font-size:13px; color:#4F46E5; cursor:pointer; font-weight:500;">+ Add Custom Fields</span>
         </div>
       </div>
       <div class="headers-logo">
-        <div class="logo-upload">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          Add Business Logo
+        <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+          <div style="width:140px; height:100px; border-radius:8px; background:#F7F9FA; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+            <svg width="48" height="48" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div style="display:flex; gap:12px; font-size:12px;">
+            <span style="color:#8B95A1; cursor:pointer; display:flex; align-items:center; gap:3px;">&#10005; Remove</span>
+            <span style="color:#8B95A1; cursor:pointer; display:flex; align-items:center; gap:3px;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              change
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -671,34 +689,53 @@ body {
     <!-- ═══ BUSINESS DETAILS: Billed By / Billed To ═══ -->
     <div class="business-section">
 
-      <!-- Billed By (left) -->
+      <!-- Billed By (left, matches production) -->
       <div class="business-box">
-        <div class="business-box-label">
-          Billed By
-          <button class="edit-btn">Edit</button>
+        <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
+          <span style="font-size:18px; font-weight:700; font-style:italic; color:#2F3945; text-decoration:underline; text-decoration-style:dashed; text-underline-offset:4px; text-decoration-color:#C7CDD6;">Billed By</span>
+          <span style="font-size:13px; color:#8B95A1;">Your Details</span>
         </div>
-        <div class="biz-selector">
-          <div class="biz-avatar" style="background:#5B21B6; color:#fff;">MT</div>
-          <div class="biz-name">Mehta Traders</div>
+        <!-- Business selector dropdown -->
+        <div style="border:1px solid rgba(0,0,0,0.12); border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:12px;">
+          <div class="biz-avatar" style="width:28px; height:28px; font-size:10px; background:#5B21B6; color:#fff;">MT</div>
+          <span style="flex:1; font-size:14px; font-weight:500; color:#2F3945;">Mehta Traders</span>
+          <svg width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <div class="biz-detail-line">
-          15, Kalbadevi Road<br>
-          Mumbai, Maharashtra 400002<br>
-          <strong>GSTIN:</strong> 27AAAFM1234C1ZP
+        <!-- Business details card -->
+        <div style="border:1px solid #EEF2F5; border-radius:8px; padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:13px; font-weight:600; color:#2F3945;">Business details</span>
+            <span style="font-size:12px; color:#4F46E5; cursor:pointer; display:flex; align-items:center; gap:4px;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Edit
+            </span>
+          </div>
+          <table style="width:100%; font-size:13px; border-collapse:collapse;">
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0; width:110px; vertical-align:top;">Business Name</td><td style="color:#2F3945; font-weight:500;">Mehta Traders</td></tr>
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0; vertical-align:top;">Address</td><td style="color:#2F3945;">15, Kalbadevi Road, Mumbai, Maharashtra, India - 400002</td></tr>
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0;">GSTIN</td><td style="color:#2F3945;">27AAAFM1234C1ZP</td></tr>
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0;">PAN</td><td style="color:#2F3945;">AAAFM1234C</td></tr>
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0;">Email</td><td style="color:#2F3945;">accounts@mehtatraders.in</td></tr>
+            <tr><td style="color:#686F78; padding:3px 12px 3px 0;">Phone</td><td style="color:#2F3945;">+91 22 2345 6789</td></tr>
+          </table>
         </div>
       </div>
 
-      <!-- Billed To (right) — client selector + contact person -->
+      <!-- Billed To (right, matches production) — client selector + contact person -->
       <div class="business-box" id="billedToBox">
-        <div class="business-box-label">
-          Billed To
-          <button class="edit-btn" id="editClientBtn" style="display:none;" onclick="openEditClientDrawer()">Edit</button>
+        <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
+          <span style="font-size:18px; font-weight:700; font-style:italic; color:#2F3945; text-decoration:underline; text-decoration-style:dashed; text-underline-offset:4px; text-decoration-color:#C7CDD6;">Billed To</span>
+          <span style="font-size:13px; color:#8B95A1;">Client's Details</span>
         </div>
 
         <!-- State 1: No client selected -->
         <div id="clientEmpty">
+          <!-- Client selector dropdown -->
           <div class="client-select-wrap">
-            <input class="client-select-input" id="clientSearchInput" type="text" placeholder="Search or add client..." onfocus="showClientDropdown()" oninput="filterClients()">
+            <div style="border:1px solid rgba(0,0,0,0.12); border-radius:8px; padding:8px 12px; display:flex; align-items:center; cursor:pointer; margin-bottom:12px;" onclick="document.getElementById('clientSearchInput').focus(); showClientDropdown();">
+              <input class="client-select-input" id="clientSearchInput" type="text" placeholder="Select a Client" style="border:none; padding:0; flex:1;" onfocus="showClientDropdown()" oninput="filterClients()">
+              <svg width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
             <div class="client-dropdown" id="clientDropdown">
               <div id="clientOptionsList"></div>
               <div class="dropdown-divider"></div>
@@ -708,67 +745,64 @@ body {
               </div>
             </div>
           </div>
+          <!-- Empty state -->
+          <div style="border:1px solid #EEF2F5; border-radius:8px; padding:32px; text-align:center;">
+            <div style="font-size:13px; color:#8B95A1; margin-bottom:8px;">Select Client/Business from the list</div>
+            <div style="font-size:13px; color:#8B95A1; margin-bottom:12px;">OR</div>
+            <button class="btn btn-primary btn-sm" onclick="openCreateClientDrawer()" style="border-radius:20px;">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+              Add New Client
+            </button>
+          </div>
         </div>
 
         <!-- State 2: Client selected -->
         <div id="clientSelected" style="display:none;">
-          <div class="biz-selector">
-            <div class="biz-avatar" id="selectedClientAvatar">GI</div>
-            <div style="flex:1;">
-              <div class="biz-name" id="selectedClientName">Gupta Industries Pvt Ltd</div>
-            </div>
-            <button class="edit-btn" onclick="changeClient()" style="font-size:12px;">Change</button>
+          <!-- Selected client dropdown -->
+          <div style="border:1px solid #4F46E5; border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:12px; background:#FDFCFF;" onclick="changeClient()">
+            <span id="selectedClientNameDropdown" style="flex:1; font-size:14px; font-weight:500; color:#2F3945; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">GUPTA INDUSTRIES PVT LTD</span>
+            <svg width="16" height="16" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
-          <div class="biz-detail-line" id="selectedClientDetail">
-            42, Industrial Area, Phase II<br>
-            Mumbai, Maharashtra 400093<br>
-            <strong>GSTIN:</strong> 27AABCG1234F1ZL
-          </div>
-
-          <!-- ── Contact Person on Invoice (NEW — the feature) ── -->
-          <div class="contact-person-section" id="contactPersonSection">
-            <div class="contact-person-label">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Contact Person
+          <!-- Business details card -->
+          <div style="border:1px solid #EEF2F5; border-radius:8px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-size:13px; font-weight:600; color:#2F3945;">Business details</span>
+              <span style="font-size:12px; color:#4F46E5; cursor:pointer; display:flex; align-items:center; gap:4px;" onclick="openEditClientDrawer()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit
+              </span>
             </div>
-
-            <!-- A: No contacts linked -->
-            <div id="noContactsLinked" style="display:none;">
-              <div class="no-contacts-state">
-                <div class="nc-title">No contacts linked</div>
-                <div class="nc-desc">Link a contact to display on invoice</div>
-                <button class="btn btn-secondary btn-sm" onclick="openLinkContactDrawer()">Link Contact</button>
-              </div>
-            </div>
-
-            <!-- B: Has contacts but none selected -->
-            <div id="contactNotSelected">
-              <div class="contact-empty-state" onclick="openSelectContactDrawer()">
-                <svg width="18" height="18" fill="none" stroke="#C7CDD6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
-                <div class="contact-empty-text">Select contact for invoice</div>
-                <span style="font-size:12px; color:#4F46E5; font-weight:500;">Select</span>
-              </div>
-            </div>
-
-            <!-- C: Contact selected -->
-            <div id="contactSelectedCard" style="display:none;">
-              <div class="contact-person-card">
-                <div class="cp-avatar" id="invoiceContactAvatar">SG</div>
-                <div class="cp-info">
-                  <div class="cp-name" id="invoiceContactName">Sunita Gupta</div>
-                  <div class="cp-role" id="invoiceContactRole">CFO &middot; Finance</div>
-                  <div class="display-fields-row" id="invoiceContactFields"></div>
-                </div>
-                <div class="cp-actions">
-                  <button class="cp-action-btn" onclick="openSelectContactDrawer()" title="Change">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  </button>
-                  <button class="cp-action-btn danger" onclick="removeInvoiceContact()" title="Remove">
-                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <table style="width:100%; font-size:13px; border-collapse:collapse;" id="clientDetailsTable">
+              <tr><td style="color:#686F78; padding:3px 12px 3px 0; width:110px; vertical-align:top;">Business Name</td><td style="color:#4F46E5; font-weight:500;" id="selectedClientName">Gupta Industries Pvt Ltd</td></tr>
+              <tr><td style="color:#686F78; padding:3px 12px 3px 0; vertical-align:top;">Address</td><td style="color:#2F3945;" id="selectedClientAddress">42, Industrial Area, Phase II, Mumbai, Maharashtra, India - 400093</td></tr>
+              <tr><td style="color:#686F78; padding:3px 12px 3px 0;">GSTIN</td><td style="color:#2F3945;" id="selectedClientGstin">27AABCG1234F1ZL</td></tr>
+              <tr><td style="color:#686F78; padding:3px 12px 3px 0;">PAN</td><td style="color:#2F3945;" id="selectedClientPan">AABCG1234F</td></tr>
+              <!-- Contact Person row (the new feature — inline like other fields) -->
+              <tr id="contactPersonRow">
+                <td style="color:#686F78; padding:3px 12px 3px 0; vertical-align:top;">Contact Person</td>
+                <td style="color:#2F3945;" id="contactPersonCell">
+                  <!-- A: No contacts linked -->
+                  <div id="noContactsLinked" style="display:none;">
+                    <span style="color:#8B95A1; font-size:12px;">No contacts linked. </span>
+                    <span style="color:#4F46E5; cursor:pointer; font-size:12px; font-weight:500;" onclick="openLinkContactDrawer()">Link one</span>
+                  </div>
+                  <!-- B: Has contacts but none selected for invoice -->
+                  <div id="contactNotSelected">
+                    <span style="color:#4F46E5; cursor:pointer; font-size:13px; font-weight:500;" onclick="openSelectContactDrawer()">Select contact</span>
+                  </div>
+                  <!-- C: Contact selected -->
+                  <div id="contactSelectedCard" style="display:none;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <span id="invoiceContactName" style="font-weight:500; color:#2F3945;">Sunita Gupta</span>
+                      <span style="color:#4F46E5; cursor:pointer; font-size:11px;" onclick="openSelectContactDrawer()">change</span>
+                      <span style="color:#EF4444; cursor:pointer; font-size:11px;" onclick="removeInvoiceContact()">remove</span>
+                    </div>
+                    <div id="invoiceContactRole" style="font-size:12px; color:#8B95A1;">CFO &middot; Finance</div>
+                    <div class="display-fields-row" id="invoiceContactFields" style="margin-top:4px;"></div>
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
 
         </div>
@@ -1028,81 +1062,126 @@ body {
   </div>
   <div class="modal-body">
 
-    <!-- Basic Details -->
-    <div style="margin-bottom:24px;">
-      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Basic Details
+    <!-- Basic Information (collapsible accordion) -->
+    <div class="cm-accordion" style="border-bottom:1px solid #EEF2F5;">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945;">Basic Information</span>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s;"><path d="M6 9l6 6 6-6"/></svg>
       </div>
-      <div class="form-grid">
-        <div class="field-group">
-          <label class="field-label">Client Name <span class="required">*</span></label>
-          <input class="field-input" id="cdClientName" type="text" placeholder="e.g. Shah Enterprises">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Email</label>
-          <input class="field-input" id="cdEmail" type="email" placeholder="client@example.com">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Phone</label>
-          <input class="field-input" id="cdPhone" type="tel" placeholder="+91 98765 43210">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Country <span class="required">*</span></label>
-          <select class="field-select" id="cdCountry"><option selected>India</option><option>United States</option><option>United Kingdom</option><option>UAE</option><option>Singapore</option></select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tax Information -->
-    <div style="margin-bottom:24px; padding-top:16px; border-top:1px solid #EEF2F5;">
-      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
-        Tax Information
-      </div>
-      <div class="form-grid">
-        <div class="field-group">
-          <label class="field-label">GSTIN</label>
-          <input class="field-input" id="cdGstin" type="text" placeholder="22AAAAA0000A1Z5">
-        </div>
-        <div class="field-group">
-          <label class="field-label">PAN</label>
-          <input class="field-input" id="cdPan" type="text" placeholder="AAAAA0000A">
+      <div class="cm-acc-body" style="display:none; padding-bottom:16px;">
+        <div class="form-grid">
+          <div class="field-group">
+            <label class="field-label">Client Name <span class="required">*</span></label>
+            <input class="field-input" id="cdClientName" type="text" placeholder="e.g. Shah Enterprises">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email</label>
+            <input class="field-input" id="cdEmail" type="email" placeholder="client@example.com">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Phone</label>
+            <input class="field-input" id="cdPhone" type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Country <span class="required">*</span></label>
+            <select class="field-select" id="cdCountry"><option selected>India</option><option>United States</option><option>United Kingdom</option><option>UAE</option><option>Singapore</option></select>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Address -->
-    <div style="margin-bottom:24px; padding-top:16px; border-top:1px solid #EEF2F5;">
-      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-        <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Address Details
+    <!-- Tax Information (collapsible, open by default) -->
+    <div class="cm-accordion" style="border-bottom:1px solid #EEF2F5;">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945;">Tax Information <span style="color:#8B95A1; font-weight:400; font-size:13px;">(optional)</span></span>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s; transform:rotate(180deg);"><path d="M6 9l6 6 6-6"/></svg>
       </div>
-      <div class="form-grid">
-        <div class="field-group" style="grid-column:1/-1;">
-          <label class="field-label">Street Address</label>
-          <input class="field-input" id="cdStreet" type="text" placeholder="Street / Area">
+      <div class="cm-acc-body" style="padding-bottom:16px;">
+        <div class="form-grid" style="margin-bottom:12px;">
+          <div class="field-group">
+            <label class="field-label">Business GSTIN</label>
+            <input class="field-input" id="cdGstin" type="text" placeholder="Business GSTIN (Optional)">
+            <span style="font-size:11px; color:#EF4444; cursor:pointer; margin-top:2px;">Check GST Type</span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Business PAN Number</label>
+            <input class="field-input" id="cdPan" type="text" placeholder="Business PAN Number (Optional)">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label class="field-label" style="margin-bottom:6px; display:flex; align-items:center; gap:4px;">Client Type <svg width="14" height="14" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></label>
+          <div style="display:flex; gap:24px;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:14px; color:#313944;"><input type="radio" name="clientType" value="individual" checked style="accent-color:#4F46E5;"> Individual</label>
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:14px; color:#313944;"><input type="radio" name="clientType" value="company" style="accent-color:#4F46E5;"> Company</label>
+          </div>
         </div>
         <div class="field-group">
-          <label class="field-label">City</label>
-          <input class="field-input" id="cdCity" type="text" placeholder="City">
-        </div>
-        <div class="field-group">
-          <label class="field-label">State</label>
-          <input class="field-input" id="cdState" type="text" placeholder="State">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Pincode</label>
-          <input class="field-input" id="cdPincode" type="text" placeholder="400001">
+          <label class="field-label" style="display:flex; align-items:center; gap:4px;">Tax Treatment <svg width="14" height="14" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></label>
+          <select class="field-select"><option>Select Tax Treatment</option><option>Registered Business - Regular</option><option>Registered Business - Composition</option><option>Unregistered Business</option><option>Consumer</option><option>Overseas</option><option>SEZ</option></select>
         </div>
       </div>
     </div>
 
-    <!-- Linked Contacts (shows existing + link new) -->
-    <div style="padding-top:16px; border-top:1px solid #EEF2F5;">
+    <!-- Address (collapsible) -->
+    <div class="cm-accordion" style="border-bottom:1px solid #EEF2F5;">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945;">Address <span style="color:#8B95A1; font-weight:400; font-size:13px;">(optional)</span></span>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s;"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="cm-acc-body" style="display:none; padding-bottom:16px;">
+        <div class="form-grid">
+          <div class="field-group" style="grid-column:1/-1;">
+            <label class="field-label">Street Address</label>
+            <input class="field-input" id="cdStreet" type="text" placeholder="Street / Area">
+          </div>
+          <div class="field-group">
+            <label class="field-label">City</label>
+            <input class="field-input" id="cdCity" type="text" placeholder="City">
+          </div>
+          <div class="field-group">
+            <label class="field-label">State</label>
+            <input class="field-input" id="cdState" type="text" placeholder="State">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Pincode</label>
+            <input class="field-input" id="cdPincode" type="text" placeholder="400001">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Details (collapsible) -->
+    <div class="cm-accordion" style="border-bottom:1px solid #EEF2F5;">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945;">Additional Details <span style="color:#8B95A1; font-weight:400; font-size:13px;">(optional)</span></span>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s;"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="cm-acc-body" style="display:none; padding-bottom:16px;">
+        <div class="form-grid">
+          <div class="field-group"><label class="field-label">Website</label><input class="field-input" type="url" placeholder="https://..."></div>
+          <div class="field-group"><label class="field-label">Notes</label><input class="field-input" type="text" placeholder="Internal notes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Details (collapsible) -->
+    <div class="cm-accordion" style="border-bottom:1px solid #EEF2F5;">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945;">Account Details <span style="color:#8B95A1; font-weight:400; font-size:13px;">(optional)</span></span>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s;"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="cm-acc-body" style="display:none; padding-bottom:16px;">
+        <div class="form-grid">
+          <div class="field-group"><label class="field-label">Opening Balance</label><input class="field-input" type="text" placeholder="0.00"></div>
+          <div class="field-group"><label class="field-label">Credit Limit</label><input class="field-input" type="text" placeholder="0.00"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Linked Contacts section -->
+    <div style="padding-top:16px;">
       <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
         <span style="display:flex; align-items:center; gap:8px;">
-          <svg width="16" height="16" fill="none" stroke="#686F78" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
           Linked Contacts
           <span id="cdContactCount" style="background:#F3F0FF; color:#7B3EFF; font-size:11px; font-weight:600; padding:1px 7px; border-radius:10px;">0</span>
         </span>
@@ -1119,8 +1198,7 @@ body {
 
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" onclick="closeClientModal()">Cancel</button>
-    <button class="btn btn-primary" id="cdSaveBtn" onclick="saveClientModal()">Save Client</button>
+    <button class="btn btn-primary" id="cdSaveBtn" onclick="saveClientModal()">Save</button>
   </div>
 </div>
 
@@ -1202,10 +1280,7 @@ function selectClient(clientId) {
   selectedInvoiceContact = null;
   document.getElementById('clientEmpty').style.display = 'none';
   document.getElementById('clientSelected').style.display = '';
-  document.getElementById('editClientBtn').style.display = '';
-  document.getElementById('selectedClientAvatar').textContent = client.initials;
-  document.getElementById('selectedClientName').textContent = client.name;
-  document.getElementById('selectedClientDetail').innerHTML = client.address + '<br><strong>GSTIN:</strong> ' + client.gstin;
+  refreshClientDisplay(client);
   document.getElementById('clientDropdown').classList.remove('open');
 
   const relations = contactRelations[clientId] || [];
@@ -1222,12 +1297,20 @@ function selectClient(clientId) {
   showToast(`Client "${client.name}" selected`);
 }
 
+function refreshClientDisplay(client) {
+  document.getElementById('selectedClientNameDropdown').textContent = client.name.toUpperCase();
+  document.getElementById('selectedClientName').textContent = client.name;
+  const addrParts = [client.street, client.city, client.state, 'India'].filter(Boolean).join(', ');
+  document.getElementById('selectedClientAddress').textContent = addrParts + (client.pincode ? ' - ' + client.pincode : '');
+  document.getElementById('selectedClientGstin').textContent = client.gstin || '—';
+  document.getElementById('selectedClientPan').textContent = client.pan || '—';
+}
+
 function changeClient() {
   selectedClientId = null;
   selectedInvoiceContact = null;
   document.getElementById('clientEmpty').style.display = '';
   document.getElementById('clientSelected').style.display = 'none';
-  document.getElementById('editClientBtn').style.display = 'none';
   document.getElementById('clientSearchInput').value = '';
 }
 
@@ -1592,9 +1675,7 @@ function saveClientModal() {
       client.pan = pan; client.street = street; client.city = city; client.state = state; client.pincode = pincode;
       client.address = addressHtml;
       if (selectedClientId === editingClientId) {
-        document.getElementById('selectedClientAvatar').textContent = initials;
-        document.getElementById('selectedClientName').textContent = name;
-        document.getElementById('selectedClientDetail').innerHTML = client.address + (gstin ? '<br><strong>GSTIN:</strong> ' + gstin : '');
+        refreshClientDisplay(client);
       }
     }
     document.getElementById('clientModalOverlay').classList.remove('visible');
@@ -1637,6 +1718,14 @@ function handleSaveInvoice() {
 // ══════════════════════════════════════════════
 
 function toggleSection(header) { header.classList.toggle('open'); header.nextElementSibling.classList.toggle('open'); }
+
+function toggleAccordion(headerEl) {
+  const body = headerEl.nextElementSibling;
+  const chevron = headerEl.querySelector('.cm-acc-chevron');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : '';
+  chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
 
 function toggleOptional(id, btn) {
   const el = document.getElementById('opt-'+id);
