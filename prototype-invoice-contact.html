@@ -1634,21 +1634,34 @@ function renderClientModalContacts(clientId) {
     return;
   }
   emptyEl.style.display = 'none';
-  listEl.innerHTML = relations.map(r => {
+  const rows = relations.map(r => {
     const c = allOrgContacts.find(x => x.id === r.contactId);
     if (!c) return '';
-    let badges = '';
-    if (r.isPrimary) badges += '<span class="cl-badge primary" style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;background:#F7F3FD;color:#7B3EFF;">Primary</span>';
-    if (r.showInInvoice) badges += '<span class="cl-badge invoice-default" style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;background:#ECFDF5;color:#059669;">Invoice</span>';
-    return `<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border:1px solid #EEF2F5; border-radius:8px; margin-bottom:6px; background:#fff;">
-      <div class="cl-avatar" style="width:32px;height:32px;font-size:11px;">${c.initials}</div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;font-weight:500;color:#2F3945;">${c.firstName} ${c.lastName}</div>
-        <div style="font-size:11px;color:#8B95A1;">${[r.role,r.department].filter(Boolean).join(' \u00B7 ')}</div>
-      </div>
-      <div style="display:flex;gap:4px;">${badges}</div>
-    </div>`;
+    const primaryBadge = r.isPrimary ? '<span style="display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;background:#F7F3FD;color:#7B3EFF;">Yes</span>' : '<span style="color:#C7CDD6;">—</span>';
+    return `<tr style="border-bottom:1px solid #EEF2F5;">
+      <td style="padding:8px 6px;"><div style="display:flex;align-items:center;gap:8px;"><div class="cl-avatar" style="width:28px;height:28px;font-size:10px;">${c.initials}</div><span style="font-size:12px;font-weight:500;color:#2F3945;">${c.firstName} ${c.lastName}</span></div></td>
+      <td style="padding:8px 6px;font-size:12px;color:#686F78;">${c.email||'—'}</td>
+      <td style="padding:8px 6px;font-size:12px;color:#686F78;">${c.phone||'—'}</td>
+      <td style="padding:8px 6px;font-size:12px;color:#686F78;">${r.role||'—'}</td>
+      <td style="padding:8px 6px;font-size:12px;color:#686F78;">${r.department||'—'}</td>
+      <td style="padding:8px 6px;text-align:center;">${primaryBadge}</td>
+      <td style="padding:8px 6px;font-size:11px;color:#8B95A1;">${r.linkedOn||''}</td>
+      <td style="padding:8px 6px;text-align:center;"><span style="cursor:pointer;color:#8B95A1;font-size:14px;">&#8943;</span></td>
+    </tr>`;
   }).join('');
+  listEl.innerHTML = `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead><tr style="border-bottom:2px solid #EEF2F5;">
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Contact</th>
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Email</th>
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Phone</th>
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Relation</th>
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Dept</th>
+      <th style="padding:6px;text-align:center;font-weight:600;color:#686F78;font-size:11px;">Primary</th>
+      <th style="padding:6px;text-align:left;font-weight:600;color:#686F78;font-size:11px;">Linked On</th>
+      <th style="padding:6px;text-align:center;font-weight:600;color:#686F78;font-size:11px;">More</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
 }
 
 function saveClientModal() {
