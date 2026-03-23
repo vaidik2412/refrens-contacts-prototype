@@ -777,7 +777,7 @@ body {
               <tr><td style="color:#686F78; padding:3px 12px 3px 0; vertical-align:top;">Address</td><td style="color:#2F3945;" id="selectedClientAddress">42, Industrial Area, Phase II, Mumbai, Maharashtra, India - 400093</td></tr>
               <tr><td style="color:#686F78; padding:3px 12px 3px 0;">GSTIN</td><td style="color:#2F3945;" id="selectedClientGstin">27AABCG1234F1ZL</td></tr>
               <tr><td style="color:#686F78; padding:3px 12px 3px 0;">PAN</td><td style="color:#2F3945;" id="selectedClientPan">AABCG1234F</td></tr>
-              <!-- Contact Person row (the new feature — inline like other fields) -->
+              <!-- Contact Person rows (the new feature — each field as its own row) -->
               <tr id="contactPersonRow">
                 <td style="color:#686F78; padding:3px 12px 3px 0; vertical-align:top;">Contact Person</td>
                 <td style="color:#2F3945;" id="contactPersonCell">
@@ -790,18 +790,18 @@ body {
                   <div id="contactNotSelected">
                     <span style="color:#4F46E5; cursor:pointer; font-size:13px; font-weight:500;" onclick="openSelectContactDrawer()">Select contact</span>
                   </div>
-                  <!-- C: Contact selected -->
+                  <!-- C: Contact selected — name with pen/cross icons -->
                   <div id="contactSelectedCard" style="display:none;">
                     <div style="display:flex; align-items:center; gap:6px;">
                       <span id="invoiceContactName" style="font-weight:500; color:#2F3945;">Sunita Gupta</span>
-                      <span style="color:#4F46E5; cursor:pointer; font-size:11px;" onclick="openSelectContactDrawer()">change</span>
-                      <span style="color:#EF4444; cursor:pointer; font-size:11px;" onclick="removeInvoiceContact()">remove</span>
+                      <svg onclick="openSelectContactDrawer()" width="13" height="13" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24" style="cursor:pointer;"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                      <svg onclick="removeInvoiceContact()" width="13" height="13" fill="none" stroke="#EF4444" stroke-width="2" viewBox="0 0 24 24" style="cursor:pointer;"><path d="M18 6L6 18M6 6l12 12"/></svg>
                     </div>
-                    <div id="invoiceContactRole" style="font-size:12px; color:#8B95A1;">CFO &middot; Finance</div>
-                    <div class="display-fields-row" id="invoiceContactFields" style="margin-top:4px;"></div>
                   </div>
                 </td>
               </tr>
+              <!-- Dynamic contact detail rows (inserted by JS) -->
+              <tbody id="contactDetailRows"></tbody>
             </table>
           </div>
 
@@ -1178,21 +1178,26 @@ body {
       </div>
     </div>
 
-    <!-- Linked Contacts section -->
-    <div style="padding-top:16px;">
-      <div style="font-size:14px; font-weight:600; color:#2F3945; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
-        <span style="display:flex; align-items:center; gap:8px;">
+    <!-- Linked Contacts (collapsible accordion, matches full-page form) -->
+    <div class="cm-accordion">
+      <div class="cm-acc-header" onclick="toggleAccordion(this)" style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:pointer;">
+        <span style="font-size:15px; font-weight:600; color:#2F3945; display:flex; align-items:center; gap:8px;">
           Linked Contacts
           <span id="cdContactCount" style="background:#F3F0FF; color:#7B3EFF; font-size:11px; font-weight:600; padding:1px 7px; border-radius:10px;">0</span>
         </span>
-        <button class="btn btn-ghost btn-sm" onclick="openLinkContactDrawer()" style="gap:4px;">
-          <svg width="14" height="14" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          Link
-        </button>
+        <svg class="cm-acc-chevron" width="16" height="16" fill="none" stroke="#8B95A1" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 0.2s; transform:rotate(180deg);"><path d="M6 9l6 6 6-6"/></svg>
       </div>
-      <div id="cdContactsList"></div>
-      <div id="cdContactsEmpty" style="text-align:center; padding:16px; color:#8B95A1; font-size:13px; border:1px dashed #D1D5DB; border-radius:8px;">
-        No contacts linked yet
+      <div class="cm-acc-body" style="padding-bottom:16px;">
+        <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+          <button class="btn btn-ghost btn-sm" onclick="openLinkContactDrawer()" style="gap:4px;">
+            <svg width="14" height="14" fill="none" stroke="#4F46E5" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            Link Contact
+          </button>
+        </div>
+        <div id="cdContactsList"></div>
+        <div id="cdContactsEmpty" style="text-align:center; padding:16px; color:#8B95A1; font-size:13px; border:1px dashed #D1D5DB; border-radius:8px;">
+          No contacts linked yet
+        </div>
       </div>
     </div>
 
@@ -1329,28 +1334,28 @@ function applyContactToInvoice(relation) {
   document.getElementById('contactNotSelected').style.display = 'none';
   document.getElementById('noContactsLinked').style.display = 'none';
   document.getElementById('contactSelectedCard').style.display = '';
-  document.getElementById('invoiceContactAvatar').textContent = contact.initials;
   document.getElementById('invoiceContactName').textContent = selectedInvoiceContact.snapshot.name;
-  const rd = [relation.role, relation.department].filter(Boolean).join(' \u00B7 ');
-  document.getElementById('invoiceContactRole').textContent = rd || '';
-  document.getElementById('invoiceContactRole').style.display = rd ? '' : 'none';
-  renderFieldTags();
+  renderContactDetailRows();
 }
 
-function renderFieldTags() {
-  if (!selectedInvoiceContact) return;
-  document.getElementById('invoiceContactFields').innerHTML = selectedInvoiceContact.displayFields.map(key => {
-    const opt = DISPLAY_FIELD_OPTIONS.find(o => o.key === key);
-    const v = selectedInvoiceContact.snapshot[key] || '';
-    return `<span class="field-tag">${opt?opt.label:key}${v?': '+trunc(v,18):''}</span>`;
+// Renders each selected display field as its own row in the business details table
+function renderContactDetailRows() {
+  const container = document.getElementById('contactDetailRows');
+  if (!selectedInvoiceContact) { container.innerHTML = ''; return; }
+  const FIELD_LABELS = { name:'Contact Name', email:'Contact Email', phone:'Contact Phone', designation:'Designation', department:'Department' };
+  // Skip 'name' — already shown in the Contact Person row
+  const fields = selectedInvoiceContact.displayFields.filter(k => k !== 'name');
+  container.innerHTML = fields.map(key => {
+    const label = FIELD_LABELS[key] || key;
+    const val = selectedInvoiceContact.snapshot[key] || '—';
+    return `<tr class="contact-detail-row"><td style="color:#686F78; padding:3px 12px 3px 0; width:110px; vertical-align:top;">${label}</td><td style="color:#2F3945;">${val}</td></tr>`;
   }).join('');
 }
-
-function trunc(s,m) { return s.length>m ? s.substring(0,m)+'...' : s; }
 
 function removeInvoiceContact() {
   selectedInvoiceContact = null;
   document.getElementById('contactSelectedCard').style.display = 'none';
+  document.getElementById('contactDetailRows').innerHTML = '';
   document.getElementById('contactNotSelected').style.display = '';
   showToast('Contact removed from invoice');
 }
